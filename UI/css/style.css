@@ -378,3 +378,53 @@ nav ul li a:hover {
     }
   }
   
+.form-container {
+  background: #191716;
+  max-width: 350px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+  margin-top: 50px;
+  color: var(--light);
+  border-radius: 5px;
+}
+
+.input-container {
+  display: flex;
+  display: -ms-flexbox;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.icon {
+  padding: 10px;
+  background: #e6af2e;
+  color: #fff;
+  text-align: center;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  outline: none;
+}
+
+.input-field:focus {
+  border: 2px solid #e6af2e;
+}
+
+.btn-form {
+  background: #e6af2e;
+  color: #fff;
+  padding: 15px 20px;
+  border: 2px solid #fff;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 50px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.btn-form:hover {
+  background: #191716;
+}
