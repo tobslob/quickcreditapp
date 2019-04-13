@@ -428,3 +428,8 @@ nav ul li a:hover {
 .btn-form:hover {
   background: #191716;
 }
+
+.signin {
+  margin-top: 120px;
+  margin-bottom: 120px;
+}
