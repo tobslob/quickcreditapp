@@ -1,0 +1,153 @@
+/* CSS Variables */
+:root {
+  --primary: #ddd;
+  --dark: #333;
+  --light: #fff;
+  --shadow: 0 1px 5px rgba(104, 104, 104, 0.8);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+::selection {
+    background: #ffffb3;
+}
+
+html {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--dark);
+}
+  
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #beb7a4;
+}
+
+.btn {
+  background: var(--dark);
+  color: var(--light);
+  padding: 0.6rem 1.3rem;
+  text-decoration: none;
+  border: 0;
+  margin-top: 20px;
+  border: 2px solid #e6af2e;
+  font-size: 20px;
+  color: #e6af2e;
+}
+
+.btn:hover {
+  background-color: #e6af2e;
+  color: #191716;
+}
+
+img {
+  max-width: 100%;
+}
+
+.wrapper {
+  display: grid;
+  grid-gap: 20px;
+}
+
+/* Navigation */
+nav ul {
+    list-style-type: none;
+    border-top: 6px solid #e6af2e;
+    background-color: #191716;
+}
+
+nav ul li a {
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    font-size: 20px;
+    padding: 10px 20px;
+    color: #e6af2e;
+}
+
+nav ul li a:hover {
+    color: #eBe2db;
+}
+
+.nav-logo, .logo {
+    font-size: 40px;
+    text-transform: uppercase;
+    background: #e6af2e;
+    color: #191716;
+    font-style: italic;
+}
+
+.logo:hover {
+    background-color: #eBe2db;
+    color: #e6af2e;
+}
+
+.nav-menu {
+    display: flex;
+}
+.nav-menu li{
+    display: none;
+}
+
+/*toggle display none*/
+
+.nav-toggle li{
+    display: inline-block;
+}
+
+.displayToggle {
+    display: block;
+}
+
+.nav-toggle li:hover{
+    background-color: #e6af2e;
+}
+
+.nav-logo img {
+    height: 50px;
+    width: 50px;
+    background-repeat: no-repeat;
+}
+
+
+@media screen and (min-width:576px) {
+    nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+    }
+
+    nav ul li {
+        flex: 1 0 auto;
+        text-align: center;
+    }
+    .logo {
+        display: block;
+        text-align: center;
+    }
+    .logo img{
+        display: none;
+    }
+    .nav-logo{
+        width: 40%
+    }
+    .nav-menu li{
+        display: block;
+    }
+    .nav-toggle li{
+        display: none;
+    }
+    .toggle {
+        display: none;
+    }
+    .logo img {
+        display: none;
+    }
+}
+
+
