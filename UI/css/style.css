@@ -163,7 +163,7 @@ nav ul li a:hover {
   .showcase {
     grid-area: showcase;
     min-height: 400px;
-    background-image: url("/img/main-bg_.jpeg");
+    background-image: url("/UI/img/main-bg_.jpeg");
     background-size: cover;
     background-attachment: fixed;
     background-repeat: no-repeat;
@@ -233,7 +233,7 @@ nav ul li a:hover {
   
   #Explore {
     min-height: 100vh;
-    background-image: url("/img/bg1.jpg");
+    background-image: url("/UI/img/bg1.jpg");
     background-attachment: fixed;
     background-position: center;
     background-size: cover;
