@@ -1,0 +1,109 @@
+<!DOCTYPE <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>User Dashboard</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Navigation -->
+        <nav>
+            <ul>
+                <div class="nav-logo">
+                    <li><a href="/" class="logo">QUICK CREDIT</a></li>
+                </div>
+                <div class="nav-menu">
+                    <li><a href="/">Log Out</a></li>
+                </div>
+            </ul>
+            <ul class="toggle">
+                <div class="nav-toggle">
+                    <ul>
+                        <li><a href="/">Log Out</a></li>
+                    </ul>
+                </div>
+            </ul>
+        </nav>
+        <!--userprofile begins here-->
+        <div id="main" class="profildiv">
+            <div class="one-third center">
+                <div>
+                    <div id="profile-image" class="center">
+                        <img class="photo center" src="img/passport.jpg" alt="user">
+                    </div>
+                    <div id="name" class="myprofil">
+                        <h3>Odutola Kazeem</h3>
+                        <br>
+                        <p><i>status: </i><b>verified</b></p>
+                        <br>
+                        <h3>Address</h3>
+                        <br>
+                        <p>27, Galilee Avenue, Lagos</p>
+                        <p>kazmobile@gmail.com</p>
+                        <br>
+                        <h3>Phone</h3>
+                        <br>
+                        <p>07039387595</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="two-thirds">
+                <div>
+                    <ul class="userlist">
+                        <li data-target="#apply-loan" class="activeli">Apply Loan</li>
+                        <li data-target="#repay">loan repayment history</li>
+                    </ul>
+
+                    <span class="notify"><i class="fas fa-bell icon"></i></span>
+
+
+                </div>
+                <div class="two-thirds">
+                    <div>
+
+                        <div class="row userpanel">
+                            <div id="apply-loan" class="paneluser activerUserPanel">
+                                <div class="form-container loan">
+                                    <form>
+                                        <div class="input-container">
+                                            <i class="fas fa-wallet icon"></i>
+                                            <input type="number" class="input-field" placeholder="Amount">
+                                        </div>
+                                        <div class="input-container">
+                                            <i class="fas fa-business-time icon"></i>
+                                            <input type="numder" class="input-field" placeholder="tenor">
+                                        </div>
+                                        <button type="submit" class="btn-form">Apply</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div id="repay" class="paneluser">
+                                <div class="repay">A SPACE FOR REPAYMENT HISTORY</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- userprofile panel ends here-->
+
+        <footer>
+            <p>Tobslob &copy; 2019</p>
+            <script src="javascript/script.js"></script>
+        </footer>
+    </div>
+</body>
+
+</html>
