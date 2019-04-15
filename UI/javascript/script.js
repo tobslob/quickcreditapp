@@ -19,4 +19,29 @@ function userToggle() {
     }
 }
 
+/* Toggle functionality for admin panel */
+function adminToggle() {
+    const lists = document.querySelector('.list');
+    const panels = document.querySelectorAll('.panel');
+    console.log(panels)
+    if (lists) {
+        lists.addEventListener('click', (e) => {
+            if (e.target.tagName === 'LI') {
+                const targetPanel = document.querySelector(e.target.dataset.target);
+
+
+                panels.forEach((panel) => {
+                    if (panel === targetPanel) {
+                        panel.classList.add('active');
+                    } else {
+                        panel.classList.remove('active');
+                    }
+                });
+            }
+        });
+    }
+}
+
+userToggle();
+adminToggle();
 userToggle();
