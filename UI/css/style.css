@@ -703,6 +703,7 @@ footer {
   display: none;
 }
 
+/* Admin style */
 .admin-content {
   display: flex;
 }
@@ -766,4 +767,48 @@ footer {
 
 .panel.active {
   display: block;
+}
+
+.pagination ul {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  margin: 0;
+  padding: 0;
+  margin-top: 400px;
+}
+
+.pagination ul li {
+  list-style: none; 
+}
+
+.pagination ul li a {
+  position: relative;
+  display: block;
+  height: 40px;
+  width: 40px;
+  font-size: 20px;
+  text-align: center;
+  line-height: 40px;
+  background: #353535;
+  color: #565656;
+  text-decoration: none;
+  margin: 10px;
+  border-radius: 4px;
+  box-shadow: inset 0 5px 10px rgba(0, 0, 0, .1), 0 2px 5px rgba(0, 0, 0, .5);
+}
+
+.pagination ul li a.active,
+.pagination ul li a:hover {
+  color: #fff;
+  text-shadow: 0 0 20px rgb(255, 244, 27),
+               0 0 20px rgb(255, 244, 27),
+               0 0 20px rgb(255, 244, 27),
+               0 0 20px rgb(255, 244, 27),
+               0 0 20px rgb(255, 244, 27),
+               0 0 20px rgb(255, 244, 27),
+               0 0 20px rgb(255, 244, 27),
+               0 0 20px rgb(255, 244, 27);
 }

@@ -44,4 +44,3 @@ function adminToggle() {
 
 userToggle();
 adminToggle();
-userToggle();
