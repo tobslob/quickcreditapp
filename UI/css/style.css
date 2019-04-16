@@ -812,3 +812,8 @@ footer {
                0 0 20px rgb(255, 244, 27),
                0 0 20px rgb(255, 244, 27);
 }
+
+.loan-input, .loan{
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
