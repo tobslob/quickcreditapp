@@ -817,3 +817,11 @@ footer {
   margin-top: -10px;
   margin-bottom: 20px;
 }
+
+.approve-loan, .reject-loan {
+  margin-bottom: 0px;
+}
+
+.apbtn {
+  margin-top: 0px;
+}
