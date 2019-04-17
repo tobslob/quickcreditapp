@@ -1,0 +1,33 @@
+{
+  "name": "quick_credit",
+  "version": "1.0.0",
+  "description": "Quick Credit is an online lending platform that provides short term soft loans to individuals.",
+  "main": "server/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tobslob/QUICK_CREDIT_APP_.git"
+  },
+  "keywords": [
+    "quick",
+    "credit",
+    "loan"
+  ],
+  "author": "Odutola Kazeem Oluwatobi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tobslob/QUICK_CREDIT_APP_/issues"
+  },
+  "homepage": "https://github.com/tobslob/QUICK_CREDIT_APP_#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
+  }
+}
