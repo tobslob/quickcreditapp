@@ -5,7 +5,8 @@
   "main": "server/app.js",
   "scripts": {
     "test": "mocha --require @babel/register --require babel-polyfill --timeout 5000 server/test --exit",
-    "start": "nodemon server/app.js --exec babel-node"
+    "start": "nodemon server/app.js --exec babel-node",
+    "lint": "eslint server/app.js --fix"
   },
   "repository": {
     "type": "git",
@@ -23,10 +24,13 @@
   },
   "homepage": "https://github.com/tobslob/QUICK_CREDIT_APP_#readme",
   "dependencies": {
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
+    "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "joi": "^14.3.1",
+    "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
     "uuid": "^3.3.2"
   },
@@ -40,6 +44,9 @@
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
     "chai": "^4.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
     "faker": "^4.1.0",
     "mocha": "^6.1.3",
     "morgan": "^1.9.1",
