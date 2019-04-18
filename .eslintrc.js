@@ -11,7 +11,16 @@ module.exports = {
     node: true,
     browser: true
   },
+  quotes: {
+    error,
+    single
+  },
+
+  semi: {
+    error,
+    always
+  },
   globals: {
     moment: true
-  },
+  }
 };
