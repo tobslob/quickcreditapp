@@ -1,6 +1,6 @@
 ### What does this PR do?
 
-### Description of Task to be completed?
+### Description of task completed?
 
 ### How should this be manually tested?
 
