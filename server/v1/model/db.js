@@ -1,10 +1,10 @@
 let models = {
     User: [
         { id: 'id' },
-        { email: 'email@test.com' },
+        { email: 'kazmobileapp@gmail.com' },
         { firstName: 'first_name' },
         { lastName: 'last_name' },
-        { password: 'password' },
+        { password: '$2b$10$i8J5Ks/1t0W3Ifj1l435BuIxnI.f.qpbzrPX8KI006pjElGrFi86S' },
         { address: 'Address' },
         { status: 'status' },
         { createdOn: Date() },

@@ -12,24 +12,35 @@ class userController {
    */
     static createUser(req, res) {
         const { error } = validate.validateUser(req.body);
-        if (error)
-            return res.status(422).json({ message: error.details[0].message });
+        if (error) return res.status(422).json({
+            status: 422,
+            message: error.details[0].message
+        });
+        const hashpassword = Helper.hashPassword(req.body.password);
         const post = {
             id: uuidv4(),
             email: req.body.email,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            password: req.body.password,
+            password: hashpassword,
             status: req.body.status,
             isAdmin: req.body.isAdmin,
             createdOn: moment(new Date()),
             modifiedOn: moment(new Date())
         };
+        const user = models.User.find(existUser => existUser.email === req.body.email);
+        if (user) return res.status(409).json({
+            status: '409',
+            message: 'user already exist'
+        });
         models.User.push(post);
+        const token = Helper.generateToken(models.User[0].id);
         return res.status(201).json({
             status: '201',
+            token: token,
             data: post
         });
+  
     }
 
     /**
@@ -40,7 +51,10 @@ class userController {
     static loginUser(req, res) {
         const { error } = validate.validateLogin(req.body);
         if (error)
-            return res.status(422).json({ message: error.details[0].message });
+            return res.status(422).json({
+                status: 422,
+                message: error.details[0].message
+            });
         const users = models.User;
         const user = users.find(specUser => specUser.email === req.body.email);
         if (!user) return res.status(404).json({
