@@ -23,7 +23,12 @@
   },
   "homepage": "https://github.com/tobslob/QUICK_CREDIT_APP_#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "joi": "^14.3.1",
+    "moment": "^2.24.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.3",
@@ -35,7 +40,10 @@
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
     "chai": "^4.2.0",
+    "faker": "^4.1.0",
     "mocha": "^6.1.3",
+    "morgan": "^1.9.1",
+    "ng-faker": "^1.1.0",
     "nodemon": "^1.18.11",
     "supertest": "^4.0.2"
   }
