@@ -43,6 +43,8 @@ class userController {
   
     }
 
+
+
     /**
    *
    * @param {req} object
@@ -72,6 +74,99 @@ class userController {
             status: '200',
             token: token,
             data: user
+        });
+    }
+
+
+    /**
+   *
+   * @param {req} object
+   * @param {res} object
+   */
+    static getUsers(req, res) {
+        const users = models.User;
+        if (!users) return res.status(422).json({
+            status: '422',
+            message: 'an error occur!'
+        });
+        return res.status(200).json({
+            status: '200',
+            data: users,
+            rowCount: users.length
+        });
+    }
+
+
+    /**
+   *
+   * @param {req} object
+   * @param {res} object
+   */
+    static getUser(req, res) {
+        const requestId = req.params.id;
+        const users = models.User;
+        const user = users.find(oneUser => oneUser.id === requestId);
+        if (!user) return res.status('404').json({
+            status: '404',
+            message: 'user not found'
+        });
+        return res.status(200).json({
+            status: '200',
+            data: user
+        });
+    }
+
+
+    /**
+   *
+   * @param {req} object
+   * @param {res} object
+   */
+    static patchUser(req, res) {
+        const requestId = req.params.id;
+        const users = models.User;
+        const user = users.find(oneUser => oneUser.id === requestId);
+        if (!user) return res.status('404').json({
+            status: '404',
+            message: 'user not found'
+        });
+        const { error } = validate.patchUser(req.body);
+        if (error) return res.status(422).json({
+            status: 422,
+            message: error.details[0].message
+        });
+        const hashpassword = Helper.hashPassword(req.body.password);
+        
+        user.firstName = req.body.firstName,
+        user.lastName = req.body.lastName,
+        user.password = hashpassword,
+        user.modifiedOn = moment(new Date());
+        
+        return res.status(202).json({
+            status: '202',
+            data: user
+        });
+    }
+
+
+    /**
+   *
+   * @param {req} object
+   * @param {res} object
+   */
+    static deleteUser(req, res) {
+        const requestId = req.params.id;
+        const users = models.User;
+        const user = users.find(oneUser => oneUser.id === requestId);
+        if (!user) return res.status('404').json({
+            status: '404',
+            message: 'user not found'
+        });
+        const index = users.indexOf(user);
+        users.splice(index, 1);
+        return res.status(200).json({
+            status: '200',
+            message: `user with ${requestId} has been deleted`
         });
     }
 }
