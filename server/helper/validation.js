@@ -29,6 +29,21 @@ class validate {
         });
         return Joi.validate(details, schema);
     }
+
+
+    /**
+   * 
+   * @param {user} object
+   */
+    static patchUser(user) {
+        const schema = Joi.object().keys({
+            firstName: Joi.string().trim().required(),
+            lastName: Joi.string().trim(),
+            password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required(),
+            address: Joi.string().required()
+        });
+        return Joi.validate(user, schema);
+    }
 }
 
 export default validate;
