@@ -25,7 +25,23 @@ let models = {
             modifiedOn: Date(),
             isAdmin: 'false'
         }
+    ],
+
+    Loans: [
+        {
+            id : 'Integer',
+            user : 'String', // user email
+            createdOn : 'DateTime',
+            status : 'String', // pending, approved, rejected
+            repaid : 'Boolean',
+            tenor : 'Integer', // maximum of 12 months
+            amount : 'Float',
+            paymentInstallment : 'Float', // monthly installment payment (amount + interest) / tenor
+            balance :'Float' ,
+            interest : 'Float', // 5% of amount
+        }
     ]
+
 };
 
 module.exports = models;

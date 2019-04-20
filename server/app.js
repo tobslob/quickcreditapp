@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import express from 'express';
 import bodyparser from 'body-parser';
 import users from './v1/routes/user';
+import loans from './v1/routes/loan';
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(bodyparser.json());
 
 //route for users
 app.use('/api/v1', users);
+app.use('/api/v1', loans);
 
 const server = http.createServer(app);
 const port = process.env.PORT || 5500;
