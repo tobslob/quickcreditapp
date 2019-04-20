@@ -52,7 +52,7 @@ class validate {
    */
     static validateLoan(loan) {
         const schema = Joi.object().keys({
-            tenor: Joi.number().integer().min(2).max(12).required(),
+            tenor: Joi.number().integer().min(1).max(12).required(),
             amount: Joi.number().required()
         });
         return Joi.validate(loan, schema);
