@@ -11,7 +11,7 @@ app.use(morgan('dev'));
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
 
-//route for users
+// route for users
 app.use('/api/v1', users);
 app.use('/api/v1', loans);
 
@@ -19,8 +19,8 @@ const server = http.createServer(app);
 const port = process.env.PORT || 5500;
 
 server.listen(port, () => {
-    // eslint-disable-next-line no-console
-    console.log(`listening to server on 127.0.0.1:${port}`);
+  // eslint-disable-next-line no-console
+  console.log(`listening to server on 127.0.0.1:${port}`);
 });
 
 module.exports = app;
