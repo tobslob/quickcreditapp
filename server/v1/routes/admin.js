@@ -9,4 +9,7 @@ router.patch('/users/:email/verify', adminController.verifyUser);
 // Admin can view all loan route
 router.get('/loans', adminController.allLoan);
 
+// Admin can view a loan route
+router.get('/loans/:id', adminController.oneLoan);
+
 export default router;

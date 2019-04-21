@@ -19,11 +19,20 @@ describe('Admin Route', () => {
   it('should get all loan application successfully', (done) => {
     request(app)
       .get('/api/v1/loans')
-      .send({ status: 'verified' })
       .then((res) => {
         expect(res.status).to.be.equal(200);
         expect(res.body).to.have.property('data');
         expect(res.body).to.have.property('rowCount');
+        done();
+      })
+      .catch(error => done(error));
+  });
+  it('should get a specific loan application successfully', (done) => {
+    request(app)
+      .get('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06816')
+      .then((res) => {
+        expect(res.status).to.be.equal(200);
+        expect(res.body).to.have.property('data');
         done();
       })
       .catch(error => done(error));

@@ -51,6 +51,26 @@ class adminController {
       rowCount,
     });
   }
+
+
+  /**
+ *@param {req} object
+ *@param {res} object
+ */
+  static oneLoan(req, res) {
+    const loans = models.Loans;
+    const loan = loans.find(aLoan => aLoan.id === req.params.id);
+    if (!loan) {
+      return res.status(500).json({
+        status: '404',
+        message: 'Not Found',
+      });
+    }
+    return res.status(200).json({
+      status: '200',
+      data: loan,
+    });
+  }
 }
 
 export default adminController;
