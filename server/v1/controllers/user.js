@@ -111,7 +111,6 @@ class userController {
    */
   static getUser(req, res) {
     const requestId = req.params.id;
-    console.log(requestId);
     const users = models.User;
     const user = users.find(oneUser => oneUser.id === requestId);
     if (!user) {

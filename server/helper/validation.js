@@ -57,6 +57,17 @@ class validate {
     });
     return Joi.validate(loan, schema);
   }
+
+  /**
+   *
+   * @param {user} object
+   */
+  static validateVerify(user) {
+    const schema = Joi.object().keys({
+      status: Joi.string().insensitive().valid('unverified', 'verified').required(),
+    });
+    return Joi.validate(user, schema);
+  }
 }
 
 export default validate;
