@@ -12,7 +12,7 @@ router.post('/user/signin', userController.loginUser);
 // get all users route
 router.get('/user', userController.getUsers);
 
-//get a single user route
+// get a single user route
 router.get('/user/:id', userController.getUser);
 
 // patch user route
