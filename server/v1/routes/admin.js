@@ -10,7 +10,7 @@ router.patch('/users/:email/verify', adminController.verifyUser);
 router.get('/loans?status=approved&repaid=false', adminController.notFullyPaidLoan);
 
 // Admin can view all loan route
-router.get('/all-loans', adminController.allLoan);
+router.get('/loans', adminController.allLoan);
 
 // Admin can view a loan route
 router.get('/loans/:id', adminController.oneLoan);

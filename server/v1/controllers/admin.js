@@ -76,7 +76,8 @@ class adminController {
  *@param {req} object
  *@param {res} object
  */
-  static notFullyPaidLoan(req, res) {
+  static notFullyPaidLoan(req, res, next) {
+    next();
     const { status, repaid } = req.query;
 
     const loans = models.Loans;
