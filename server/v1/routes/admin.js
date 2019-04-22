@@ -9,6 +9,9 @@ router.patch('/users/:email/verify', adminController.verifyUser);
 // Admin can view all not fully paid loan route
 router.get('/loans?status=approved&repaid=false', adminController.notFullyPaidLoan);
 
+// Admin can view all not fully paid loan route
+router.get('/loans?status=approved&repaid=true', adminController.fullyPaidLoan);
+
 // Admin can view all loan route
 router.get('/loans', adminController.allLoan);
 

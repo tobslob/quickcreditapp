@@ -76,8 +76,28 @@ class adminController {
  *@param {req} object
  *@param {res} object
  */
-  static notFullyPaidLoan(req, res, next) {
-    next();
+  static notFullyPaidLoan(req, res) {
+    const { status, repaid } = req.query;
+
+    const loans = models.Loans;
+    const loan = loans.filter(Loan => Loan.status === status && Loan.repaid === repaid);
+    if (!loan) {
+      return res.status(400).json({
+        status: 404,
+        message: 'Not Found',
+      });
+    }
+    return res.status(200).json({
+      status: 200,
+      data: loan,
+    });
+  }
+
+  /**
+ *@param {req} object
+ *@param {res} object
+ */
+  static fullyPaidLoan(req, res) {
     const { status, repaid } = req.query;
 
     const loans = models.Loans;

@@ -2,8 +2,9 @@ exclude_paths:
   - "node_modules"
   - "UI"
   - "uploads"
-  - nyc_output
+  - .nyc_output
   - coverage
+  - .github
 checks:
   return-statements:
     enabled: false
