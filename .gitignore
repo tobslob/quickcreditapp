@@ -1,5 +1,5 @@
-node_modules
-dist
-.env
 .nyc_output
+.github
 coverage
+node_modules
+.env
