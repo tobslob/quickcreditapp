@@ -8,10 +8,13 @@ class validate {
   static validateUser(user) {
     const schema = Joi.object().keys({
       email: Joi.string().email().trim().required(),
-      firstName: Joi.string().trim().required(),
-      lastName: Joi.string().trim(),
+      firstName: Joi.string().regex(/^[A-Z]+$/).trim().uppercase()
+        .required()
+        .error(() => 'first name is required without a number'),
+      lastName: Joi.string().regex(/^[A-Z]+$/).trim().uppercase()
+        .error(() => 'last name is required without a number'),
       password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required(),
-      address: Joi.string().required(),
+      address: Joi.string().trim().required(),
       status: Joi.string().insensitive().valid('unverified', 'verified').required(),
       isAdmin: Joi.string().default('false'),
     });
