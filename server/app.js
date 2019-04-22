@@ -13,9 +13,29 @@ app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
 
 // API routes
-app.use('/api/v1', users);
+app.use('/api/v1/auth', users);
 app.use('/api/v1', loans);
 app.use('/api/v1', admin);
+
+// Home page route
+app.get('/', (req, res) => {
+  res.status(200).json(
+    {
+      status: 200,
+      data: [{
+        message: 'Welcome to Quick Credit Home Route',
+      }],
+    },
+  );
+});
+
+// Handle non exist route with with proper message
+app.all('*', (req, res) => {
+  res.status(404).json({
+    status: 404,
+    error: 'Wrong request. Route does not exist',
+  });
+});
 
 const server = http.createServer(app);
 const port = process.env.PORT || 5500;
