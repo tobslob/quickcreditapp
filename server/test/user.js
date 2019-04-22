@@ -8,7 +8,7 @@ const { expect } = chai;
 describe('User Route', () => {
   it('should successfully signup a user with valid details', (done) => {
     request(app)
-      .post('/api/v1/user/signup')
+      .post('/api/v1/auth/user/signup')
       .send({
         email: faker.internet.email(),
         firstName: faker.name.firstName(),
@@ -28,7 +28,7 @@ describe('User Route', () => {
   });
   it('should login user successfully', (done) => {
     request(app)
-      .post('/api/v1/user/signin')
+      .post('/api/v1/auth/user/signin')
       .send({ email: 'kazmobileapp@gmail.com', password: 'Kazeem27' })
       .then((res) => {
         expect(res.status).to.be.equal(200);
@@ -39,7 +39,7 @@ describe('User Route', () => {
   });
   it('should get all users successfully', (done) => {
     request(app)
-      .get('/api/v1/user')
+      .get('/api/v1/auth/user')
       .then((res) => {
         expect(res.status).to.be.equal(200);
         expect(res.body).to.have.property('data');
@@ -50,7 +50,7 @@ describe('User Route', () => {
   });
   it('should get a user successfully', (done) => {
     request(app)
-      .get('/api/v1/user/900d6eea-d900-4e9d-9bd9-029a838ef67d')
+      .get('/api/v1/auth/user/900d6eea-d900-4e9d-9bd9-029a838ef67d')
       .then((res) => {
         expect(res.status).to.be.equal(200);
         expect(res.body).to.have.property('data');
@@ -60,7 +60,7 @@ describe('User Route', () => {
   });
   it('should patch a user successfully', (done) => {
     request(app)
-      .patch('/api/v1/user/900d6eea-d900-4e9d-9bd9-029a838ef67d')
+      .patch('/api/v1/auth/user/900d6eea-d900-4e9d-9bd9-029a838ef67d')
       .send({
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
@@ -76,7 +76,7 @@ describe('User Route', () => {
   });
   it('should delete a user successfully', (done) => {
     request(app)
-      .delete('/api/v1/user/900d6eea-d900-4e9d-9bd9-029a838ef67d')
+      .delete('/api/v1/auth/user/900d6eea-d900-4e9d-9bd9-029a838ef67d')
       .then((res) => {
         expect(res.status).to.be.equal(200);
         expect(res.body).to.have.property('message');

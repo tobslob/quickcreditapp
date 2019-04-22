@@ -1,6 +1,6 @@
 import moment from 'moment';
 import models from '../model/db';
-import validate from '../../helper/validation';
+import validate from '../helper/validation';
 
 class adminController {
   /**

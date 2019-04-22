@@ -2,9 +2,9 @@ import http from 'http';
 import morgan from 'morgan';
 import express from 'express';
 import bodyparser from 'body-parser';
-import users from './v1/routes/user';
-import loans from './v1/routes/loan';
-import admin from './v1/routes/admin';
+import users from './routes/user';
+import loans from './routes/loan';
+import admin from './routes/admin';
 
 const app = express();
 
