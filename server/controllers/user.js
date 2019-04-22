@@ -1,8 +1,8 @@
 import uuidv4 from 'uuid/v4';
 import moment from 'moment';
 import models from '../model/db';
-import validate from '../../helper/validation';
-import Helper from '../../helper/helper';
+import validate from '../helper/validation';
+import Helper from '../helper/helper';
 
 class userController {
   /**

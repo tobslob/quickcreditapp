@@ -47,4 +47,14 @@ describe('Admin Route', () => {
       })
       .catch(error => done(error));
   });
+  it('should view all paid loans successfully', (done) => {
+    request(app)
+      .get('/api/v1/loans?status=approved&repaid=true')
+      .then((res) => {
+        expect(res.status).to.be.equal(200);
+        expect(res.body).to.have.property('data');
+        done();
+      })
+      .catch(error => done(error));
+  });
 });
