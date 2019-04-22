@@ -12,4 +12,7 @@ router.get('/loans', adminController.allLoan);
 // Admin can view a loan route
 router.get('/loans/:id', adminController.oneLoan);
 
+// Admin can view all not fully paid loan route
+router.get('/loans/', adminController.notFullyPaidLoan);
+
 export default router;

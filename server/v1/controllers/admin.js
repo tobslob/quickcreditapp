@@ -20,14 +20,14 @@ class adminController {
     const user = models.User.find(oneUser => oneUser.email === requestEmail);
     if (!user) {
       return res.status(404).json({
-        status: '404',
+        status: 404,
         message: 'user not exist',
       });
     }
     user.status = req.body.status;
     user.modifiedOn = (moment(new Date()));
     return res.status(202).json({
-      status: '201',
+      status: 201,
       data: user,
     });
   }
@@ -41,12 +41,12 @@ class adminController {
     const rowCount = loans.length;
     if (!loans) {
       return res.status(500).json({
-        status: '500',
+        status: 500,
         message: 'internal server error',
       });
     }
     return res.status(200).json({
-      status: '200',
+      status: 200,
       data: loans,
       rowCount,
     });
@@ -62,12 +62,32 @@ class adminController {
     const loan = loans.find(aLoan => aLoan.id === req.params.id);
     if (!loan) {
       return res.status(500).json({
-        status: '404',
+        status: 404,
         message: 'Not Found',
       });
     }
     return res.status(200).json({
-      status: '200',
+      status: 200,
+      data: loan,
+    });
+  }
+
+  /**
+ *@param {req} object
+ *@param {res} object
+ */
+  static notFullyPaidLoan(req, res) {
+    const loans = models.Loans;
+    const allApprovedLoan = loans.filter(Loan => Loan.status === req.query.status);
+    const loan = allApprovedLoan.filter(Loan => Loan.repaid === req.query.repaid);
+    if (!loan) {
+      return res.status(400).json({
+        status: 404,
+        message: 'Not Found',
+      });
+    }
+    return res.status(200).json({
+      status: 200,
       data: loan,
     });
   }

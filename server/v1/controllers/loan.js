@@ -38,14 +38,14 @@ class Money {
     for (let i = 0; i < existLoan.length; i += 1) {
       if (existLoan[i].repaid === false) {
         return res.status(402).json({
-          status: '402',
+          status: 402,
           message: 'you have an outstanding loan',
         });
       }
     }
     models.Loans.push(applyLoan);
     return res.status(201).json({
-      status: '201',
+      status: 201,
       data: applyLoan,
     });
   }
@@ -61,12 +61,12 @@ class Money {
     const loan = loans.find(oneLoan => oneLoan.id === requestId);
     if (!loan) {
       return res.status('404').json({
-        status: '404',
+        status: 404,
         message: 'user not found',
       });
     }
     return res.status(200).json({
-      status: '200',
+      status: 200,
       data: loan,
     });
   }

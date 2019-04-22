@@ -2,6 +2,8 @@ exclude_paths:
   - "node_modules"
   - "UI"
   - "uploads"
+  - nyc_output
+  - coverage
 checks:
   return-statements:
     enabled: false
