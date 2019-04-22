@@ -37,4 +37,14 @@ describe('Admin Route', () => {
       })
       .catch(error => done(error));
   });
+  it('should view current loans (not fully repaid). successfully', (done) => {
+    request(app)
+      .get('/api/v1/loans?status=approved&repaid=false')
+      .then((res) => {
+        expect(res.status).to.be.equal(200);
+        expect(res.body).to.have.property('data');
+        done();
+      })
+      .catch(error => done(error));
+  });
 });

@@ -33,7 +33,7 @@ const models = {
       id: '3e66de26-5bbb-430b-9458-f35fc2a06816',
       user: 'kzmobileapp@gmail.com',
       createdOn: 'DateTime',
-      status: 'pending',
+      status: 'approved',
       repaid: false,
       tenor: 2,
       amount: 4000,

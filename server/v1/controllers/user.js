@@ -25,7 +25,7 @@ class userController {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       password: hashpassword,
-      status: req.body.status,
+      status: 'pending',
       isAdmin: req.body.isAdmin,
       createdOn: moment(new Date()),
       modifiedOn: moment(new Date()),
@@ -33,14 +33,14 @@ class userController {
     const user = models.User.find(existUser => existUser.email === req.body.email);
     if (user) {
       return res.status(409).json({
-        status: '409',
+        status: 409,
         message: 'user already exist',
       });
     }
     models.User.push(post);
     const token = Helper.generateToken(models.User[0].id);
     return res.status(201).json({
-      status: '201',
+      status: 201,
       token,
       data: post,
     });
@@ -64,19 +64,19 @@ class userController {
     const user = users.find(specUser => specUser.email === req.body.email);
     if (!user) {
       return res.status(404).json({
-        status: '404',
+        status: 404,
         message: 'no user with such email',
       });
     }
     if (!Helper.comparePassword(user.password, req.body.password)) {
       return res.status(401).json({
-        status: '401',
+        status: 401,
         message: 'Authentication failed',
       });
     }
     const token = Helper.generateToken(user.id);
     return res.status(200).json({
-      status: '200',
+      status: 200,
       token,
       data: user,
     });
@@ -92,12 +92,12 @@ class userController {
     const users = models.User;
     if (!users) {
       return res.status(422).json({
-        status: '422',
+        status: 422,
         message: 'an error occur!',
       });
     }
     return res.status(200).json({
-      status: '200',
+      status: 200,
       data: users,
       rowCount: users.length,
     });
@@ -114,13 +114,13 @@ class userController {
     const users = models.User;
     const user = users.find(oneUser => oneUser.id === requestId);
     if (!user) {
-      return res.status('404').json({
-        status: '404',
+      return res.status(404).json({
+        status: 404,
         message: 'user not found',
       });
     }
     return res.status(200).json({
-      status: '200',
+      status: 200,
       data: user,
     });
   }
@@ -136,8 +136,8 @@ class userController {
     const users = models.User;
     const user = users.find(oneUser => oneUser.id === requestId);
     if (!user) {
-      return res.status('404').json({
-        status: '404',
+      return res.status(404).json({
+        status: 404,
         message: 'user not found',
       });
     }
@@ -156,7 +156,7 @@ class userController {
     user.modifiedOn = moment(new Date());
 
     return res.status(202).json({
-      status: '202',
+      status: 202,
       data: user,
     });
   }
@@ -172,15 +172,15 @@ class userController {
     const users = models.User;
     const user = users.find(oneUser => oneUser.id === requestId);
     if (!user) {
-      return res.status('404').json({
-        status: '404',
+      return res.status(404).json({
+        status: 404,
         message: 'user not found',
       });
     }
     const index = users.indexOf(user);
     users.splice(index, 1);
     return res.status(200).json({
-      status: '200',
+      status: 200,
       message: `user with ${requestId} has been deleted`,
     });
   }

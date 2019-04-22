@@ -15,7 +15,6 @@ describe('User Route', () => {
         lastName: faker.name.lastName(),
         password: faker.internet.password(),
         address: faker.address.streetAddress(),
-        status: 'unverified',
       })
       .then((res) => {
         expect(res.status).to.be.equal(201);

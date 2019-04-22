@@ -15,7 +15,6 @@ class validate {
         .error(() => 'last name is required without a number'),
       password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required(),
       address: Joi.string().trim().required(),
-      status: Joi.string().insensitive().valid('unverified', 'verified').required(),
       isAdmin: Joi.string().default('false'),
     });
     return Joi.validate(user, schema);
