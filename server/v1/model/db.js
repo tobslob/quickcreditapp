@@ -47,7 +47,7 @@ const models = {
       user: 'kazzmobileapp@gmail.com',
       createdOn: Date(),
       status: 'pending',
-      repaid: false,
+      repaid: true,
       tenor: 2,
       amount: 4000,
       paymentInstallment: 2100,

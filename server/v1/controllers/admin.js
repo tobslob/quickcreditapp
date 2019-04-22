@@ -76,10 +76,12 @@ class adminController {
  *@param {req} object
  *@param {res} object
  */
-  static notFullyPaidLoan(req, res) {
+  static notFullyPaidLoan(req, res, next) {
+    next();
+    const { status, repaid } = req.query;
+
     const loans = models.Loans;
-    const allApprovedLoan = loans.filter(Loan => Loan.status === req.query.status);
-    const loan = allApprovedLoan.filter(Loan => Loan.repaid === req.query.repaid);
+    const loan = loans.filter(Loan => Loan.status === status && Loan.repaid === repaid);
     if (!loan) {
       return res.status(400).json({
         status: 404,
