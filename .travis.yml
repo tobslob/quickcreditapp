@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "stable"
+env:
+global:
+  - export NODE_ENV=test
+cache:
+  directories: 
+    - "node_modules"
+before_install:
+  - "npm install"
+script:
+  - "npm run test"
+after_success:
+- npm run coverage
