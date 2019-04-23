@@ -74,44 +74,29 @@ class adminController {
 
   /**
  *@param {req} object
- *@param {res} object
+ *@param {res} object c
  */
-  static notFullyPaidLoan(req, res) {
+  // eslint-disable-next-line consistent-return
+  static loanPayment(req, res, next) {
     const { status, repaid } = req.query;
-
+    let paymentFilter;
     const loans = models.Loans;
-    const loan = loans.filter(Loan => Loan.status === status && Loan.repaid === repaid);
-    if (!loan) {
-      return res.status(400).json({
-        status: 404,
-        message: 'Not Found',
+    if (status && repaid) {
+      const boolRepaid = JSON.parse(repaid);
+      paymentFilter = loans.filter(loan => loan.status === status.toLowerCase()
+        && loan.repaid === boolRepaid);
+      if (paymentFilter.length === 0) {
+        return res.status(404).json({
+          status: 404,
+          message: 'Not Found',
+        });
+      }
+      return res.status(200).json({
+        status: 200,
+        data: paymentFilter,
       });
     }
-    return res.status(200).json({
-      status: 200,
-      data: loan,
-    });
-  }
-
-  /**
- *@param {req} object
- *@param {res} object
- */
-  static fullyPaidLoan(req, res) {
-    const { status, repaid } = req.query;
-
-    const loans = models.Loans;
-    const loan = loans.filter(Loan => Loan.status === status && Loan.repaid === repaid);
-    if (!loan) {
-      return res.status(400).json({
-        status: 404,
-        message: 'Not Found',
-      });
-    }
-    return res.status(200).json({
-      status: 200,
-      data: loan,
-    });
+    next();
   }
 }
 
