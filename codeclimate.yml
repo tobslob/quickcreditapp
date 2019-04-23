@@ -1,5 +1,6 @@
 version: "2"
 exclude_patterns:
+- "node_modules"
 - "UI/**/*"
 - "server/test"
 checks:
@@ -15,4 +16,3 @@ checks:
   enabled: false
  method-complexity:
   enabled: false
-© 2019 GitHub, Inc.
