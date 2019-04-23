@@ -10,11 +10,11 @@ describe('User Route', () => {
     request(app)
       .post('/api/v1/auth/user/signup')
       .send({
-        email: faker.internet.email(),
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        password: faker.internet.password(),
-        address: faker.address.streetAddress(),
+        email: 'testingapp@gmail.com',
+        firstName: 'tester',
+        lastName: 'testing',
+        password: 'Kazeem27',
+        address: '27, tunji Olaiya street',
       })
       .then((res) => {
         expect(res.status).to.be.equal(201);
