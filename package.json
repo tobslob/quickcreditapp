@@ -6,7 +6,7 @@
   "scripts": {
     "pretest": "eslint --ignore-path .gitignore .",
     "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --require @babel/register --timeout 120000 --require @babel/polyfill server/test --exit",
-    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov cat ./coverage/lcov.info | coveralls",
     "showcoverage": "start ./coverage/index.html",
     "parser": "babel-eslint",
     "start": "cross-env NODE_ENV=production nodemon server/app.js --exec babel-node",
