@@ -10,11 +10,10 @@ cache:
   directories: 
     - "node_modules"
 before_install:
-  - npm install
-  - npm install coveralls
+  - "npm install"
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
 script:
-  - "nyc npm test"
+  - "npm run test"
 after_success:
 - npm run coverage
