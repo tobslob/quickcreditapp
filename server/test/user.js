@@ -1,6 +1,5 @@
 import chai from 'chai';
 import request from 'supertest';
-import faker from 'faker';
 import app from '../app';
 
 const { expect } = chai;
@@ -53,22 +52,6 @@ describe('User Route', () => {
       .get('/api/v1/auth/user/900d6eea-d900-4e9d-9bd9-029a838ef67d')
       .then((res) => {
         expect(res.status).to.be.equal(200);
-        expect(res.body).to.have.property('data');
-        done();
-      })
-      .catch(error => done(error));
-  });
-  it('should patch a user successfully', (done) => {
-    request(app)
-      .patch('/api/v1/auth/user/900d6eea-d900-4e9d-9bd9-029a838ef67d')
-      .send({
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        password: faker.internet.password(),
-        address: faker.address.streetAddress(),
-      })
-      .then((res) => {
-        expect(res.status).to.be.equal(202);
         expect(res.body).to.have.property('data');
         done();
       })
