@@ -1,7 +1,7 @@
 version: "2"
 exclude_patterns:
 - "node_modules"
-- "UI/javscript"
+- "UI"
 - "server/test"
 checks:
  return-statements:
