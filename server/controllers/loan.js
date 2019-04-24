@@ -33,6 +33,7 @@ class Money {
       paymentInstallment,
       balance: (amount + interest),
       interest,
+      modifiedOn: moment(new Date()),
     };
     const existLoan = models.Loans.filter(email => email.user === models.User[0].email);
     for (let i = 0; i < existLoan.length; i += 1) {

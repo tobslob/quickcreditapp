@@ -57,4 +57,15 @@ describe('Admin Route', () => {
       })
       .catch(error => done(error));
   });
+  it('should approve or reject a loan  successfully', (done) => {
+    request(app)
+      .patch('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06819')
+      .send({ status: 'reject' })
+      .then((res) => {
+        expect(res.status).to.be.equal(200);
+        expect(res.body).to.have.property('data');
+        done();
+      })
+      .catch(error => done(error));
+  });
 });
