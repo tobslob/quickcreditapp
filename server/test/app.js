@@ -1,5 +1,7 @@
 import request from 'supertest';
 import chai from 'chai';
+import assert from 'assert';
+import http from 'http';
 import app from '../app';
 
 const { expect } = chai;
@@ -24,5 +26,14 @@ describe('Admin Route', () => {
         done();
       })
       .catch(error => done(error));
+  });
+});
+
+describe('HTTP Server', () => {
+  it('should return 200', (done) => {
+    http.get('http://localhost:5500', (res) => {
+      assert.equal(200, res.statusCode);
+      done();
+    });
   });
 });
