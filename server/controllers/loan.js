@@ -13,7 +13,7 @@ class Money {
     if (error) {
       return res.status(422).json({
         status: 422,
-        message: error.details[0].message,
+        error: error.details[0].message,
       });
     }
 
