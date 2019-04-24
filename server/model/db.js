@@ -57,5 +57,17 @@ const models = {
       modifiedOn: Date(),
     },
   ],
+
+  loanRepayment: [
+    {
+      id: 'Integer',
+      loanId: 'Integer',
+      createdOn: Date(),
+      amount: 4000, // loan amount
+      monthlyInstallment: 2100, // what the user is expected to pay
+      paidAmount: 2100,
+      balance: 2100,
+    },
+  ],
 };
 module.exports = models;

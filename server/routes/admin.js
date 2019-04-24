@@ -17,4 +17,7 @@ router.get('/loans/:id', adminController.oneLoan);
 // Admin can view a loan route
 router.patch('/loans/:id', adminController.approveReject);
 
+// Admin can create a loan repayment record
+router.post('/loans/:id', adminController.loanRepayforClient);
+
 export default router;
