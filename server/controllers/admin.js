@@ -98,6 +98,34 @@ class adminController {
     }
     next();
   }
+
+  /**
+ *@param {req} object
+ *@param {res} object c
+ */
+  static approveReject(req, res) {
+    const loans = models.Loans;
+    const loan = loans.find(aLoan => aLoan.id === req.params.id);
+    if (loan.length === 0) {
+      return res.status(404).json({
+        status: 404,
+        error: 'Not Found',
+      });
+    }
+    const { error } = validate.loanApproveValidate(req.body);
+    if (error) {
+      return res.status(422).json({
+        status: 422,
+        message: error.details[0].message,
+      });
+    }
+    loan.status = req.body.status;
+    loan.modifiedOn = moment(new Date());
+    return res.status(200).json({
+      status: 200,
+      data: loan,
+    });
+  }
 }
 
 export default adminController;

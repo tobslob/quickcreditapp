@@ -14,4 +14,7 @@ router.get('/loans',
 // Admin can view a loan route
 router.get('/loans/:id', adminController.oneLoan);
 
+// Admin can view a loan route
+router.patch('/loans/:id', adminController.approveReject);
+
 export default router;

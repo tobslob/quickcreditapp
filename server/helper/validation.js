@@ -70,6 +70,17 @@ class validate {
     });
     return Joi.validate(user, schema);
   }
+
+  /**
+   *
+   * @param {user} object
+   */
+  static loanApproveValidate(user) {
+    const schema = Joi.object().keys({
+      status: Joi.string().insensitive().valid('approved', 'reject').required(),
+    });
+    return Joi.validate(user, schema);
+  }
 }
 
 export default validate;

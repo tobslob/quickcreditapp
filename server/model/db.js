@@ -40,6 +40,7 @@ const models = {
       paymentInstallment: 2100,
       balance: 4200,
       interest: 0.05,
+      modifiedOn: Date(),
     },
 
     {
@@ -53,6 +54,7 @@ const models = {
       paymentInstallment: 2100,
       balance: 4200,
       interest: 0.05,
+      modifiedOn: Date(),
     },
   ],
 };
