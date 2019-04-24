@@ -15,4 +15,14 @@ describe('Admin Route', () => {
       })
       .catch(error => done(error));
   });
+  it('should get home successfully', (done) => {
+    request(app)
+      .get('/api/v1/home')
+      .then((res) => {
+        expect(res.status).to.be.equal(404);
+        expect(res.body).to.have.property('error');
+        done();
+      })
+      .catch(error => done(error));
+  });
 });

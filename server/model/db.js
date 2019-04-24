@@ -60,7 +60,7 @@ const models = {
 
   loanRepayment: [
     {
-      id: 'Integer',
+      id: 'b7280966-4290-45a1-b75a-7b6d2fcdb77f',
       loanId: 'Integer',
       createdOn: Date(),
       amount: 4000, // loan amount

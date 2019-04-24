@@ -116,7 +116,7 @@ class userController {
     if (!user) {
       return res.status(404).json({
         status: 404,
-        message: 'user not found',
+        error: 'user not found',
       });
     }
     return res.status(200).json({
@@ -145,7 +145,7 @@ class userController {
     if (error) {
       return res.status(422).json({
         status: 422,
-        message: error.details[0].message,
+        error: error.details[0].message,
       });
     }
     const hashpassword = Helper.hashPassword(req.body.password);
@@ -153,6 +153,7 @@ class userController {
     user.firstName = req.body.firstName;
     user.lastName = req.body.lastName;
     user.password = hashpassword;
+    user.address = req.body.address;
     user.modifiedOn = moment(new Date());
 
     return res.status(202).json({
@@ -174,7 +175,7 @@ class userController {
     if (!user) {
       return res.status(404).json({
         status: 404,
-        message: 'user not found',
+        error: 'user not found',
       });
     }
     const index = users.indexOf(user);

@@ -16,6 +16,28 @@ describe('Admin Route', () => {
       })
       .catch(error => done(error));
   });
+  it('should not verified a user successfully', (done) => {
+    request(app)
+      .patch('/api/v1/users/kazmobileap@gmail.com/verify')
+      .send({ status: 'verified' })
+      .then((res) => {
+        expect(res.status).to.be.equal(404);
+        expect(res.body).to.have.property('message');
+        done();
+      })
+      .catch(error => done(error));
+  });
+  it('should not verified a user successfully', (done) => {
+    request(app)
+      .patch('/api/v1/users/kazmobileapp@gmail.com/verify')
+      .send({ status: 'verify' })
+      .then((res) => {
+        expect(res.status).to.be.equal(422);
+        expect(res.body).to.have.property('error');
+        done();
+      })
+      .catch(error => done(error));
+  });
   it('should get all loan application successfully', (done) => {
     request(app)
       .get('/api/v1/loans')
@@ -33,6 +55,16 @@ describe('Admin Route', () => {
       .then((res) => {
         expect(res.status).to.be.equal(200);
         expect(res.body).to.have.property('data');
+        done();
+      })
+      .catch(error => done(error));
+  });
+  it('should not get a specific loan application successfully', (done) => {
+    request(app)
+      .get('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a068r6')
+      .then((res) => {
+        expect(res.status).to.be.equal(404);
+        expect(res.body).to.have.property('message');
         done();
       })
       .catch(error => done(error));
@@ -68,6 +100,17 @@ describe('Admin Route', () => {
       })
       .catch(error => done(error));
   });
+  it('should not approve or reject a loan', (done) => {
+    request(app)
+      .patch('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06819')
+      .send({ status: 'rejected' })
+      .then((res) => {
+        expect(res.status).to.be.equal(422);
+        expect(res.body).to.have.property('error');
+        done();
+      })
+      .catch(error => done(error));
+  });
   it('should successfully post loan repayment for a client', (done) => {
     request(app)
       .post('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06819')
@@ -75,6 +118,17 @@ describe('Admin Route', () => {
       .then((res) => {
         expect(res.status).to.be.equal(200);
         expect(res.body).to.have.property('data');
+        done();
+      })
+      .catch(error => done(error));
+  });
+  it('should not post loan repayment for a client', (done) => {
+    request(app)
+      .post('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a16819')
+      .send({ paidAmount: 3000 })
+      .then((res) => {
+        expect(res.status).to.be.equal(404);
+        expect(res.body).to.have.property('message');
         done();
       })
       .catch(error => done(error));

@@ -14,7 +14,7 @@ class adminController {
     if (error) {
       return res.status(422).json({
         status: 422,
-        message: error.details[0].message,
+        error: error.details[0].message,
       });
     }
     const requestEmail = req.params.email;
@@ -28,7 +28,7 @@ class adminController {
     user.status = req.body.status;
     user.modifiedOn = (moment(new Date()));
     return res.status(202).json({
-      status: 201,
+      status: 202,
       data: user,
     });
   }
@@ -62,7 +62,7 @@ class adminController {
     const loans = models.Loans;
     const loan = loans.find(aLoan => aLoan.id === req.params.id);
     if (!loan) {
-      return res.status(500).json({
+      return res.status(404).json({
         status: 404,
         message: 'Not Found',
       });
@@ -117,7 +117,7 @@ class adminController {
     if (error) {
       return res.status(422).json({
         status: 422,
-        message: error.details[0].message,
+        error: error.details[0].message,
       });
     }
     loan.status = req.body.status;
@@ -160,7 +160,7 @@ class adminController {
     models.loanRepayment.push(paid);
     return res.status(200).json({
       status: 200,
-      data: loan,
+      data: paid,
     });
   }
 }
