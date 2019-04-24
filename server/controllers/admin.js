@@ -1,4 +1,5 @@
 import moment from 'moment';
+import uuidv4 from 'uuid/v4';
 import models from '../model/db';
 import validate from '../helper/validation';
 
@@ -121,6 +122,42 @@ class adminController {
     }
     loan.status = req.body.status;
     loan.modifiedOn = moment(new Date());
+    return res.status(200).json({
+      status: 200,
+      data: loan,
+    });
+  }
+
+  /**
+ *@param {req} object
+ *@param {res} object c
+ */
+  static loanRepayforClient(req, res) {
+    const paidAmount = parseFloat(req.body.paidAmount);
+    // find a loan in Loans data
+    const loan = models.Loans.find(aloan => aloan.id === req.params.id);
+    if (!loan) {
+      return res.status(404).json({
+        status: 404,
+        message: 'No such loan found',
+      });
+    }
+    const balance = loan.balance - paidAmount;
+    const paid = {
+      id: uuidv4(),
+      loanId: req.params.id,
+      createdOn: moment(new Date()),
+      amount: loan.amount, // loan amount
+      monthlyInstallment: loan.paymentInstallment, // what the user is expected to pay
+      paidAmount,
+      balance,
+    };
+    // update balance in loan
+    loan.balance = balance;
+    if (loan.balance <= 0) {
+      loan.repaid = true;
+    }
+    models.loanRepayment.push(paid);
     return res.status(200).json({
       status: 200,
       data: loan,

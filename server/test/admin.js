@@ -68,4 +68,15 @@ describe('Admin Route', () => {
       })
       .catch(error => done(error));
   });
+  it('should successfully post loan repayment for a client', (done) => {
+    request(app)
+      .post('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06819')
+      .send({ paidAmount: 3000 })
+      .then((res) => {
+        expect(res.status).to.be.equal(200);
+        expect(res.body).to.have.property('data');
+        done();
+      })
+      .catch(error => done(error));
+  });
 });
