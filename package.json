@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/tobslob/QUICK_CREDIT_APP_#readme",
   "dependencies": {
-    "babel-cli": "^6.26.0",
+    "@babel/cli": "^7.0.0",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
@@ -53,7 +53,7 @@
   "devDependencies": {
     "@babel/cli": "^7.4.3",
     "@babel/core": "^7.4.3",
-    "@babel/node": "^7.2.2",
+    "@babel/node": "^7.0.0",
     "@babel/polyfill": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@babel/register": "^7.4.0",
