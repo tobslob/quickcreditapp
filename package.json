@@ -4,14 +4,14 @@
   "description": "Quick Credit is an online lending platform that provides short term soft loans to individuals.",
   "main": "server/app.js",
   "scripts": {
+    "start": "babel-node server/app.js",
+    "start:dev": "nodemon --exec babel-node server/app.js",
     "pretest": "eslint --ignore-path .gitignore .",
     "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --require @babel/register --timeout 120000 --require @babel/polyfill server/test --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
     "showcoverage": "start ./coverage/index.html",
     "parser": "babel-eslint",
-    "start": "babel-node server/app.js",
-    "start:dev": "nodemon --exec babel-node server/app.js",
     "lint": "./node_modules/.bin/eslint server/test --fix"
   },
   "repository": {
@@ -39,12 +39,6 @@
   },
   "homepage": "https://github.com/tobslob/QUICK_CREDIT_APP_#readme",
   "dependencies": {
-    "@babel/cli": "^7.4.3",
-    "@babel/core": "^7.4.3",
-    "@babel/node": "^7.2.2",
-    "@babel/polyfill": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
-    "@babel/register": "^7.4.0",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
@@ -56,6 +50,12 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
+    "@babel/polyfill": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/register": "^7.4.0",
     "chai": "^4.2.0",
     "coveralls": "^3.0.3",
     "cross-env": "^5.2.0",
