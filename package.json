@@ -7,7 +7,7 @@
     "start": "babel-node server/app.js",
     "start:dev": "nodemon --exec babel-node server/app.js",
     "pretest": "eslint --ignore-path .gitignore .",
-    "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --require @babel/register --timeout 120000 --require @babel/polyfill server/test --exit",
+    "test": "nyc --reporter=html --reporter=text mocha --require @babel/register --timeout 120000 --require @babel/polyfill server/test --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
     "showcoverage": "start ./coverage/index.html",
