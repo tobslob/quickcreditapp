@@ -2,6 +2,7 @@ import http from 'http';
 import morgan from 'morgan';
 import express from 'express';
 import bodyparser from 'body-parser';
+import path from 'path';
 import users from './routes/user';
 import loans from './routes/loan';
 import admin from './routes/admin';
@@ -13,6 +14,7 @@ app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
 
 // API routes
+app.use(express.static(path.join('UI')));
 app.use('/api/v1/auth', users);
 app.use('/api/v1', loans);
 app.use('/api/v1', admin);

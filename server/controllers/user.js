@@ -19,33 +19,34 @@ class userController {
       });
     }
     const hashpassword = Helper.hashPassword(req.body.password);
-    const post = {
+    const createUser = {
       id: uuidv4(),
       email: req.body.email,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       password: hashpassword,
-      status: 'pending',
-      isAdmin: req.body.isAdmin,
+      status: 'unverified',
+      isAdmin: false,
       createdOn: moment(new Date()),
       modifiedOn: moment(new Date()),
     };
-    const user = models.User.find(existUser => existUser.email === req.body.email);
+    const user = models.User.find(
+      existUser => existUser.email === req.body.email,
+    );
     if (user) {
       return res.status(409).json({
         status: 409,
         message: 'user already exist',
       });
     }
-    models.User.push(post);
-    const token = Helper.generateToken(models.User[0].id);
+    models.User.push(createUser);
+    const token = Helper.generateToken(createUser.id);
     return res.status(201).json({
       status: 201,
       token,
-      data: post,
+      data: createUser,
     });
   }
-
 
   /**
    *
@@ -74,14 +75,13 @@ class userController {
         message: 'Authentication failed',
       });
     }
-    const token = Helper.generateToken(user.id);
+    const token = Helper.generateToken(user);
     return res.status(200).json({
       status: 200,
       token,
       data: user,
     });
   }
-
 
   /**
    *
@@ -103,7 +103,6 @@ class userController {
     });
   }
 
-
   /**
    *
    * @param {req} object
@@ -124,7 +123,6 @@ class userController {
       data: user,
     });
   }
-
 
   /**
    *
@@ -162,7 +160,6 @@ class userController {
     });
   }
 
-
   /**
    *
    * @param {req} object
@@ -182,7 +179,7 @@ class userController {
     users.splice(index, 1);
     return res.status(200).json({
       status: 200,
-      message: `user with ${requestId} has been deleted`,
+      message: `user with id: ${requestId} has been deleted`,
     });
   }
 }

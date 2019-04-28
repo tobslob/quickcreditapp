@@ -7,7 +7,7 @@ const { expect } = chai;
 describe('User Route', () => {
   it('should successfully signup a user with valid details', (done) => {
     request(app)
-      .post('/api/v1/auth/user/signup')
+      .post('/api/v1/auth/signup')
       .send({
         email: 'testingapp@gmail.com',
         firstName: 'tester',
@@ -27,7 +27,7 @@ describe('User Route', () => {
   });
   it('should not signup a user with invalid details', (done) => {
     request(app)
-      .post('/api/v1/auth/user/signup')
+      .post('/api/v1/auth/signup')
       .send({
         email: 'testingapp',
         firstName: 'tester',
@@ -45,7 +45,7 @@ describe('User Route', () => {
   });
   it('should not signup a user with already exist email', (done) => {
     request(app)
-      .post('/api/v1/auth/user/signup')
+      .post('/api/v1/auth/signup')
       .send({
         email: 'testingapp@gmail.com',
         firstName: 'tester',
@@ -63,7 +63,7 @@ describe('User Route', () => {
   });
   it('should login user successfully', (done) => {
     request(app)
-      .post('/api/v1/auth/user/signin')
+      .post('/api/v1/auth/signin')
       .send({ email: 'kazmobileapp@gmail.com', password: 'Kazeem27' })
       .then((res) => {
         expect(res.status).to.be.equal(200);
@@ -74,7 +74,7 @@ describe('User Route', () => {
   });
   it('should not login user with invalid data', (done) => {
     request(app)
-      .post('/api/v1/auth/user/signin')
+      .post('/api/v1/auth/signin')
       .send({ email: 'kazmobileapp@gmail.com', password: 'razeem27' })
       .then((res) => {
         expect(res.status).to.be.equal(401);
@@ -86,7 +86,7 @@ describe('User Route', () => {
   });
   it('should not login user with non-exist details, it should return 404', (done) => {
     request(app)
-      .post('/api/v1/auth/user/signin')
+      .post('/api/v1/auth/signin')
       .send({ email: 'kazmobileap@gmail.com', password: 'razeem27' })
       .then((res) => {
         expect(res.status).to.be.equal(404);
@@ -98,7 +98,7 @@ describe('User Route', () => {
   });
   it('should not login user with incomplete details', (done) => {
     request(app)
-      .post('/api/v1/auth/user/signin')
+      .post('/api/v1/auth/signin')
       .send({ email: 'kazmobileapp@gmail.com' })
       .then((res) => {
         expect(res.status).to.be.equal(422);
