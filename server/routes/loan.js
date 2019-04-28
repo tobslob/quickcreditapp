@@ -3,10 +3,10 @@ import loanController from '../controllers/loan';
 
 const router = express.Router();
 
-// apply loan route
-router.post('/loan', loanController.loan);
+// Create a loan application
+router.post('/loans', loanController.loan);
 
-// apply loan route
-router.get('/loan/:id/repayments', loanController.repaymentHistory);
+// View loan repayment history
+router.get('/loans/:id/repayment', loanController.repaymentHistory);
 
 module.exports = router;

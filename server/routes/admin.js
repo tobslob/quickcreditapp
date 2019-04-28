@@ -1,5 +1,6 @@
 import express from 'express';
 import adminController from '../controllers/admin';
+import Helper from '../helper/helper';
 
 const router = express.Router();
 
@@ -14,10 +15,10 @@ router.get('/loans',
 // Admin can view a loan route
 router.get('/loans/:id', adminController.oneLoan);
 
-// Admin can view a loan route
-router.patch('/loans/:id', adminController.approveReject);
+// Admin can approve or reject a loan
+router.patch('/loans/:id', Helper.trimmer, adminController.approveReject);
 
 // Admin can create a loan repayment record
-router.post('/loans/:id', adminController.loanRepayforClient);
+router.post('/loans/:id/repayment', adminController.loanRepayforClient);
 
 export default router;

@@ -6,23 +6,33 @@ dotenv.config();
 module.exports = (req, res, next) => {
   const authHeader = req.get('Authorization');
   if (!authHeader) {
-    const error = new Error('Not authenticated.');
-    error.statusCode = 401;
-    throw error;
+    try {
+      const err = new Error('Not authenticated.');
+      err.statusCode = 401;
+      throw err;
+    } catch (err) {
+      return res.status(401).json({
+        status: 401,
+        error: err,
+      });
+    }
   }
   const token = authHeader.split(' ')[1];
   let decodedToken;
   try {
-    decodedToken = jwt.verify(token, process.env.SECRET);
+    decodedToken = jwt.verify(token, process.env.SECRET_KEY);
   } catch (err) {
-    err.statusCode = 500;
-    throw err;
+    return res.status(500).json({
+      status: 500,
+      err,
+    });
   }
   if (!decodedToken) {
-    const error = new Error('Not authenticated.');
-    error.statusCode = 401;
-    throw error;
+    return res.status(401).json({
+      status: 401,
+      error: 'Not Authenticated!',
+    });
   }
   req.userId = decodedToken.userId;
-  next();
+  return next();
 };

@@ -63,7 +63,7 @@ class Money {
     if (!loan) {
       return res.status('404').json({
         status: 404,
-        message: 'user not found',
+        message: 'loan not found',
       });
     }
     return res.status(200).json({

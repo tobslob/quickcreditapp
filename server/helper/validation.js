@@ -15,7 +15,6 @@ class validate {
         .error(() => 'last name is required without a number'),
       password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required(),
       address: Joi.string().trim().required(),
-      isAdmin: Joi.string().default('false'),
     });
     return Joi.validate(user, schema);
   }
@@ -49,7 +48,7 @@ class validate {
 
   /**
    *
-   * @param {user} object
+   * @param {loan} object
    */
   static validateLoan(loan) {
     const schema = Joi.object().keys({
@@ -80,6 +79,17 @@ class validate {
       status: Joi.string().insensitive().valid('approved', 'reject').required(),
     });
     return Joi.validate(user, schema);
+  }
+
+  /**
+   *
+   * @param {user} object
+   */
+  static validateLoanRepayment(loan) {
+    const schema = Joi.object().keys({
+      paidAmount: Joi.number().required(),
+    });
+    return Joi.validate(loan, schema);
   }
 }
 

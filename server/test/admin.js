@@ -113,7 +113,7 @@ describe('Admin Route', () => {
   });
   it('should successfully post loan repayment for a client', (done) => {
     request(app)
-      .post('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06819')
+      .post('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06819/repayment')
       .send({ paidAmount: 3000 })
       .then((res) => {
         expect(res.status).to.be.equal(200);
@@ -124,7 +124,7 @@ describe('Admin Route', () => {
   });
   it('should not post loan repayment for a client', (done) => {
     request(app)
-      .post('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a16819')
+      .post('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a16819/repayment')
       .send({ paidAmount: 3000 })
       .then((res) => {
         expect(res.status).to.be.equal(404);

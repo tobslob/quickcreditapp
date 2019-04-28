@@ -3,6 +3,7 @@ import uuidv4 from 'uuid/v4';
 import models from '../model/db';
 import validate from '../helper/validation';
 
+
 class adminController {
   /**
      *
@@ -77,7 +78,6 @@ class adminController {
  *@param {req} object
  *@param {res} object c
  */
-  // eslint-disable-next-line consistent-return
   static loanPayment(req, res, next) {
     const { status, repaid } = req.query;
     let paymentFilter;
@@ -97,7 +97,7 @@ class adminController {
         data: paymentFilter,
       });
     }
-    next();
+    return next();
   }
 
   /**
@@ -133,6 +133,13 @@ class adminController {
  *@param {res} object c
  */
   static loanRepayforClient(req, res) {
+    const { error } = validate.validateLoanRepayment(req.body);
+    if (error) {
+      return res.status(422).json({
+        status: 422,
+        error: error.details[0].message,
+      });
+    }
     const paidAmount = parseFloat(req.body.paidAmount);
     // find a loan in Loans data
     const loan = models.Loans.find(aloan => aloan.id === req.params.id);
