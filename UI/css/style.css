@@ -25,7 +25,7 @@ html {
 body {
   font-family: "Roboto", sans-serif;
   background-color: #beb7a4;
-  background-image: url('/img/images.jpg')
+  background-image: url('../img/images.jpg')
 }
 
 .btn {
@@ -168,7 +168,7 @@ nav ul li a:hover {
 .showcase {
   grid-area: showcase;
   min-height: 400px;
-  background-image: url("/img/main-bg_.jpeg");
+  background-image: url("../img/main-bg_.jpeg");
   background-size: cover;
   background-attachment: fixed;
   background-repeat: no-repeat;
@@ -240,7 +240,7 @@ nav ul li a:hover {
 
 #Explore {
   min-height: 100vh;
-  background-image: url("/img/bg1.jpg");
+  background-image: url("../img/bg1.jpg");
   background-attachment: fixed;
   background-position: center;
   background-size: cover;
@@ -445,7 +445,7 @@ footer {
   border: 2px solid #e6af2e;
 }
 
-.btn-form {
+.btn-form, .button {
   background: #e6af2e;
   color: #fff;
   padding: 15px 20px;
@@ -472,11 +472,11 @@ footer {
   margin: 2em auto;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1);
   background-color: #dddddd;
-  width: 80%;
-  margin-left: 140px;
+  width: 90%;
   display: inline-flex;
   border: 2px solid #191716;
-  padding-bottom: 5px; 
+  padding-bottom: 5px;
+  align-content: center; 
 }
 
 .one-third {
@@ -730,13 +730,13 @@ footer {
 
 .sidebar {
   flex: 1;
-  height: 640px;
+  height: 800px;
   background-color: var(--dark);
 }
 
 .inner-content {
   flex: 3;
-  height: 640px;
+  height: 800px;
   background-color: var(--light);
   font-size: 20px;
   font-weight: bold;
@@ -748,7 +748,7 @@ footer {
 }
 
 .sidebar ul li {
-  padding: 20px;
+  padding: 25px;
   border-bottom: 1px solid white;
   list-style-type: none;
   color: #e6af2e;
@@ -765,11 +765,11 @@ footer {
   padding-right: 35px;
   padding-top: 35px;
   padding-bottom: 50px;
-  width: 50%;
+  width: 90%;
   align-content: center;
   position: relative;
   margin-top: 30px;
-  margin-left: 260px;
+  margin-left: 10px;
   border-radius: 7px;
 }
 
@@ -797,7 +797,7 @@ footer {
   display: flex;
   margin: 0;
   padding: 0;
-  margin-top: 400px;
+  margin-top: 290px;
 }
 
 .pagination ul li {
@@ -859,4 +859,82 @@ footer {
 
 .loginlink a:hover{
   color: #fff
+}
+
+.redirect {
+  height: 300px;
+  align-content: center;
+}
+
+.redirect p{
+  padding: 20px;
+  margin: 20px;
+}
+
+.redirect form a{
+  text-decoration: none;
+  font-size: 20px;
+  color: #e6af2e;
+}
+
+.redirect form a:hover{
+  color: #dddddd;
+}
+
+table {
+  margin-bottom: 10px;
+  width: 100%;
+}
+table:last-child {
+  margin-bottom: 0;
+}
+th,
+td {
+  padding-bottom: 22px;
+  vertical-align: top;
+}
+th {
+  padding-right: 45px;
+  text-align: right;
+  width: 20%;
+}
+td {
+  width: 40%;
+}
+thead {
+  line-height: 44px;
+}
+thead th {
+  color: #000000;
+  font-size: 24px;
+}
+tbody th {
+  color: #000000;
+  font-size: 14px;
+  font-weight: 400;
+  padding-top: 25px;
+  text-transform: uppercase;
+}
+tbody td {
+  border-top: 1px solid #000000;
+  padding-top: 15px;
+}
+tbody td:first-of-type {
+  padding-right: 15px;
+}
+tbody td:last-of-type {
+  padding-left: 15px;
+}
+tbody td:only-of-type {
+  padding-left: 0;
+  padding-right: 0;
+}
+table a {
+  color: #000000;
+}
+table h4 {
+  margin-bottom: 0;
+}
+.offset {
+  color: #000000;
 }

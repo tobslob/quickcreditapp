@@ -3,6 +3,7 @@ import moment from 'moment';
 import models from '../model/db';
 import validate from '../helper/validation';
 import Helper from '../helper/helper';
+import isAuth from '../middleware/is-Auth';
 
 class userController {
   /**
@@ -15,7 +16,7 @@ class userController {
     if (error) {
       return res.status(422).json({
         status: 422,
-        message: error.details[0].message,
+        error: error.details[0].message,
       });
     }
     const hashpassword = Helper.hashPassword(req.body.password);
@@ -25,7 +26,7 @@ class userController {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       password: hashpassword,
-      status: 'unverified',
+      status: 'pending',
       isAdmin: false,
       createdOn: moment(new Date()),
       modifiedOn: moment(new Date()),
@@ -36,11 +37,11 @@ class userController {
     if (user) {
       return res.status(409).json({
         status: 409,
-        message: 'user already exist',
+        error: 'user already exist',
       });
     }
     models.User.push(createUser);
-    const token = Helper.generateToken(createUser.id);
+    const token = isAuth.generateToken(createUser.id, createUser.email, createUser.isAdmin);
     return res.status(201).json({
       status: 201,
       token,
@@ -58,7 +59,7 @@ class userController {
     if (error) {
       return res.status(422).json({
         status: 422,
-        message: error.details[0].message,
+        error: error.details[0].message,
       });
     }
     const users = models.User;
@@ -66,16 +67,16 @@ class userController {
     if (!user) {
       return res.status(404).json({
         status: 404,
-        message: 'no user with such email',
+        error: 'no user with such email',
       });
     }
     if (!Helper.comparePassword(user.password, req.body.password)) {
       return res.status(401).json({
         status: 401,
-        message: 'Authentication failed',
+        error: 'Email/Password incorrect',
       });
     }
-    const token = Helper.generateToken(user);
+    const token = isAuth.generateToken(user.id, user.email, user.isAdmin);
     return res.status(200).json({
       status: 200,
       token,
@@ -89,6 +90,15 @@ class userController {
    * @param {res} object
    */
   static getUsers(req, res) {
+    // check for admin user
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({
+          status: 403,
+          error: 'Unauthorized!, Admin only route',
+        });
+    }
     const users = models.User;
     if (!users) {
       return res.status(422).json({
@@ -109,6 +119,15 @@ class userController {
    * @param {res} object
    */
   static getUser(req, res) {
+    // check for admin user
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({
+          status: 403,
+          error: 'Unauthorized!, Admin only route',
+        });
+    }
     const requestId = req.params.id;
     const users = models.User;
     const user = users.find(oneUser => oneUser.id === requestId);
@@ -146,11 +165,9 @@ class userController {
         error: error.details[0].message,
       });
     }
-    const hashpassword = Helper.hashPassword(req.body.password);
 
     user.firstName = req.body.firstName;
     user.lastName = req.body.lastName;
-    user.password = hashpassword;
     user.address = req.body.address;
     user.modifiedOn = moment(new Date());
 
@@ -166,6 +183,15 @@ class userController {
    * @param {res} object
    */
   static deleteUser(req, res) {
+    // check for admin user
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({
+          status: 403,
+          error: 'Unauthorized!, Admin only route',
+        });
+    }
     const requestId = req.params.id;
     const users = models.User;
     const user = users.find(oneUser => oneUser.id === requestId);
@@ -179,7 +205,7 @@ class userController {
     users.splice(index, 1);
     return res.status(200).json({
       status: 200,
-      message: `user with id: ${requestId} has been deleted`,
+      message: `user with id:${requestId} has been deleted`,
     });
   }
 }

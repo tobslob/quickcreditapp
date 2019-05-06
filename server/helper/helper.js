@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -22,20 +21,6 @@ const Helper = {
      */
   comparePassword(hashPassword, password) {
     return bcrypt.compareSync(password, hashPassword);
-  },
-
-  /**
-     * Generate Token
-     * @params {string} id
-     * @params {string} token
-     */
-  generateToken(id, isAdmin) {
-    const token = jwt.sign({
-      id,
-      isAdmin,
-    },
-    process.env.SECRET_KEY, { expiresIn: '1d' });
-    return token;
   },
 
   /**

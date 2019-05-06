@@ -11,6 +11,15 @@ class adminController {
      * @param {res} object
      */
   static verifyUser(req, res) {
+    // check for admin user
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({
+          status: 403,
+          error: 'Unauthorized!, Admin only route',
+        });
+    }
     const { error } = validate.validateVerify(req.body);
     if (error) {
       return res.status(422).json({
@@ -23,7 +32,7 @@ class adminController {
     if (!user) {
       return res.status(404).json({
         status: 404,
-        message: 'user not exist',
+        error: 'user not exist',
       });
     }
     user.status = req.body.status;
@@ -39,6 +48,16 @@ class adminController {
  *@param {res} object
  */
   static allLoan(req, res) {
+    // check for admin user
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({
+          status: 403,
+          error: 'Unauthorized!, Admin only route',
+        });
+    }
+
     const loans = models.Loans;
     const rowCount = loans.length;
     if (!loans) {
@@ -60,6 +79,16 @@ class adminController {
  *@param {res} object
  */
   static oneLoan(req, res) {
+    // check for admin user
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({
+          status: 403,
+          error: 'Unauthorized!, Admin only route',
+        });
+    }
+
     const loans = models.Loans;
     const loan = loans.find(aLoan => aLoan.id === req.params.id);
     if (!loan) {
@@ -79,6 +108,15 @@ class adminController {
  *@param {res} object c
  */
   static loanPayment(req, res, next) {
+    // check for admin user
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({
+          status: 403,
+          error: 'Unauthorized!, Admin only route',
+        });
+    }
     const { status, repaid } = req.query;
     let paymentFilter;
     const loans = models.Loans;
@@ -105,6 +143,15 @@ class adminController {
  *@param {res} object c
  */
   static approveReject(req, res) {
+    // check for admin user
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({
+          status: 403,
+          error: 'Unauthorized!, Admin only route',
+        });
+    }
     const loans = models.Loans;
     const loan = loans.find(aLoan => aLoan.id === req.params.id);
     if (loan.length === 0) {
@@ -130,7 +177,7 @@ class adminController {
 
   /**
  *@param {req} object
- *@param {res} object c
+ *@param {res} object
  */
   static loanRepayforClient(req, res) {
     const { error } = validate.validateLoanRepayment(req.body);
@@ -149,6 +196,14 @@ class adminController {
         message: 'No such loan found',
       });
     }
+
+    if (paidAmount > loan.balance) {
+      return res.status(400).json({
+        status: 400,
+        error: 'you can not pay more than your debt!',
+      });
+    }
+
     const balance = loan.balance - paidAmount;
     const paid = {
       id: uuidv4(),
