@@ -1,38 +1,73 @@
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
+import db from '../model/db';
 
-dotenv.config();
+class Auth {
+  /**
+   * Generate token based on payload.
+   *
+   * @param {*} id
+   * @param {*} email
+   * @param {*} isAdmin
+   */
+  static generateToken(id, email, isAdmin) {
+    const token = jwt.sign({
+      id,
+      email,
+      isAdmin,
+    },
+    process.env.SECRET_KEY,
+    {
+      expiresIn: '24h',
+    });
 
-module.exports = (req, res, next) => {
-  const authHeader = req.get('Authorization');
-  if (!authHeader) {
+    return token;
+  }
+
+  /**
+   * Verifies user provided token
+   *
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   */
+  static async verifyToken(req, res, next) {
+    const { token } = req.headers;
+
+    // check if token is provided
+    if (!token) {
+      return res
+        .status(403)
+        .json({
+          status: 403,
+          error: 'Unauthorized!, you have to login',
+        });
+    }
+
     try {
-      const err = new Error('Not authenticated.');
-      err.statusCode = 401;
-      throw err;
-    } catch (err) {
-      return res.status(401).json({
-        status: 401,
-        error: err,
+      // verify user provided token against existing token
+      const decoded = await jwt.verify(token, process.env.SECRET_KEY);
+
+      const user = db.User.find(existUser => existUser.id === decoded.id);
+
+      // check for valid app users
+      if (!user) {
+        return res.status(401).json({
+          status: 401,
+          error: 'The token you provided is invalid',
+        });
+      }
+
+      // get user id
+      req.user = decoded;
+
+      return next();
+    } catch (errors) {
+      return res.status(400).json({
+        status: 400,
+        error: errors,
       });
     }
   }
-  const token = authHeader.split(' ')[1];
-  let decodedToken;
-  try {
-    decodedToken = jwt.verify(token, process.env.SECRET_KEY);
-  } catch (err) {
-    return res.status(500).json({
-      status: 500,
-      err,
-    });
-  }
-  if (!decodedToken) {
-    return res.status(401).json({
-      status: 401,
-      error: 'Not Authenticated!',
-    });
-  }
-  req.userId = decodedToken.userId;
-  return next();
-};
+}
+
+export default Auth;

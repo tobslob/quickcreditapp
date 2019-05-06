@@ -9,6 +9,13 @@ class Money {
      * @param{res} object
      */
   static loan(req, res) {
+    const aUser = models.User.find(user => user.id === req.user.id);
+    if (aUser.status === 'pending' || aUser.status === 'unverified') {
+      return res.status(400).json({
+        status: 400,
+        error: 'wait for verification and re-apply for loan',
+      });
+    }
     const { error } = validate.validateLoan(req.body);
     if (error) {
       return res.status(422).json({
@@ -24,7 +31,7 @@ class Money {
 
     const applyLoan = {
       id: uuidv4(),
-      user: models.User[0].email,
+      user: req.user.email,
       createdOn: moment(new Date()),
       status: 'pending',
       repaid: false,
@@ -35,12 +42,12 @@ class Money {
       interest,
       modifiedOn: moment(new Date()),
     };
-    const existLoan = models.Loans.filter(email => email.user === models.User[0].email);
+    const existLoan = models.Loans.filter(email => email.user === req.user.email);
     for (let i = 0; i < existLoan.length; i += 1) {
       if (existLoan[i].repaid === false) {
         return res.status(402).json({
           status: 402,
-          message: 'you have an outstanding loan',
+          error: 'you have an outstanding loan',
         });
       }
     }
@@ -63,7 +70,7 @@ class Money {
     if (!loan) {
       return res.status('404').json({
         status: 404,
-        message: 'loan not found',
+        error: 'loan not found',
       });
     }
     return res.status(200).json({

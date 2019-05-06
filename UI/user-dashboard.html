@@ -5,7 +5,7 @@
     <title>User Dashboard</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="/img/loan.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="../img/loan.png" sizes="16x16" type="image/png">
     <link href="css/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
@@ -18,16 +18,16 @@
         <nav>
             <ul>
                 <div class="nav-logo">
-                    <li><a href="/" class="logo">QUICK CREDIT</a></li>
+                    <li><a href="index.html" class="logo">QUICK CREDIT</a></li>
                 </div>
                 <div class="nav-menu">
-                    <li><a href="/">Log Out</a></li>
+                    <li><a href="index.html">Log Out</a></li>
                 </div>
             </ul>
             <ul class="toggle">
                 <div class="nav-toggle">
                     <ul>
-                        <li><a href="/">Log Out</a></li>
+                        <li><a href="index.html">Log Out</a></li>
                     </ul>
                 </div>
             </ul>
@@ -62,6 +62,7 @@
                     <ul class="userlist">
                         <li data-target="#apply-loan" class="activeli">Apply Loan</li>
                         <li data-target="#repay">loan repayment history</li>
+                        <li data-target="#repay-loan" class="activeli">repay Loan</li>
                     </ul>
 
                     <span class="notify"><i class="fas fa-bell icon"></i></span>
@@ -88,7 +89,105 @@
                                 </div>
                             </div>
                             <div id="repay" class="paneluser">
-                                <div class="repay">A SPACE FOR REPAYMENT HISTORY</div>
+                                <div class="repay">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th scope="row">
+                                                    id
+                                                </th>
+                                                <td class="schedule-offset" colspan="2">
+                                                    5eed1fad-0d2b-40b6-b5af-7dc279b5aba7
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">
+                                                    <time>user</time>
+                                                </th>
+                                                <td class="schedule-offset" colspan="2">
+                                                    tobslob@gmail.com
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    <time datetime="09:00:00">createdOn</time>
+                                                </th>
+                                                <td colspan="2">
+                                                    2019-05-05T21:19:07.578Z
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    <time datetime="10:00:00">status</time>
+                                                </th>
+                                                <td class="schedule-offset" colspan="2">
+                                                    approved
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    <time>repaid</time>
+                                                </th>
+                                                <td>
+                                                    false
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    <time>tenor</time>
+                                                </th>
+                                                <td>
+                                                    3
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    <time>amount</time>
+                                                </th>
+                                                <td class="schedule-offset" colspan="2">
+                                                    10000
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    <time>paymentInstallment</time>
+                                                </th>
+                                                <td>
+                                                    3500
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    <time>balance</time>
+                                                </th>
+                                                <td>
+                                                    10500
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    <time>interest</time>
+                                                </th>
+                                                <td class="offset" colspan="2">
+                                                    500
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="repay-loan" class="paneluser">
+                                <div class="form-container loan">
+                                    <form>
+                                        <div class="input-container">
+                                            <i class="fas fa-wallet icon"></i>
+                                            <input type="number" class="input-field" placeholder="repaidAmount">
+                                        </div>
+                                        <button type="submit" class="btn-form">Pay</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
