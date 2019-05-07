@@ -252,3 +252,41 @@ describe('User Route', () => {
       });
   });
 });
+
+describe('Reset Password Route', () => {
+  it('should not reset password if user not found', (done) => {
+    request(app)
+      .post('/api/v1/auth/user/passwordreset')
+      .send({ email: 'not@gmail.com', password: 'newPassword', passwordConf: 'newPassword' })
+      .end((err, res) => {
+        const { body } = res;
+        expect(body.status).to.be.equal(404);
+        expect(body).to.have.property('error');
+        expect(body.error).to.be.equal('No account with that email address exists!');
+        done();
+      });
+  });
+  it('should not reset password if password are not match', (done) => {
+    request(app)
+      .post('/api/v1/auth/user/passwordreset')
+      .send({ email: 'kazmobileapp@gmail.com', password: 'newPassword', passwordConf: 'nwPassword' })
+      .end((err, res) => {
+        const { body } = res;
+        expect(body.status).to.be.equal(422);
+        expect(body).to.have.property('error');
+        done();
+      });
+  });
+  it('should reset password successfully', (done) => {
+    request(app)
+      .post('/api/v1/auth/user/passwordreset')
+      .send({ email: 'kazmobileapp@gmail.com', password: 'newPassword', passwordConf: 'newPassword' })
+      .end((err, res) => {
+        const { body } = res;
+        expect(body.status).to.be.equal(202);
+        expect(body).to.have.property('data');
+        expect(body.data[0]).to.haveOwnProperty('message');
+        done();
+      });
+  });
+});

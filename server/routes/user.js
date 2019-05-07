@@ -24,6 +24,7 @@ router.patch('/user/:id', isAuth.verifyToken, Helper.trimmer, userController.pat
 // delete user route
 router.delete('/user/:id', isAuth.verifyToken, userController.deleteUser);
 
+// password reset route
 router.post('/user/passwordreset', pwreset.mailer, pwreset.resetPassword);
 
 module.exports = router;

@@ -51,7 +51,7 @@ class passwordReset {
      * @param {*} req
      * @param {*} res
      */
-  static resetPassword(req, res) {
+  static resetPassword(req, res, next) {
     const { error } = validate.validatePassword(req.body);
     if (error) {
       return res.status(422).json({
@@ -74,16 +74,15 @@ class passwordReset {
 
       return res.status(202).json({
         status: 202,
-        data: [{
-          message: 'password reset successfully',
-          user,
-        }],
+        data: [
+          {
+            message: 'password reset successfully',
+            user,
+          },
+        ],
       });
     }
-    return res.status(400).json({
-      status: 400,
-      error: 'confirm password must match',
-    });
+    return next();
   }
 }
 
