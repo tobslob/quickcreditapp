@@ -53,7 +53,7 @@ class validate {
     const schema = Joi.object().keys({
       tenor: Joi.number().integer().min(1).max(12)
         .required(),
-      amount: Joi.number().required(),
+      amount: Joi.number().min(500).required(),
     });
     return Joi.validate(loan, schema);
   }
@@ -86,9 +86,30 @@ class validate {
    */
   static validateLoanRepayment(loan) {
     const schema = Joi.object().keys({
-      paidAmount: Joi.number().required(),
+      paidAmount: Joi.number().min(500).required(),
     });
     return Joi.validate(loan, schema);
+  }
+
+  /**
+   *
+   * @param {user} object
+   */
+  static validatePassword(passDetails) {
+    const schema = Joi.object().keys({
+      email: Joi.string().email().trim().required(),
+      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required(),
+      // password must be a valid string and is required
+      passwordConf: Joi.string().valid(Joi.ref('password')).trim()
+        .options({
+          language: {
+            any: {
+              allowOnly: 'must match password',
+            },
+          },
+        }),
+    });
+    return Joi.validate(passDetails, schema);
   }
 }
 
