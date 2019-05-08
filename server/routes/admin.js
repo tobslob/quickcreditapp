@@ -17,7 +17,7 @@ router.get('/loans', isAuth.verifyToken,
 router.get('/loans/:id', isAuth.verifyToken, adminController.oneLoan);
 
 // Admin can approve or reject a loan
-router.patch('/loans/:id', isAuth.verifyToken, Helper.trimmer, adminController.approveReject);
+router.patch('/loans/:id', isAuth.verifyToken, Helper.trimmer, Helper.mailer, adminController.approveReject);
 
 // Admin can create a loan repayment record
 router.post('/loans/:id/repayment', isAuth.verifyToken, adminController.loanRepayforClient);
