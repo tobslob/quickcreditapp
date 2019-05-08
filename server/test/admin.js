@@ -158,6 +158,18 @@ describe('Admin Route', () => {
       })
       .catch(error => done(error));
   });
+  it('should not approve or reject a loan  if not present', (done) => {
+    request(app)
+      .patch('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a067y9')
+      .set('token', adminToken)
+      .send({ status: 'reject' })
+      .then((res) => {
+        expect(res.status).to.be.equal(404);
+        expect(res.body).to.have.property('error');
+        done();
+      })
+      .catch(error => done(error));
+  });
   it('should not approve or reject a loan', (done) => {
     request(app)
       .patch('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06819')
