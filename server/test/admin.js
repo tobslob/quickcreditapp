@@ -113,6 +113,18 @@ describe('Admin Route', () => {
       })
       .catch(error => done(error));
   });
+  it('should not get a specific loan application if its a client', (done) => {
+    request(app)
+      .get('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06816')
+      .set('token', Token)
+      .then((res) => {
+        expect(res.status).to.be.equal(403);
+        expect(res.body).to.have.property('error');
+        expect(res.body.error).to.equal('Unauthorized!, Admin only route');
+        done();
+      })
+      .catch(error => done(error));
+  });
   it('should not get a specific loan application successfully', (done) => {
     request(app)
       .get('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a068r6')
@@ -135,6 +147,18 @@ describe('Admin Route', () => {
       })
       .catch(error => done(error));
   });
+  it('should not view current loans (not fully repaid). if its client', (done) => {
+    request(app)
+      .get('/api/v1/loans?status=approved&repaid=false')
+      .set('token', Token)
+      .then((res) => {
+        expect(res.status).to.be.equal(403);
+        expect(res.body).to.have.property('error');
+        expect(res.body.error).to.equal('Unauthorized!, Admin only route');
+        done();
+      })
+      .catch(error => done(error));
+  });
   it('should view all paid loans successfully', (done) => {
     request(app)
       .get('/api/v1/loans?status=approved&repaid=true')
@@ -146,14 +170,39 @@ describe('Admin Route', () => {
       })
       .catch(error => done(error));
   });
+  it('should not view all repaid. if its client', (done) => {
+    request(app)
+      .get('/api/v1/loans?status=approved&repaid=true')
+      .set('token', Token)
+      .then((res) => {
+        expect(res.status).to.be.equal(403);
+        expect(res.body).to.have.property('error');
+        expect(res.body.error).to.equal('Unauthorized!, Admin only route');
+        done();
+      })
+      .catch(error => done(error));
+  });
   it('should approve or reject a loan  successfully', (done) => {
     request(app)
-      .patch('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06819')
+      .patch('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06816')
       .set('token', adminToken)
       .send({ status: 'reject' })
       .then((res) => {
         expect(res.status).to.be.equal(200);
         expect(res.body).to.have.property('data');
+        done();
+      })
+      .catch(error => done(error));
+  });
+  it('should not approve or reject a loan  if its client', (done) => {
+    request(app)
+      .patch('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06819')
+      .set('token', Token)
+      .send({ status: 'reject' })
+      .then((res) => {
+        expect(res.status).to.be.equal(403);
+        expect(res.body).to.have.property('error');
+        expect(res.body.error).to.equal('Unauthorized!, Admin only route');
         done();
       })
       .catch(error => done(error));
@@ -170,7 +219,7 @@ describe('Admin Route', () => {
       })
       .catch(error => done(error));
   });
-  it('should not approve or reject a loan', (done) => {
+  it('should not approve or reject a loan with wrong input', (done) => {
     request(app)
       .patch('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06819')
       .set('token', adminToken)
@@ -193,6 +242,30 @@ describe('Admin Route', () => {
         done();
       })
       .catch(error => done(error));
+  });
+  it('should not post loan repayment for a client', (done) => {
+    request(app)
+      .post('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06819/repayment')
+      .set('token', adminToken)
+      .send({ })
+      .then((res) => {
+        expect(res.status).to.be.equal(422);
+        expect(res.body).to.have.property('error');
+        done();
+      })
+      .catch(error => done(error));
+  });
+  it('should not post loan repayment for a client', (done) => {
+    request(app)
+      .post('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06819/repayment')
+      .set('token', adminToken)
+      .send({ paidAmount: 500000 })
+      .then((res) => {
+        expect(res.status).to.be.equal(400);
+        expect(res.body).to.have.property('error');
+        expect(res.body.error).to.be.equal('you can not pay more than your debt!');
+        done();
+      });
   });
   it('should not post loan repayment for a client', (done) => {
     request(app)

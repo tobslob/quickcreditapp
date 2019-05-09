@@ -2,7 +2,7 @@ import express from 'express';
 import userController from '../controllers/user';
 import Helper from '../helper/helper';
 import isAuth from '../middleware/is-Auth';
-import pwreset from '../controllers/resetpassword';
+import pw from '../controllers/resetpassword';
 
 const router = express.Router();
 
@@ -25,6 +25,9 @@ router.patch('/user/:id', isAuth.verifyToken, Helper.trimmer, userController.pat
 router.delete('/user/:id', isAuth.verifyToken, userController.deleteUser);
 
 // password reset route
-router.post('/user/passwordreset', pwreset.mailer, pwreset.resetPassword);
+router.post('/user/sendmail', pw.mailer);
+
+// password reset route
+router.post('/user/passwordreset', isAuth.verifyToken, pw.resetPassword);
 
 module.exports = router;

@@ -100,12 +100,6 @@ class userController {
         });
     }
     const users = models.User;
-    if (!users) {
-      return res.status(422).json({
-        status: 422,
-        message: 'an error occur!',
-      });
-    }
     return res.status(200).json({
       status: 200,
       data: users,
@@ -155,7 +149,7 @@ class userController {
     if (!user) {
       return res.status(404).json({
         status: 404,
-        message: 'user not found',
+        error: 'user not found',
       });
     }
     const { error } = validate.patchUser(req.body);

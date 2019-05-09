@@ -166,6 +166,20 @@ describe('User Route', () => {
         done();
       });
   });
+  it('should not get all users if its a client', (done) => {
+    request(app)
+      .get('/api/v1/auth/user')
+      .set('token', Token)
+      .end((err, res) => {
+        const { body } = res;
+        expect(body).to.be.an('object');
+        expect(body.status).to.be.a('number');
+        expect(body.status).to.be.equals(403);
+        expect(body).to.haveOwnProperty('error');
+        expect(body.error).to.be.equal('Unauthorized!, Admin only route');
+        done();
+      });
+  });
   it('should get a user successfully', (done) => {
     request(app)
       .get(`/api/v1/auth/user/${userid}`)
@@ -176,6 +190,20 @@ describe('User Route', () => {
         expect(body.status).to.be.a('number');
         expect(body.status).to.be.equals(200);
         expect(body).to.haveOwnProperty('data');
+        done();
+      });
+  });
+  it('should not get a user if its a client', (done) => {
+    request(app)
+      .get(`/api/v1/auth/user/${userid}`)
+      .set('token', Token)
+      .end((err, res) => {
+        const { body } = res;
+        expect(body).to.be.an('object');
+        expect(body.status).to.be.a('number');
+        expect(body.status).to.be.equals(403);
+        expect(body).to.haveOwnProperty('error');
+        expect(body.error).to.be.equal('Unauthorized!, Admin only route');
         done();
       });
   });
@@ -227,6 +255,18 @@ describe('User Route', () => {
         done();
       });
   });
+  it('should not delete a user if its client', (done) => {
+    request(app)
+      .delete(`/api/v1/auth/user/${userid}`)
+      .set('token', Token)
+      .end((err, res) => {
+        const { body } = res;
+        expect(body.status).to.be.equal(403);
+        expect(body).to.have.property('error');
+        expect(body.error).to.be.equal('Unauthorized!, Admin only route');
+        done();
+      });
+  });
   it('should delete a user successfully', (done) => {
     request(app)
       .delete(`/api/v1/auth/user/${userid}`)
@@ -251,13 +291,30 @@ describe('User Route', () => {
         done();
       });
   });
+  it('should not patch a user if not found', (done) => {
+    request(app)
+      .patch(`/api/v1/auth/user/${userid}`)
+      .set('token', adminToken)
+      .send({
+        firstName: 'testername',
+        lastName: 'testing',
+        address: '27, tunji Olaiya street',
+      })
+      .end((err, res) => {
+        const { body } = res;
+        expect(res.status).to.be.equal(404);
+        expect(body.status).to.be.equal(404);
+        expect(body).to.have.property('error');
+        done();
+      });
+  });
 });
 
 describe('Reset Password Route', () => {
-  it('should not reset password if user not found', (done) => {
+  it('should not send mail for password reset if user not found', (done) => {
     request(app)
-      .post('/api/v1/auth/user/passwordreset')
-      .send({ email: 'not@gmail.com', password: 'newPassword', passwordConf: 'newPassword' })
+      .post('/api/v1/auth/user/sendmail')
+      .send({ email: 'not@gmail.com' })
       .end((err, res) => {
         const { body } = res;
         expect(body.status).to.be.equal(404);
@@ -266,10 +323,10 @@ describe('Reset Password Route', () => {
         done();
       });
   });
-  it('should not reset password if password are not match', (done) => {
+  it('should not send mail for password reset input is empty', (done) => {
     request(app)
-      .post('/api/v1/auth/user/passwordreset')
-      .send({ email: 'kazmobileapp@gmail.com', password: 'newPassword', passwordConf: 'nwPassword' })
+      .post('/api/v1/auth/user/sendmail')
+      .send({ email: '' })
       .end((err, res) => {
         const { body } = res;
         expect(body.status).to.be.equal(422);
@@ -277,10 +334,34 @@ describe('Reset Password Route', () => {
         done();
       });
   });
+  it('should send mail for password reset successfully', (done) => {
+    request(app)
+      .post('/api/v1/auth/user/sendmail')
+      .send({ email: 'kaztech2016@gmail.com' })
+      .end((err, res) => {
+        const { body } = res;
+        expect(body.status).to.be.equal(200);
+        done();
+      });
+  });
+  it('should not reset password if password are not match', (done) => {
+    request(app)
+      .post('/api/v1/auth/user/passwordreset')
+      .set('token', adminToken)
+      .send({ password: 'newPassword', passwordConf: 'nwPasswor' })
+      .end((err, res) => {
+        const { body } = res;
+        expect(body.status).to.be.equal(400);
+        expect(body).to.have.property('error');
+        expect(body.error).to.be.equal('Passwords must match');
+        done();
+      });
+  });
   it('should reset password successfully', (done) => {
     request(app)
       .post('/api/v1/auth/user/passwordreset')
-      .send({ email: 'kazmobileapp@gmail.com', password: 'newPassword', passwordConf: 'newPassword' })
+      .set('token', adminToken)
+      .send({ password: 'newPassword', passwordConf: 'newPassword' })
       .end((err, res) => {
         const { body } = res;
         expect(body.status).to.be.equal(202);

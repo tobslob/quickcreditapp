@@ -24,6 +24,27 @@ class Auth {
   }
 
   /**
+   * Generate token based on payload.
+   *
+   * @param {*} id
+   * @param {*} email
+   * @param {*} isAdmin
+   */
+  static generatepwToken(id, email, password) {
+    const token = jwt.sign({
+      id,
+      email,
+      password,
+    },
+    process.env.SECRET_KEY,
+    {
+      expiresIn: '10 minutes',
+    });
+
+    return token;
+  }
+
+  /**
    * Verifies user provided token
    *
    * @param {*} req
