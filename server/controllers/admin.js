@@ -60,12 +60,6 @@ class adminController {
 
     const loans = models.Loans;
     const rowCount = loans.length;
-    if (!loans) {
-      return res.status(500).json({
-        status: 500,
-        message: 'internal server error',
-      });
-    }
     return res.status(200).json({
       status: 200,
       data: loans,

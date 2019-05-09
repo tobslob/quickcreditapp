@@ -91,23 +91,28 @@ class validate {
     return Joi.validate(loan, schema);
   }
 
+
+  /**
+   *
+   * @param {email} object
+   */
+  static validateMailer(email) {
+    const schema = Joi.object().keys({
+      email: Joi.string().email().trim().required(),
+    });
+    return Joi.validate(email, schema);
+  }
+
+
   /**
    *
    * @param {user} object
    */
   static validatePassword(passDetails) {
     const schema = Joi.object().keys({
-      email: Joi.string().email().trim().required(),
       password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required(),
       // password must be a valid string and is required
-      passwordConf: Joi.string().valid(Joi.ref('password')).trim()
-        .options({
-          language: {
-            any: {
-              allowOnly: 'must match password',
-            },
-          },
-        }),
+      passwordConf: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required(),
     });
     return Joi.validate(passDetails, schema);
   }
