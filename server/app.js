@@ -3,9 +3,11 @@ import morgan from 'morgan';
 import express from 'express';
 import bodyparser from 'body-parser';
 import path from 'path';
+import swaggerUI from 'swagger-ui-express';
 import users from './routes/user';
 import loans from './routes/loan';
 import admin from './routes/admin';
+import docs from '../swagger.json';
 
 const app = express();
 
@@ -30,6 +32,9 @@ app.get('/', (req, res) => {
     },
   );
 });
+
+// Render quick credit documentation
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(docs));
 
 // Handle non exist route with with proper message
 app.all('*', (req, res) => {
