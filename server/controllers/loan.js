@@ -73,9 +73,16 @@ class Money {
         error: 'loan not found',
       });
     }
-    return res.status(200).json({
-      status: 200,
-      data: loan,
+    // user can only get their posted loan
+    if (req.user.email === loan.user) {
+      return res.status(200).json({
+        status: 200,
+        data: loan,
+      });
+    }
+    return res.status(400).json({
+      status: 400,
+      error: 'hmmm...you do not have access',
     });
   }
 }

@@ -110,4 +110,16 @@ describe('Loan Route', () => {
         done();
       });
   });
+  it('should not retrieve a loan repayment history if not posted by user', (done) => {
+    request(app)
+      .get('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06816/repayment')
+      .set('token', token1)
+      .end((err, res) => {
+        const { body } = res;
+        expect(body.status).to.be.equal(400);
+        expect(body).to.have.property('error');
+        expect(body.error).to.be.equal('hmmm...you do not have access');
+        done();
+      });
+  });
 });
