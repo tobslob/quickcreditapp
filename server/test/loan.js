@@ -88,7 +88,7 @@ describe('Loan Route', () => {
   });
   it('should retrieve a loan repayment history successfully', (done) => {
     request(app)
-      .get('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06819/repayment')
+      .get('/api/v1/loans/3/repayment')
       .set('token', token1)
       .end((err, res) => {
         const { body } = res;
@@ -100,7 +100,7 @@ describe('Loan Route', () => {
   });
   it('should not retrieve a loan repayment history', (done) => {
     request(app)
-      .get('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a0683/repayment')
+      .get('/api/v1/loans/10/repayment')
       .set('token', token1)
       .end((err, res) => {
         const { body } = res;
@@ -112,7 +112,7 @@ describe('Loan Route', () => {
   });
   it('should not retrieve a loan repayment history if not posted by user', (done) => {
     request(app)
-      .get('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06816/repayment')
+      .get('/api/v1/loans/1/repayment')
       .set('token', token1)
       .end((err, res) => {
         const { body } = res;

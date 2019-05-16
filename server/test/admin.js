@@ -53,6 +53,17 @@ describe('Admin Route', () => {
       })
       .catch(error => done(error));
   });
+  it('should not verified a user if no admin token', (done) => {
+    request(app)
+      .patch('/api/v1/users/kazmobileapp@gmail.com/verify')
+      .send({ status: 'verified' })
+      .then((res) => {
+        expect(res.status).to.be.equal(403);
+        expect(res.body).to.have.property('error');
+        done();
+      })
+      .catch(error => done(error));
+  });
   it('should not verified a user if not present in database', (done) => {
     request(app)
       .patch('/api/v1/users/kazmobileap@gmail.com/verify')
@@ -104,7 +115,7 @@ describe('Admin Route', () => {
   });
   it('should get a specific loan application successfully', (done) => {
     request(app)
-      .get('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06816')
+      .get('/api/v1/loans/2')
       .set('token', adminToken)
       .then((res) => {
         expect(res.status).to.be.equal(200);
@@ -115,7 +126,7 @@ describe('Admin Route', () => {
   });
   it('should not get a specific loan application if its a client', (done) => {
     request(app)
-      .get('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06816')
+      .get('/api/v1/loans/2')
       .set('token', Token)
       .then((res) => {
         expect(res.status).to.be.equal(403);
@@ -127,11 +138,12 @@ describe('Admin Route', () => {
   });
   it('should not get a specific loan application successfully', (done) => {
     request(app)
-      .get('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a068r6')
+      .get('/api/v1/loans/9')
       .set('token', adminToken)
       .then((res) => {
         expect(res.status).to.be.equal(404);
-        expect(res.body).to.have.property('message');
+        expect(res.body).to.have.property('error');
+        expect(res.body.error).to.equal('Not Found');
         done();
       })
       .catch(error => done(error));
@@ -182,9 +194,21 @@ describe('Admin Route', () => {
       })
       .catch(error => done(error));
   });
-  it('should approve or reject a loan  successfully', (done) => {
+  it('should not view current loans (not fully repaid). successfully', (done) => {
     request(app)
-      .patch('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06816')
+      .get('/api/v1/loans?status=approv&repaid=false')
+      .set('token', adminToken)
+      .then((res) => {
+        expect(res.status).to.be.equal(404);
+        expect(res.body).to.have.property('error');
+        expect(res.body.error).to.be.equal('Not Found');
+        done();
+      })
+      .catch(error => done(error));
+  });
+  it('should approve or reject a loan successfully', (done) => {
+    request(app)
+      .patch('/api/v1/loans/2')
       .set('token', adminToken)
       .send({ status: 'reject' })
       .then((res) => {
@@ -196,7 +220,7 @@ describe('Admin Route', () => {
   });
   it('should not approve or reject a loan  if its client', (done) => {
     request(app)
-      .patch('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06819')
+      .patch('/api/v1/loans/1')
       .set('token', Token)
       .send({ status: 'reject' })
       .then((res) => {
@@ -209,7 +233,7 @@ describe('Admin Route', () => {
   });
   it('should not approve or reject a loan  if not present', (done) => {
     request(app)
-      .patch('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a067y9')
+      .patch('/api/v1/loans/10')
       .set('token', adminToken)
       .send({ status: 'reject' })
       .then((res) => {
@@ -221,7 +245,7 @@ describe('Admin Route', () => {
   });
   it('should not approve or reject a loan with wrong input', (done) => {
     request(app)
-      .patch('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06819')
+      .patch('/api/v1/loans/2')
       .set('token', adminToken)
       .send({ status: 'rejected' })
       .then((res) => {
@@ -233,7 +257,7 @@ describe('Admin Route', () => {
   });
   it('should successfully post loan repayment for a client', (done) => {
     request(app)
-      .post('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06819/repayment')
+      .post('/api/v1/loans/1/repayment')
       .set('token', adminToken)
       .send({ paidAmount: 3000 })
       .then((res) => {
@@ -245,7 +269,7 @@ describe('Admin Route', () => {
   });
   it('should not post loan repayment for a client', (done) => {
     request(app)
-      .post('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06819/repayment')
+      .post('/api/v1/loans/4/repayment')
       .set('token', adminToken)
       .send({ })
       .then((res) => {
@@ -257,7 +281,7 @@ describe('Admin Route', () => {
   });
   it('should not post loan repayment for a client', (done) => {
     request(app)
-      .post('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a06819/repayment')
+      .post('/api/v1/loans/2/repayment')
       .set('token', adminToken)
       .send({ paidAmount: 500000 })
       .then((res) => {
@@ -269,7 +293,7 @@ describe('Admin Route', () => {
   });
   it('should not post loan repayment for a client', (done) => {
     request(app)
-      .post('/api/v1/loans/3e66de26-5bbb-430b-9458-f35fc2a16819/repayment')
+      .post('/api/v1/loans/4/repayment')
       .set('token', adminToken)
       .send({ paidAmount: 3000 })
       .then((res) => {
