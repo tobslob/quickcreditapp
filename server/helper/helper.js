@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
@@ -53,7 +54,7 @@ const Helper = {
  * @param {*} res
  */
   mailer(req, res, next) {
-    const loan = db.Loans.find(aLoan => aLoan.id === req.params.id);
+    const loan = db.Loans.find(aLoan => aLoan.id === parseInt(req.params.id));
     if (!loan) {
       return res.status(404).json({
         status: 404,
