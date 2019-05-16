@@ -88,6 +88,7 @@ describe('User Route', () => {
         expect(body.status).to.be.a('number');
         expect(body.status).to.be.equals(200);
         expect(body).to.have.property('token');
+        expect(body.data).to.be.an('object');
         expect(body.token).to.be.a('string');
         done();
       });

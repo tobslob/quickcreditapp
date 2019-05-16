@@ -1,7 +1,7 @@
 const models = {
   User: [
     {
-      id: 1,
+      id: '900d6eea-d900-4e9d-9bd9-029a838eg60d',
       email: 'kazmobileapp@gmail.com',
       firstName: 'Kazeem',
       lastName: 'Odutola',
@@ -14,7 +14,7 @@ const models = {
     },
 
     {
-      id: 2,
+      id: '900d6eea-d900-5e9d-9bd9-029a838eg00d',
       email: 'tobi4real2050@gmail.com',
       firstName: 'Kazeem',
       lastName: 'Odutola',
@@ -27,7 +27,7 @@ const models = {
     },
 
     {
-      id: 3,
+      id: '900d6eea-d900-4e9d-9bd9-029a838eg60d',
       email: 'kazmobileapp@gmail.com',
       firstName: 'Kazeem',
       lastName: 'Odutola',
@@ -40,7 +40,7 @@ const models = {
     },
 
     {
-      id: 4,
+      id: '900d6eea-d900-4e9d-9bd9-029a838ef67d',
       email: 'kaztech2016@gmail.com',
       firstName: 'Kazeem',
       lastName: 'Odutola',
@@ -53,7 +53,7 @@ const models = {
     },
 
     {
-      id: 5,
+      id: '75330843-41b8-406c-b48f-1fc54a711d04',
       email: 'newuser@gmail.com',
       firstName: 'Kazeem',
       lastName: 'Odutola',
@@ -65,7 +65,7 @@ const models = {
     },
 
     {
-      id: 6,
+      id: '900d6eea-d900-4e9d-9bd9-029a838ef64n',
       email: 'admin@quickcreditapp.herokuapp.com',
       firstName: 'Kazeem',
       lastName: 'Odutola',
@@ -81,8 +81,8 @@ const models = {
 
   Loans: [
     {
-      id: 1,
-      user: 'kazmobileap@gmail.com',
+      id: '3e66de26-5bbb-430b-9458-f35fc2a06816',
+      user: 'kazmobileapp@gmail.com',
       createdOn: Date(),
       status: 'approved',
       repaid: true,
@@ -95,7 +95,7 @@ const models = {
     },
 
     {
-      id: 2,
+      id: '3e66de26-5bbb-430b-9458-f35fc2a06816',
       user: 'kazmobileapp@gmail.com',
       createdOn: Date(),
       status: 'approved',
@@ -109,7 +109,7 @@ const models = {
     },
 
     {
-      id: 3,
+      id: '3e66de26-5bbb-430b-9458-f35fc2a06819',
       user: 'admin@quickcreditapp.herokuapp.com',
       createdOn: Date(),
       status: 'approved',
@@ -125,7 +125,7 @@ const models = {
 
   loanRepayment: [
     {
-      id: 1,
+      id: 'b7280966-4290-45a1-b75a-7b6d2fcdb77f',
       loanId: 'Integer',
       createdOn: Date(),
       amount: 4000, // loan amount
