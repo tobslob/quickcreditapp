@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-class validate {
+class Validation {
   /**
    *
    * @param {user} object
@@ -13,8 +13,10 @@ class validate {
         .error(() => 'first name is required without a number'),
       lastName: Joi.string().regex(/^[A-Z]+$/).trim().uppercase()
         .error(() => 'last name is required without a number'),
-      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required(),
-      address: Joi.string().trim().required(),
+      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required()
+        .error(() => 'you must provide password'),
+      address: Joi.string().trim().required()
+        .error(() => 'Address can not be empty'),
     });
     return Joi.validate(user, schema);
   }
@@ -25,8 +27,10 @@ class validate {
      */
   static validateLogin(details) {
     const schema = Joi.object().keys({
-      email: Joi.string().email().trim().required(),
-      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required(),
+      email: Joi.string().email().trim().required()
+        .error(() => 'please provide a valid mail'),
+      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required()
+        .error(() => 'password is required'),
     });
     return Joi.validate(details, schema);
   }
@@ -37,9 +41,12 @@ class validate {
    */
   static patchUser(user) {
     const schema = Joi.object().keys({
-      firstName: Joi.string().trim().required(),
-      lastName: Joi.string().trim(),
-      address: Joi.string().required(),
+      firstName: Joi.string().trim().required()
+        .error(() => 'first name can not be empty'),
+      lastName: Joi.string().trim()
+        .error(() => 'flast name can not be empty'),
+      address: Joi.string().required()
+        .error(() => 'please provide a valid address'),
     });
     return Joi.validate(user, schema);
   }
@@ -52,8 +59,10 @@ class validate {
   static validateLoan(loan) {
     const schema = Joi.object().keys({
       tenor: Joi.number().integer().min(1).max(12)
-        .required(),
-      amount: Joi.number().min(500).required(),
+        .required()
+        .error(() => 'tenor must be in between 1 and 12'),
+      amount: Joi.number().min(500).required()
+        .error(() => 'amount can not be lesser than 500'),
     });
     return Joi.validate(loan, schema);
   }
@@ -64,7 +73,8 @@ class validate {
    */
   static validateVerify(user) {
     const schema = Joi.object().keys({
-      status: Joi.string().insensitive().valid('unverified', 'verified').required(),
+      status: Joi.string().insensitive().valid('unverified', 'verified').required()
+        .error(() => 'input the right word'),
     });
     return Joi.validate(user, schema);
   }
@@ -75,7 +85,8 @@ class validate {
    */
   static loanApproveValidate(user) {
     const schema = Joi.object().keys({
-      status: Joi.string().insensitive().valid('approved', 'reject').required(),
+      status: Joi.string().insensitive().valid('approved', 'reject').required()
+        .error(() => 'input the right word'),
     });
     return Joi.validate(user, schema);
   }
@@ -86,7 +97,8 @@ class validate {
    */
   static validateLoanRepayment(loan) {
     const schema = Joi.object().keys({
-      paidAmount: Joi.number().min(500).required(),
+      paidAmount: Joi.number().min(500).required()
+        .error(() => 'amount can not be lesser than 500'),
     });
     return Joi.validate(loan, schema);
   }
@@ -98,7 +110,8 @@ class validate {
    */
   static validateMailer(email) {
     const schema = Joi.object().keys({
-      email: Joi.string().email().trim().required(),
+      email: Joi.string().email().trim().required()
+        .error(() => 'invalid email'),
     });
     return Joi.validate(email, schema);
   }
@@ -110,12 +123,14 @@ class validate {
    */
   static validatePassword(passDetails) {
     const schema = Joi.object().keys({
-      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required(),
+      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required()
+        .error(() => 'incorrect password'),
       // password must be a valid string and is required
-      passwordConf: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required(),
+      passwordConf: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required()
+        .error(() => 'incorrect password'),
     });
     return Joi.validate(passDetails, schema);
   }
 }
 
-export default validate;
+export default Validation;

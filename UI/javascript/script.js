@@ -41,5 +41,57 @@ function adminToggle() {
   }
 }
 
+function popVerify() {
+  const views = document.querySelectorAll('.trigger_popup');
+  const popup = document.querySelector('.hover_popup');
+  const CloseButton = document.querySelector('.popupCloseButton');
+  views.forEach((view) => {
+    view.addEventListener('click', (e) => {
+      e.preventDefault();
+      popup.classList.add('active');
+    });
+  });
+
+  CloseButton.addEventListener('click', () => {
+    popup.classList.remove('active');
+  });
+}
+
+function popLoan() {
+  const views = document.querySelectorAll('.trigger_popup_loan');
+  const popup = document.querySelector('.loan_hover_popup');
+  const CloseButton = document.querySelector('.loan_popupCloseButton');
+  views.forEach((view) => {
+    view.addEventListener('click', (e) => {
+      e.preventDefault();
+      popup.classList.add('active');
+    });
+  });
+
+  CloseButton.addEventListener('click', () => {
+    popup.classList.remove('active');
+  });
+}
+
+function popLoanApprove() {
+  const views = document.querySelectorAll('.trigger_popup_approveloan');
+  const popup = document.querySelector('.loanapprove_hover_popup');
+  const CloseButton = document.querySelector('.loanapprove_popupCloseButton');
+  views.forEach((view) => {
+    view.addEventListener('click', (e) => {
+      e.preventDefault();
+      popup.classList.add('active');
+    });
+  });
+
+  CloseButton.addEventListener('click', () => {
+    popup.classList.remove('active');
+  });
+}
+
+
 userToggle();
 adminToggle();
+popVerify();
+popLoan();
+popLoanApprove();

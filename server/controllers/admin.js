@@ -1,10 +1,10 @@
+/* eslint-disable radix */
 import moment from 'moment';
-import uuidv4 from 'uuid/v4';
 import models from '../model/db';
 import validate from '../helper/validation';
 
 
-class adminController {
+class Admin {
   /**
      *
      * @param {req} object
@@ -28,19 +28,27 @@ class adminController {
       });
     }
     const requestEmail = req.params.email;
-    const user = models.User.find(oneUser => oneUser.email === requestEmail);
-    if (!user) {
-      return res.status(404).json({
-        status: 404,
-        error: 'user not exist',
+
+    try {
+      const user = models.User.find(oneUser => oneUser.email === requestEmail);
+      if (!user) {
+        return res.status(404).json({
+          status: 404,
+          error: 'user not exist',
+        });
+      }
+      user.status = req.body.status;
+      user.modifiedOn = (moment(new Date()));
+      return res.status(202).json({
+        status: 202,
+        data: user,
+      });
+    } catch (err) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Something went wrong',
       });
     }
-    user.status = req.body.status;
-    user.modifiedOn = (moment(new Date()));
-    return res.status(202).json({
-      status: 202,
-      data: user,
-    });
   }
 
   /**
@@ -59,12 +67,19 @@ class adminController {
     }
 
     const loans = models.Loans;
-    const rowCount = loans.length;
-    return res.status(200).json({
-      status: 200,
-      data: loans,
-      rowCount,
-    });
+    try {
+      const rowCount = loans.length;
+      return res.status(200).json({
+        status: 200,
+        data: loans,
+        rowCount,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: 400,
+        error: 'something went wrong',
+      });
+    }
   }
 
 
@@ -84,17 +99,25 @@ class adminController {
     }
 
     const loans = models.Loans;
-    const loan = loans.find(aLoan => aLoan.id === req.params.id);
-    if (!loan) {
-      return res.status(404).json({
-        status: 404,
-        message: 'Not Found',
+
+    try {
+      const loan = loans.find(aLoan => aLoan.id === parseInt(req.params.id));
+      if (!loan) {
+        return res.status(404).json({
+          status: 404,
+          error: 'Not Found',
+        });
+      }
+      return res.status(200).json({
+        status: 200,
+        data: loan,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: 400,
+        error: 'something went wrong',
       });
     }
-    return res.status(200).json({
-      status: 200,
-      data: loan,
-    });
   }
 
   /**
@@ -114,27 +137,34 @@ class adminController {
     const { status, repaid } = req.query;
     let paymentFilter;
     const loans = models.Loans;
-    if (status && repaid) {
-      const boolRepaid = JSON.parse(repaid);
-      paymentFilter = loans.filter(loan => loan.status === status.toLowerCase()
-        && loan.repaid === boolRepaid);
-      if (paymentFilter.length === 0) {
-        return res.status(404).json({
-          status: 404,
-          message: 'Not Found',
+    try {
+      if (status && repaid) {
+        const boolRepaid = JSON.parse(repaid);
+        paymentFilter = loans.filter(loan => loan.status === status.toLowerCase()
+          && loan.repaid === boolRepaid);
+        if (paymentFilter.length === 0) {
+          return res.status(404).json({
+            status: 404,
+            error: 'Not Found',
+          });
+        }
+        return res.status(200).json({
+          status: 200,
+          data: paymentFilter,
         });
       }
-      return res.status(200).json({
-        status: 200,
-        data: paymentFilter,
+      return next();
+    } catch (error) {
+      return res.status(400).json({
+        status: 400,
+        error: 'something went wrong',
       });
     }
-    return next();
   }
 
   /**
  *@param {req} object
- *@param {res} object c
+ *@param {res} object
  */
   static approveReject(req, res) {
     // check for admin user
@@ -147,26 +177,34 @@ class adminController {
         });
     }
     const loans = models.Loans;
-    const loan = loans.find(aLoan => aLoan.id === req.params.id);
-    if (loan.length === 0) {
-      return res.status(404).json({
-        status: 404,
-        error: 'Not Found',
+    const requestId = parseInt(req.params.id);
+    try {
+      const loan = loans.find(aLoan => aLoan.id === requestId);
+      if (loan.length === 0) {
+        return res.status(404).json({
+          status: 404,
+          error: 'Not Found',
+        });
+      }
+      const { error } = validate.loanApproveValidate(req.body);
+      if (error) {
+        return res.status(422).json({
+          status: 422,
+          error: error.details[0].message,
+        });
+      }
+      loan.status = req.body.status;
+      loan.modifiedOn = moment(new Date());
+      return res.status(200).json({
+        status: 200,
+        data: loan,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: 400,
+        error: 'something went wromg',
       });
     }
-    const { error } = validate.loanApproveValidate(req.body);
-    if (error) {
-      return res.status(422).json({
-        status: 422,
-        error: error.details[0].message,
-      });
-    }
-    loan.status = req.body.status;
-    loan.modifiedOn = moment(new Date());
-    return res.status(200).json({
-      status: 200,
-      data: loan,
-    });
   }
 
   /**
@@ -181,44 +219,51 @@ class adminController {
         error: error.details[0].message,
       });
     }
-    const paidAmount = parseFloat(req.body.paidAmount);
-    // find a loan in Loans data
-    const loan = models.Loans.find(aloan => aloan.id === req.params.id);
-    if (!loan) {
-      return res.status(404).json({
-        status: 404,
-        message: 'No such loan found',
-      });
-    }
+    try {
+      const paidAmount = parseFloat(req.body.paidAmount);
+      // find a loan in Loans data
+      const loan = models.Loans.find(aloan => aloan.id === parseInt(req.params.id));
+      if (!loan) {
+        return res.status(404).json({
+          status: 404,
+          message: 'No such loan found',
+        });
+      }
 
-    if (paidAmount > loan.balance) {
+      if (paidAmount > loan.balance) {
+        return res.status(400).json({
+          status: 400,
+          error: 'you can not pay more than your debt!',
+        });
+      }
+
+      const balance = loan.balance - paidAmount;
+      const paid = {
+        id: models.loanRepayment.length + 1,
+        loanId: req.params.id,
+        createdOn: moment(new Date()),
+        amount: loan.amount, // loan amount
+        monthlyInstallment: loan.paymentInstallment, // what the user is expected to pay
+        paidAmount,
+        balance,
+      };
+      // update balance in loan
+      loan.balance = balance;
+      if (loan.balance <= 0) {
+        loan.repaid = true;
+      }
+      models.loanRepayment.push(paid);
+      return res.status(200).json({
+        status: 200,
+        data: paid,
+      });
+    } catch (err) {
       return res.status(400).json({
         status: 400,
-        error: 'you can not pay more than your debt!',
+        error: 'something went wrong',
       });
     }
-
-    const balance = loan.balance - paidAmount;
-    const paid = {
-      id: uuidv4(),
-      loanId: req.params.id,
-      createdOn: moment(new Date()),
-      amount: loan.amount, // loan amount
-      monthlyInstallment: loan.paymentInstallment, // what the user is expected to pay
-      paidAmount,
-      balance,
-    };
-    // update balance in loan
-    loan.balance = balance;
-    if (loan.balance <= 0) {
-      loan.repaid = true;
-    }
-    models.loanRepayment.push(paid);
-    return res.status(200).json({
-      status: 200,
-      data: paid,
-    });
   }
 }
 
-export default adminController;
+export default Admin;

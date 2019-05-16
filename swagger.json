@@ -23,7 +23,7 @@
         "description": "Create a user",
         "summary": "https://quickcreditapp.herokuapp.com/api/v1/auth/signup",
         "tags": [
-          "Misc"
+          "User Routes"
         ],
         "operationId": "AuthSignupPost",
         "deprecated": false,
@@ -90,7 +90,7 @@
         "description": "User can signin",
         "summary": "https://quickcreditapp.herokuapp.com/api/v1/auth/signin",
         "tags": [
-          "Misc"
+          "User Routes"
         ],
         "operationId": "AuthSigninPost",
         "deprecated": false,
@@ -103,6 +103,13 @@
         "parameters": [
           {
             "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "token",
             "in": "header",
             "required": true,
             "type": "string",
@@ -131,12 +138,230 @@
         }
       }
     },
+    "/auth/user/2": {
+      "patch": {
+        "description": "Patch a user",
+        "summary": "https://quickcreditapp.herokuapp.com/api/v1/auth/user/2",
+        "tags": [
+          "User Routes"
+        ],
+        "operationId": "AuthUser2Patch",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "firstName",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "lastName",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "address",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "description": "Get a specific user",
+        "summary": "https://quickcreditapp.herokuapp.com/api/v1/auth/user/2",
+        "tags": [
+          "Admin Route"
+        ],
+        "operationId": "AuthUser2Get",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/auth/user/sendmail": {
+      "post": {
+        "description": "Password reset authorization",
+        "summary": "https://quickcreditapp.herokuapp.com/api/v1/auth/user/sendmail",
+        "tags": [
+          "User Routes"
+        ],
+        "operationId": "AuthUserSendmailPost",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/auth/user/passwordreset": {
+      "post": {
+        "description": "Password Reset API",
+        "summary": "https://quickcreditapp.herokuapp.com/api/v1/auth/user/passwordreset",
+        "tags": [
+          "User Routes"
+        ],
+        "operationId": "AuthUserPasswordresetPost",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "passwordConf",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/loans/2/repayment": {
+      "post": {
+        "description": "Create a loan repayment record",
+        "summary": "https://quickcreditapp.herokuapp.com/api/v1/loans/2/repayment",
+        "tags": [
+          "Admin Route"
+        ],
+        "operationId": "Loans2RepaymentPost",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "paidAmount",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
     "/auth/user": {
       "get": {
         "description": "Get all User",
         "summary": "https://quickcreditapp.herokuapp.com/api/v1/auth/user",
         "tags": [
-          "Misc"
+          "Admin Route"
         ],
         "operationId": "AuthUserGet",
         "deprecated": false,
@@ -152,33 +377,14 @@
         }
       }
     },
-    "/auth/user/ca3f29a6-92a1-494b-a9ba-662210e3c382": {
-      "get": {
-        "description": "Get a specific user",
-        "summary": "https://quickcreditapp.herokuapp.com/api/v1/auth/user/ca3f29a6-92a1-494b-a9ba-662210e3c382",
-        "tags": [
-          "Misc"
-        ],
-        "operationId": "AuthUserCa3f29a692a1494bA9ba662210e3c382Get",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      },
+    "/loans/3": {
       "patch": {
-        "description": "Patch a user",
-        "summary": "https://quickcreditapp.herokuapp.com/api/v1/auth/user/ca3f29a6-92a1-494b-a9ba-662210e3c382",
+        "description": "Approve or reject a loan application",
+        "summary": "https://quickcreditapp.herokuapp.com/api/v1/loans/3",
         "tags": [
-          "Misc"
+          "Admin Route"
         ],
-        "operationId": "AuthUserCa3f29a692a1494bA9ba662210e3c382Patch",
+        "operationId": "Loans3Patch",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -195,28 +401,14 @@
             "description": ""
           },
           {
-            "name": "firstName",
-            "in": "formData",
+            "name": "token",
+            "in": "header",
             "required": true,
             "type": "string",
             "description": ""
           },
           {
-            "name": "lastName",
-            "in": "formData",
-            "required": true,
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "password",
-            "in": "formData",
-            "required": true,
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "address",
+            "name": "status",
             "in": "formData",
             "required": true,
             "type": "string",
@@ -230,13 +422,42 @@
           }
         }
       },
-      "delete": {
-        "description": "Delete a user",
-        "summary": "https://quickcreditapp.herokuapp.com/api/v1/auth/user/ca3f29a6-92a1-494b-a9ba-662210e3c382",
+      "get": {
+        "description": "Get a specific loan application",
+        "summary": "https://quickcreditapp.herokuapp.com/api/v1/loans/3",
         "tags": [
-          "Misc"
+          "Admin Route"
         ],
-        "operationId": "AuthUserCa3f29a692a1494bA9ba662210e3c382Delete",
+        "operationId": "Loans3Get",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/users/tobi4real2050@gmail.com/verify": {
+      "patch": {
+        "description": "Mark a user as verified",
+        "summary": "https://quickcreditapp.herokuapp.com/api/v1/users/tobi4real2050@gmail.com/verify",
+        "tags": [
+          "Admin Route"
+        ],
+        "operationId": "UsersTobi4real2050GmailComVerifyPatch",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -253,28 +474,14 @@
             "description": ""
           },
           {
-            "name": "firstName",
-            "in": "formData",
+            "name": "token",
+            "in": "header",
             "required": true,
             "type": "string",
             "description": ""
           },
           {
-            "name": "lastName",
-            "in": "formData",
-            "required": true,
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "password",
-            "in": "formData",
-            "required": true,
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "address",
+            "name": "status",
             "in": "formData",
             "required": true,
             "type": "string",
@@ -290,11 +497,52 @@
       }
     },
     "/loans": {
+      "get": {
+        "description": "Get all repaid loans",
+        "summary": "https://quickcreditapp.herokuapp.com/api/v1/loans?status=approved&repaid=true",
+        "tags": [
+          "Admin Route"
+        ],
+        "operationId": "LoansGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "repaid",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
       "post": {
         "description": "User can post loan",
         "summary": "https://quickcreditapp.herokuapp.com/api/v1/loans",
         "tags": [
-          "Misc"
+          "Loan Route"
         ],
         "operationId": "LoansPost",
         "deprecated": false,
@@ -333,14 +581,16 @@
             "headers": {}
           }
         }
-      },
-      "get": {
-        "description": "Get All Loans",
-        "summary": "https://quickcreditapp.herokuapp.com/api/v1/loans",
+      }
+    },
+    "/auth/user/1": {
+      "delete": {
+        "description": "Delete a user",
+        "summary": "https://quickcreditapp.herokuapp.com/api/v1/auth/user/1",
         "tags": [
-          "Misc"
+          "Admin Route"
         ],
-        "operationId": "LoansGet",
+        "operationId": "AuthUser1Delete",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -348,6 +598,13 @@
         "parameters": [
           {
             "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "token",
             "in": "header",
             "required": true,
             "type": "string",
@@ -362,47 +619,17 @@
         }
       }
     },
-    "/loans/f0249b65-2c6c-4201-964f-6a8724a797c9/repayment": {
+    "/loans/3/repayment": {
       "get": {
         "description": "Get a loan repayment history",
-        "summary": "https://quickcreditapp.herokuapp.com/api/v1/loans/f0249b65-2c6c-4201-964f-6a8724a797c9/repayment",
+        "summary": "https://quickcreditapp.herokuapp.com/api/v1/loans/3/repayment",
         "tags": [
-          "Misc"
+          "Loan Route"
         ],
-        "operationId": "LoansF0249b652c6c4201964f6a8724a797c9RepaymentGet",
+        "operationId": "Loans3RepaymentGet",
         "deprecated": false,
         "produces": [
           "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      },
-      "post": {
-        "description": "Create a loan repayment record",
-        "summary": "https://quickcreditapp.herokuapp.com/api/v1/loans/f0249b65-2c6c-4201-964f-6a8724a797c9/repayment",
-        "tags": [
-          "Misc"
-        ],
-        "operationId": "LoansF0249b652c6c4201964f6a8724a797c9RepaymentPost",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
         ],
         "parameters": [
           {
@@ -413,113 +640,8 @@
             "description": ""
           },
           {
-            "name": "paidAmount",
-            "in": "formData",
-            "required": true,
-            "type": "string",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      }
-    },
-    "/users/tobi4real2050@yahoo.co.uk/verify": {
-      "patch": {
-        "description": "Mark a user as verified",
-        "summary": "https://quickcreditapp.herokuapp.com/api/v1/users/tobi4real2050@yahoo.co.uk/verify",
-        "tags": [
-          "Misc"
-        ],
-        "operationId": "UsersTobi4real2050YahooCoUkVerifyPatch",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "Content-Type",
+            "name": "token",
             "in": "header",
-            "required": true,
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "status",
-            "in": "formData",
-            "required": true,
-            "type": "string",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      }
-    },
-    "/loans/f0249b65-2c6c-4201-964f-6a8724a797c9": {
-      "get": {
-        "description": "Get a specific loan application",
-        "summary": "https://quickcreditapp.herokuapp.com/api/v1/loans/f0249b65-2c6c-4201-964f-6a8724a797c9",
-        "tags": [
-          "Misc"
-        ],
-        "operationId": "LoansF0249b652c6c4201964f6a8724a797c9Get",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      },
-      "patch": {
-        "description": "Approve or reject a loan application",
-        "summary": "https://quickcreditapp.herokuapp.com/api/v1/loans/f0249b65-2c6c-4201-964f-6a8724a797c9",
-        "tags": [
-          "Misc"
-        ],
-        "operationId": "LoansF0249b652c6c4201964f6a8724a797c9Patch",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "status",
-            "in": "formData",
             "required": true,
             "type": "string",
             "description": ""
@@ -536,8 +658,13 @@
   },
   "tags": [
     {
-      "name": "Misc",
-      "description": ""
+      "name": "User Routes"
+    },
+    {
+      "name": "Admin Route"
+    },
+    {
+      "name": "Loan Route"
     }
   ]
 }
