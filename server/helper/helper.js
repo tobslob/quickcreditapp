@@ -2,7 +2,7 @@
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
-import db from '../model/db';
+import db from '../v1/model/db';
 
 dotenv.config();
 
