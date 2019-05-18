@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import db from '../model/db';
+import db from '../v1/model/db';
 
 class Auth {
   /**

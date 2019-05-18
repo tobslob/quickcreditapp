@@ -1,9 +1,9 @@
 import moment from 'moment';
 import nodemailer from 'nodemailer';
 import models from '../model/db';
-import validate from '../helper/validation';
-import Helper from '../helper/helper';
-import isAuth from '../middleware/is-Auth';
+import validate from '../../helper/validation';
+import Helper from '../../helper/helper';
+import isAuth from '../../middleware/is-Auth';
 
 
 class Resetpassword {

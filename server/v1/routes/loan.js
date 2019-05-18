@@ -1,6 +1,6 @@
 import express from 'express';
 import loanController from '../controllers/loan';
-import isAuth from '../middleware/is-Auth';
+import isAuth from '../../middleware/is-Auth';
 
 const router = express.Router();
 

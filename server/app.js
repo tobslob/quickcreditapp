@@ -4,9 +4,12 @@ import express from 'express';
 import bodyparser from 'body-parser';
 import path from 'path';
 import swaggerUI from 'swagger-ui-express';
-import users from './routes/user';
-import loans from './routes/loan';
-import admin from './routes/admin';
+import user from './v2/routes/user';
+import users from './v1/routes/user';
+import loans from './v1/routes/loan';
+import loan from './v2/routes/loan';
+import admin from './v1/routes/admin';
+import adminn from './v2/routes/admin';
 import docs from '../swagger.json';
 
 const app = express();
@@ -20,6 +23,9 @@ app.use(express.static(path.join('UI')));
 app.use('/api/v1/auth', users);
 app.use('/api/v1', loans);
 app.use('/api/v1', admin);
+app.use('/api/v2/auth', user);
+app.use('/api/v2', loan);
+app.use('/api/v2', adminn);
 
 // Home page route
 app.get('/', (req, res) => {
