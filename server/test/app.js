@@ -28,6 +28,18 @@ describe('APP js', () => {
   });
 });
 
+it('should handle internal server error', (done) => {
+  request(app)
+    .get('/api/v2/loans/%')
+    .then((res) => {
+      expect(res.status).to.be.equal(500);
+      expect(res.body).to.have.property('error');
+      expect(res.body.error).to.be.equal('Internal server error');
+      done();
+    })
+    .catch(error => done(error));
+});
+
 describe('HTTP Server', () => {
   it('should return 200', (done) => {
     http.get('http://localhost:5500', (res) => {

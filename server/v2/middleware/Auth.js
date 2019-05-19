@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import db from '../v1/model/db';
+import Db from '../db/index';
 
 class Auth {
   /**
@@ -68,13 +68,14 @@ class Auth {
       // verify user provided token against existing token
       const decoded = await jwt.verify(token, process.env.SECRET_KEY);
 
-      const user = db.User.find(existUser => existUser.id === decoded.id);
+      const queryString = 'SELECT * FROM users WHERE id = $1';
+      const { rows } = await Db.query(queryString, [decoded.id]);
 
       // check for valid app users
-      if (!user) {
+      if (!rows[0]) {
         return res.status(401).json({
           status: 401,
-          error: 'The token you provided is invalid',
+          error: 'The token you provided is invalid, its me',
         });
       }
 
@@ -85,7 +86,7 @@ class Auth {
     } catch (errors) {
       return res.status(400).json({
         status: 400,
-        error: errors,
+        error: 'something went wrong',
       });
     }
   }

@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'test') {
   connectionString = process.env.TEST;
 }
 if (process.env.NODE_ENV === 'production') {
-  connectionString = process.env.DATABASE_URL;
+  connectionString = process.env.TEST;
 }
 // Instantiate pool
 const pool = new Pool({

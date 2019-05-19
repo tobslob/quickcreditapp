@@ -1,7 +1,7 @@
 import express from 'express';
 import userController from '../controller/user';
 import Helper from '../../helper/helper';
-import Auth from '../../middleware/is-Auth';
+import Auth from '../middleware/Auth';
 import pw from '../controller/passwordreset';
 
 const router = express.Router();
@@ -19,7 +19,7 @@ router.get('/user', Auth.verifyToken, userController.getUsers);
 router.get('/user/:id', Auth.verifyToken, userController.getUser);
 
 // patch user route
-router.patch('/user/:id', Helper.trimmer, userController.patchUser);
+router.patch('/user', Helper.trimmer, Auth.verifyToken, userController.patchUser);
 
 // delete user route
 router.delete('/user/:id', Auth.verifyToken, userController.deleteUser);

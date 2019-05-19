@@ -61,7 +61,7 @@ class Validation {
       tenor: Joi.number().integer().min(1).max(12)
         .required()
         .error(() => 'tenor must be in between 1 and 12'),
-      amount: Joi.number().min(500).required()
+      amount: Joi.number().min(500).max(96547839593).required()
         .error(() => 'amount can not be lesser than 500'),
     });
     return Joi.validate(loan, schema);

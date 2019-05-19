@@ -1,6 +1,6 @@
 import express from 'express';
 import adminController from '../controller/admin';
-import Auth from '../../middleware/is-Auth';
+import Auth from '../middleware/Auth';
 import Helper from '../../helper/helper';
 
 const router = express.Router();
