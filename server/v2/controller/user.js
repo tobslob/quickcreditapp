@@ -1,8 +1,7 @@
-import moment from 'moment';
 import db from '../db/index';
 import validate from '../../helper/validation';
 import Helper from '../../helper/helper';
-import Auth from '../../middleware/is-Auth';
+import Auth from '../middleware/Auth';
 
 class User {
   /**
@@ -32,8 +31,8 @@ class User {
       hashpassword,
       'pending',
       false,
-      moment(new Date()),
-      moment(new Date()),
+      new Date(),
+      new Date(),
     ];
     try {
       const { rows } = await db.query(text, values);
@@ -148,7 +147,8 @@ class User {
           error: 'Unauthorized!, Admin only route',
         });
     }
-    const findAllQuery = 'SELECT * FROM users';
+    const findAllQuery = `SELECT id, firstName, lastName, address, email, 
+    status, createdOn, isAdmin FROM users`;
     try {
       const { rows, rowCount } = await db.query(findAllQuery);
       return res.status(200).json({
@@ -183,7 +183,8 @@ class User {
           error: 'Unauthorized!, Admin only route',
         });
     }
-    const text = 'SELECT * FROM users WHERE id = $1';
+    const text = `SELECT id, firstName, lastName, address, email, 
+    status, createdOn, isAdmin FROM users WHERE id = $1`;
     try {
       const { rows } = await db.query(text, [req.params.id]);
       if (!rows[0]) {
@@ -223,23 +224,22 @@ class User {
     }
     const updateQuery = `UPDATE users
       SET firstName=$1, lastName=$2, address=$3, modifiedOn=$4
-      WHERE id=$5 returning *`;
-
-    const values = [
-      req.body.firstName,
-      req.body.lastName,
-      req.body.address,
-      moment(new Date()),
-      req.params.id,
-    ];
-
+      WHERE id=$5 returning firstName, lastName, address, modifiedOn`;
     try {
+      const values = [
+        req.body.firstName,
+        req.body.lastName,
+        req.body.address,
+        new Date(),
+        req.user.id,
+      ];
+
       const { rows } = await db.query(updateQuery, values);
       return res.status(202).json({
         status: 202,
         data: [
           {
-            message: `users with id:${rows[0].id} has been updated`,
+            message: `user with id:${rows[0].id} has been updated`,
             rows,
           },
         ],

@@ -123,3 +123,123 @@ describe('Loan Route', () => {
       });
   });
 });
+
+
+// test version two (v2) enpoints
+
+describe('Loan Route version two (v2)', () => {
+  it('should signin user and generate token1', (done) => {
+    request(app)
+      .post('/api/v2/auth/signin')
+      .send({
+        email: 'admin@quickcreditapp.herokuapp.com',
+        password: 'Kazeem27',
+      })
+      .end((err, res) => {
+        const { body } = res;
+        token1 = body.data[0].token;
+        done();
+      });
+  });
+  it('should signin user and generate token2', (done) => {
+    request(app)
+      .post('/api/v2/auth/signin')
+      .send({
+        email: 'tobi4real2050@gmail.com',
+        password: 'Kazeem27',
+      })
+      .end((err, res) => {
+        const { body } = res;
+        token2 = body.data[0].token;
+        done();
+      });
+  });
+  it('should signin user and generate token3', (done) => {
+    request(app)
+      .post('/api/v2/auth/signin')
+      .send({
+        email: 'kaztech2016@gmail.com',
+        password: 'Kazeem27',
+      })
+      .end((err, res) => {
+        const { body } = res;
+        token3 = body.data[0].token;
+        done();
+      });
+  });
+  it('should not post a user loan successfully, tenor should be between 1 - 12', (done) => {
+    request(app)
+      .post('/api/v2/loans')
+      .set('token', token2)
+      .send({ amount: 2000.567, tenor: 13 })
+      .end((err, res) => {
+        const { body } = res;
+        expect(body.status).to.be.equal(422);
+        expect(body).to.have.property('error');
+        done();
+      });
+  });
+  it('should not post a user loan if user status is pending or unverified', (done) => {
+    request(app)
+      .post('/api/v2/loans')
+      .set('token', token3)
+      .send({ amount: 2000.567, tenor: 3 })
+      .end((err, res) => {
+        const { body } = res;
+        expect(body.status).to.be.equal(422);
+        expect(body).to.have.property('error');
+        expect(body.error).to.be.equal('wait for verification and re-apply');
+        done();
+      });
+  });
+  it('should not post a user loan successfully if user have a pending loan', (done) => {
+    request(app)
+      .post('/api/v2/loans')
+      .set('token', token1)
+      .send({ amount: 2000.567, tenor: 3 })
+      .end((err, res) => {
+        const { body } = res;
+        expect(body.status).to.be.equal(402);
+        expect(body).to.have.property('error');
+        expect(body.error).to.be.equal('you have an outstanding loan');
+        done();
+      });
+  });
+  it('should retrieve a loan repayment history successfully', (done) => {
+    request(app)
+      .get('/api/v2/loans/2/repayments')
+      .set('token', token1)
+      .end((err, res) => {
+        const { body } = res;
+        expect(body.status).to.be.equal(200);
+        expect(body).to.have.property('data');
+        expect(body.data[0]).to.have.property('message');
+        expect(body.data[0]).to.have.property('repaid');
+        done();
+      });
+  });
+  it('should not retrieve a loan repayment history', (done) => {
+    request(app)
+      .get('/api/v2/loans/2/repayments')
+      .set('token', token2)
+      .end((err, res) => {
+        const { body } = res;
+        expect(body.status).to.be.equal(400);
+        expect(body).to.have.property('error');
+        expect(body.error).to.be.equal('Hmmm...you do not have access');
+        done();
+      });
+  });
+  it('should not retrieve a loan repayment history', (done) => {
+    request(app)
+      .get('/api/v2/loans/499/repayments')
+      .set('token', token1)
+      .end((err, res) => {
+        const { body } = res;
+        expect(body.status).to.be.equal(404);
+        expect(body).to.have.property('error');
+        expect(body.error).to.be.equal('Not Found');
+        done();
+      });
+  });
+});

@@ -42,6 +42,17 @@ app.get('/', (req, res) => {
 // Render quick credit documentation
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(docs));
 
+// handle all error
+app.use((err, req, res, next) => {
+  if (err) {
+    return res.status(500).json({
+      status: 500,
+      error: 'Internal server error',
+    });
+  }
+  return next();
+});
+
 // Handle non exist route with with proper message
 app.all('*', (req, res) => {
   res.status(404).json({

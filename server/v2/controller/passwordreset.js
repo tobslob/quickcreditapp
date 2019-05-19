@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 import db from '../db/index';
 import validate from '../../helper/validation';
 import Helper from '../../helper/helper';
-import Auth from '../../middleware/is-Auth';
+import Auth from '../middleware/Auth';
 
 class PasswordReset {
   /** *

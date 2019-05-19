@@ -3,7 +3,7 @@ import moment from 'moment';
 import models from '../model/db';
 import validate from '../../helper/validation';
 import Helper from '../../helper/helper';
-import isAuth from '../../middleware/is-Auth';
+import isAuth from '../middleware/is-Auth';
 
 class User {
   /**

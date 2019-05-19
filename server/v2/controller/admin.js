@@ -1,4 +1,3 @@
-import moment from 'moment';
 import db from '../db/index';
 import validate from '../../helper/validation';
 
@@ -28,7 +27,7 @@ class adminController {
     }
     const updateQuery = `UPDATE users
       SET status = $1
-      WHERE email = $2 returning *`;
+      WHERE email = $2 returning id, email, firstName, lastName, address, status, isAdmin, createdOn, modifiedOn`;
 
     const values = [
       req.body.status,
@@ -175,7 +174,7 @@ class adminController {
 
   /**
    *@param {req} object
-   *@param {res} object c
+   *@param {res} object
    */
   static async approveReject(req, res) {
     // check for admin user
@@ -226,6 +225,15 @@ class adminController {
  *@param {res} object
  */
   static async loanRepayforClient(req, res) {
+    // check for admin user
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({
+          status: 403,
+          error: 'Unauthorized!, Admin only route',
+        });
+    }
     const { error } = validate.validateLoanRepayment(req.body);
     if (error) {
       return res.status(422).json({
@@ -239,8 +247,8 @@ class adminController {
       const queryString = 'SELECT * FROM loan WHERE id = $1';
 
       const output = `INSERT INTO 
-    loanRepayment(id, loanId, createdOn, amount, monthlyInstallment, paidAmount, balance) 
-    VALUES($1, $2, $3, $4, $5, $6, $7) 
+    loanRepayment(loanId, createdOn, amount, monthlyInstallment, paidAmount, balance) 
+    VALUES($1, $2, $3, $4, $5, $6) 
     returning *`;
 
       const { rows } = await db.query(queryString, [req.params.id]);
@@ -259,7 +267,7 @@ class adminController {
       const balance = rows[0].balance - paidAmount;
       const paid = [
         req.params.id,
-        moment(new Date()),
+        new Date(),
         rows[0].amount, // loan amount
         rows[0].paymentinstallment, // what the user is expected to pay
         paidAmount,
