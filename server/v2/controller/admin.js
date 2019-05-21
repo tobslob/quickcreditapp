@@ -2,7 +2,7 @@ import db from '../db/index';
 import validate from '../../helper/validation';
 
 
-class adminController {
+class Admin {
   /**
      *
      * @param {req} object
@@ -311,4 +311,4 @@ class adminController {
   }
 }
 
-export default adminController;
+export default Admin;

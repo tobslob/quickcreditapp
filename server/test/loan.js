@@ -214,7 +214,6 @@ describe('Loan Route version two (v2)', () => {
         expect(body.status).to.be.equal(200);
         expect(body).to.have.property('data');
         expect(body.data[0]).to.have.property('message');
-        expect(body.data[0]).to.have.property('repaid');
         done();
       });
   });
