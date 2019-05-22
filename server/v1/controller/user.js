@@ -10,10 +10,10 @@ class User {
        * @param {*} res
        */
   static async createUser(req, res) {
-    const { error } = validate.validateUser(req.body);
+    const { error } = validate.userInput(req.body);
     if (error) {
-      return res.status(422).json({
-        status: 422,
+      return res.status(400).json({
+        status: 400,
         error: error.details[0].message,
       });
     }
@@ -68,10 +68,10 @@ class User {
        * @param {*} res
        */
   static async loginUser(req, res) {
-    const { error } = validate.validateLogin(req.body);
+    const { error } = validate.loginInput(req.body);
     if (error) {
-      return res.status(422).json({
-        status: 422,
+      return res.status(400).json({
+        status: 400,
         error: error.details[0].message,
       });
     }
@@ -106,20 +106,11 @@ class User {
         rows[0].isadmin,
       );
 
-      // check if user is an admin
-      let access = false;
-      if (rows[0].isadmin) {
-        access = true;
-      }
-
       // return success message
       return res.status(200).json({
         status: 200,
         data: [{
           message: 'Logged in successfully',
-          user: {
-            access,
-          },
           token,
         }],
       });
@@ -174,31 +165,28 @@ class User {
      * @param {*} res
      */
   static async getUser(req, res) {
-    // check for admin user
-    if (!req.user.isAdmin) {
-      return res
-        .status(403)
-        .json({
-          status: 403,
-          error: 'Unauthorized!, Admin only route',
-        });
-    }
-    const text = `SELECT id, firstName, lastName, address, email, 
+    const findAQuery = `SELECT id, firstName, lastName, address, email, 
     status, createdOn, isAdmin FROM users WHERE id = $1`;
     try {
-      const { rows } = await db.query(text, [req.params.id]);
+      const { rows } = await db.query(findAQuery, [req.params.id]);
       if (!rows[0]) {
         return res.status(404).json({
           status: 404,
           error: 'Not Found',
         });
       }
-      return res.status(200).json({
-        status: 200,
-        data: [{
-          message: `users with id:${rows[0].id} retrieve successfully`,
-          rows,
-        }],
+      if (req.user.id === rows[0].id || req.user.isAdmin === true) {
+        return res.status(200).json({
+          status: 200,
+          data: [{
+            message: `users with id:${rows[0].id} retrieve successfully`,
+            rows,
+          }],
+        });
+      }
+      return res.status(400).json({
+        status: 400,
+        error: 'Hmmm...you do not have access',
       });
     } catch (error) {
       return res.status(400).json({
@@ -215,10 +203,10 @@ class User {
        * @param {*} res
        */
   static async patchUser(req, res) {
-    const { error } = validate.patchUser(req.body);
+    const { error } = validate.patchInput(req.body);
     if (error) {
-      return res.status(422).json({
-        status: 422,
+      return res.status(400).json({
+        status: 400,
         error: error.details[0].message,
       });
     }

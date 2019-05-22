@@ -2,61 +2,59 @@ import Joi from 'joi';
 
 class Validation {
   /**
-   *
+   * funtion to validate user's registration details
    * @param {user} object
    */
-  static validateUser(user) {
+  static userInput(user) {
     const schema = Joi.object().keys({
       email: Joi.string().email().trim().required(),
-      firstName: Joi.string().regex(/^[A-Z]+$/).trim().uppercase()
+      firstName: Joi.string().trim().strict().regex(/^[a-zA-Z]+$/)
+        .required(),
+      lastName: Joi.string().trim().strict().regex(/^[a-zA-Z]+$/)
+        .required(),
+      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().strict()
         .required()
-        .error(() => 'first name is required without a number'),
-      lastName: Joi.string().regex(/^[A-Z]+$/).trim().uppercase()
-        .error(() => 'last name is required without a number'),
-      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required()
         .error(() => 'you must provide password'),
-      address: Joi.string().trim().required()
-        .error(() => 'Address can not be empty'),
+      address: Joi.string().trim().strict().required(),
     });
     return Joi.validate(user, schema);
   }
 
 
-  /**
+  /**  funtion to validate login inputs
      * @param{details} string
      */
-  static validateLogin(details) {
+  static loginInput(details) {
     const schema = Joi.object().keys({
-      email: Joi.string().email().trim().required()
-        .error(() => 'please provide a valid mail'),
-      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required()
-        .error(() => 'password is required'),
+      email: Joi.string().email().trim()
+        .required(),
+      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().strict()
+        .required(),
     });
     return Joi.validate(details, schema);
   }
 
   /**
-   *
+   * validate patch user input
    * @param {user} object
    */
-  static patchUser(user) {
+  static patchInput(user) {
     const schema = Joi.object().keys({
-      firstName: Joi.string().trim().required()
-        .error(() => 'first name can not be empty'),
-      lastName: Joi.string().trim()
-        .error(() => 'flast name can not be empty'),
-      address: Joi.string().required()
-        .error(() => 'please provide a valid address'),
+      firstName: Joi.string().trim().strict().regex(/^[a-zA-Z]+$/)
+        .required(),
+      lastName: Joi.string().trim().strict().regex(/^[a-zA-Z]+$/)
+        .required(),
+      address: Joi.string().trim().strict().required(),
     });
     return Joi.validate(user, schema);
   }
 
 
   /**
-   *
+   * validate loan application input
    * @param {loan} object
    */
-  static validateLoan(loan) {
+  static loanInput(loan) {
     const schema = Joi.object().keys({
       tenor: Joi.number().integer().min(1).max(12)
         .required()
@@ -68,49 +66,53 @@ class Validation {
   }
 
   /**
-   *
+   * validate user verification
    * @param {user} object
    */
-  static validateVerify(user) {
+  static userVerification(status) {
     const schema = Joi.object().keys({
-      status: Joi.string().insensitive().valid('unverified', 'verified').required()
-        .error(() => 'input the right word'),
+      status: Joi.string().trim().strict().insensitive()
+        .valid('unverified', 'verified')
+        .required(),
     });
-    return Joi.validate(user, schema);
+    return Joi.validate(status, schema);
   }
 
   /**
-   *
+   * validate loan approval input
    * @param {user} object
    */
-  static loanApproveValidate(user) {
+  static loanApprovalInput(loan) {
     const schema = Joi.object().keys({
-      status: Joi.string().insensitive().valid('approved', 'reject').required()
+      status: Joi.string().trim().strict()
+        .insensitive()
+        .valid('approved', 'rejected')
+        .required()
         .error(() => 'input the right word'),
     });
-    return Joi.validate(user, schema);
+    return Joi.validate(loan, schema);
   }
 
   /**
-   *
+   * validate loan repayment inputs
    * @param {user} object
    */
-  static validateLoanRepayment(loan) {
+  static loanRepaymentInput(loan) {
     const schema = Joi.object().keys({
-      paidAmount: Joi.number().min(500).required()
-        .error(() => 'amount can not be lesser than 500'),
+      paidAmount: Joi.number().min(1).required(),
     });
     return Joi.validate(loan, schema);
   }
 
 
   /**
-   *
+   * validate email for password reset
    * @param {email} object
    */
-  static validateMailer(email) {
+  static mailer(email) {
     const schema = Joi.object().keys({
-      email: Joi.string().email().trim().required()
+      email: Joi.string().email().trim()
+        .required()
         .error(() => 'invalid email'),
     });
     return Joi.validate(email, schema);
@@ -118,15 +120,17 @@ class Validation {
 
 
   /**
-   *
+   * validate password
    * @param {user} object
    */
-  static validatePassword(passDetails) {
+  static password(passDetails) {
     const schema = Joi.object().keys({
-      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required()
+      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().strict()
+        .required()
         .error(() => 'incorrect password'),
       // password must be a valid string and is required
-      passwordConf: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().required()
+      passwordConf: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().strict()
+        .required()
         .error(() => 'incorrect password'),
     });
     return Joi.validate(passDetails, schema);

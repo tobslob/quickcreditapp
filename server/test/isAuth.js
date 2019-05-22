@@ -1,8 +1,7 @@
 import { expect } from 'chai';
 import request from 'supertest';
 import faker from 'faker';
-import isAuth from '../v1/middleware/is-Auth';
-import Auth from '../v2/middleware/Auth';
+import Auth from '../v1/middleware/Auth';
 import app from '../app';
 
 let mail;
@@ -34,7 +33,7 @@ describe('Auth middleware', () => {
   });
   it('should successfully signup a user with valid details', (done) => {
     request(app)
-      .post('/api/v2/auth/signup')
+      .post('/api/v1/auth/signup')
       .send({
         email: faker.internet.email(),
         firstName: 'tester',
@@ -54,11 +53,6 @@ describe('Auth middleware', () => {
         expect(res.status).to.be.equal(201);
         done();
       });
-  });
-  it('should throw an error if no authorization header is present', (done) => {
-    const token = isAuth.generatepwToken(userid, mail);
-    expect(token).to.be.a('string');
-    done();
   });
   it('should throw an error if no authorization header is present', (done) => {
     const token = Auth.generatepwToken(userid, mail);

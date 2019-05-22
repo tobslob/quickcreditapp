@@ -7,10 +7,10 @@ class Loan {
        * @param{res} object
        */
   static async postLoan(req, res) {
-    const { error } = validate.validateLoan(req.body);
+    const { error } = validate.loanInput(req.body);
     if (error) {
-      return res.status(422).json({
-        status: 422,
+      return res.status(400).json({
+        status: 400,
         error: error.details[0].message,
       });
     }
@@ -22,17 +22,7 @@ class Loan {
       const paymentInstallment = ((amount + interest) / tenor);
       const { email } = req.user;
 
-      const queryString = `SELECT * FROM users where email = '${email}'`;
-      const myRes = await db.query(queryString);
-
-      if (myRes.rows[0].status === 'pending' || myRes.rows[0].status === 'unverified') {
-        return res.status(422).json({
-          status: 422,
-          error: 'wait for verification and re-apply',
-        });
-      }
-
-      const text = `INSERT INTO 
+      const loanQuery = `INSERT INTO 
     loan(users, createdOn, status, repaid, tenor, amount, paymentInstallment, balance, interest) 
     VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) 
     returning *`;
@@ -49,18 +39,55 @@ class Loan {
         interest,
       ];
 
-      const { rows } = await db.query(text, values);
+      const { rows } = await db.query(loanQuery, values);
       return res.status(201).json({
         status: 201,
         data: [
           {
-            message: 'your loan request received, wait for approval',
+            message: 'your loan request has been received, wait for approval',
             rows,
           },
         ],
 
       });
     } catch (err) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Something went wrong, try again',
+      });
+    }
+  }
+
+  /** *
+       * loan history
+       * @param{req}object
+       * @param{res}object
+       */
+  static async loanHistory(req, res) {
+    const queryString = `SELECT * FROM loan WHERE users = '${req.user.email}'`;
+    try {
+      const { rows } = await db.query(queryString);
+      if (!rows[0]) {
+        return res.status(404).json({
+          status: 404,
+          error: 'Not Found',
+        });
+      }
+
+      if (req.user.email === rows[0].users || req.user.isAdmin === true) {
+        return res.status(200).json({
+          status: 200,
+          data: [{
+            message: 'loan history retrieval was success',
+            rows,
+          }],
+        });
+      }
+      return res.status(400).json({
+        status: 400,
+        error: 'Hmmm...you do not have access',
+      });
+    } catch (error) {
       return res.status(400).json({
         status: 400,
         error: 'Something went wrong, try again',
@@ -84,12 +111,12 @@ class Loan {
           error: 'Not Found',
         });
       }
-      if (req.user.email === rows[0].users || req.user.isAdmin === true) {
+
+      if (req.user.email === rows[0].email || req.user.isAdmin === true) {
         return res.status(200).json({
           status: 200,
           data: [{
-            message: `loan repayment with id:${rows[0].id} retrieve successfully`,
-            repaid: rows[0].repaid,
+            message: 'loan repayments retrieval successful',
             rows,
           }],
         });

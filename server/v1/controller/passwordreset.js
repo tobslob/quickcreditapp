@@ -1,35 +1,36 @@
 import moment from 'moment';
 import nodemailer from 'nodemailer';
-import models from '../model/db';
+import db from '../db/index';
 import validate from '../../helper/validation';
 import Helper from '../../helper/helper';
-import isAuth from '../middleware/is-Auth';
+import Auth from '../middleware/Auth';
 
-
-class Resetpassword {
+class PasswordReset {
   /** *
-   * send mail
-   * @param {*} req
-   * @param {*} res
-   */
-  static mailer(req, res) {
-    const { error } = validate.validateMailer(req.body);
+     * send mail
+     * @param {*} req
+     * @param {*} res
+     */
+  static async mailer(req, res) {
+    const { error } = validate.mailer(req.body);
     if (error) {
-      return res.status(422).json({
-        status: 422,
+      return res.status(400).json({
+        status: 400,
         error: error.details[0].message,
       });
     }
+
+    const queryString = 'SELECT * FROM users WHERE email = $1';
     try {
-      const user = models.User.find(aUser => aUser.email === req.body.email);
-      if (!user) {
+      const { rows } = await db.query(queryString, [req.body.email]);
+      if (!rows[0]) {
         return res.status(404).json({
           status: 404,
           error: 'No account with that email address exists!',
         });
       }
-
-      const token = isAuth.generatepwToken(user.id, user.email, user.password);
+      const mail = rows[0].email;
+      const token = Auth.generatepwToken(rows[0].id, rows[0].email, rows[0].password);
 
       const url = 'https://quickcreditapp.herokuapp.com/reset-password.html';
 
@@ -48,9 +49,9 @@ class Resetpassword {
 
       const HelperOptions = {
         from: '"Quick Credit" <quickcreditapp@gmail.com',
-        to: req.body.email,
+        to: mail,
         subject: 'Forgot your password? We can help. ',
-        html: `Hi ${user.firstName} <br><br> Forgot your password? No worries. we have got you covered. Click the link below to reset your password <br><br> <a href = "${url}/${user.id}/${token}">Reset</a>`,
+        html: `Hi ${rows[0].firstname} <br><br> Forgot your password? No worries. we have got you covered. Click the link below to reset your password <br><br> <a href = "${url}/${rows[0].id}/${token}">Reset</a>`,
       };
 
       transporter.sendMail(HelperOptions, (err, { accepted }) => {
@@ -65,13 +66,13 @@ class Resetpassword {
           accepted,
         });
       });
-      return 'success!';
     } catch (err) {
       return res.status(400).json({
         status: 400,
-        error: 'something went wrong',
+        error: 'hmmm...something went wrong, please try again',
       });
     }
+    return 'success';
   }
 
 
@@ -80,29 +81,37 @@ class Resetpassword {
        * @param {*} req
        * @param {*} res
        */
-  static resetPassword(req, res) {
-    const { error } = validate.validatePassword(req.body);
+  static async resetPassword(req, res) {
+    const { error } = validate.password(req.body);
     if (error) {
-      return res.status(422).json({
-        status: 422,
+      return res.status(400).json({
+        status: 400,
         error: error.details[0].message,
       });
     }
 
-    try {
-      const user = models.User.find(aUser => aUser.email === req.user.email);
+    const hashpassword = Helper.hashPassword(req.body.password);
 
-      const hashpassword = Helper.hashPassword(req.body.password);
+    const updateQuery = `UPDATE users
+      SET password=$1, modifiedOn=$2
+      WHERE email=$3 returning *`;
+
+    const values = [
+      hashpassword,
+      moment(new Date()),
+      req.user.email,
+    ];
+
+    try {
       if (req.body.password === req.body.passwordConf) {
-        user.password = hashpassword;
-        user.modifiedOn = moment(new Date());
+        const { rows } = await db.query(updateQuery, values);
 
         return res.status(202).json({
           status: 202,
           data: [
             {
               message: 'password reset successfully',
-              user,
+              rows,
             },
           ],
         });
@@ -114,10 +123,10 @@ class Resetpassword {
     } catch (err) {
       return res.status(400).json({
         status: 400,
-        error: 'something went wrong',
+        error: 'Hmmm...something went wrong, please try again',
       });
     }
   }
 }
 
-export default Resetpassword;
+export default PasswordReset;

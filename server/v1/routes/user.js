@@ -1,33 +1,32 @@
 import express from 'express';
-import userController from '../controllers/user';
-import Helper from '../../helper/helper';
-import isAuth from '../middleware/is-Auth';
-import pw from '../controllers/resetpassword';
+import userController from '../controller/user';
+import Auth from '../middleware/Auth';
+import pw from '../controller/passwordreset';
 
 const router = express.Router();
 
 // user sign up route
-router.post('/signup', Helper.trimmer, userController.createUser);
+router.post('/signup', userController.createUser);
 
 // user can sign up route
-router.post('/signin', Helper.trimmer, userController.loginUser);
+router.post('/signin', userController.loginUser);
 
 // get all users route
-router.get('/user', isAuth.verifyToken, userController.getUsers);
+router.get('/user', Auth.verifyToken, userController.getUsers);
 
 // get a single user route
-router.get('/user/:id', isAuth.verifyToken, userController.getUser);
+router.get('/user/:id', Auth.verifyToken, userController.getUser);
 
 // patch user route
-router.patch('/user/:id', isAuth.verifyToken, Helper.trimmer, userController.patchUser);
+router.patch('/user', Auth.verifyToken, userController.patchUser);
 
 // delete user route
-router.delete('/user/:id', isAuth.verifyToken, userController.deleteUser);
+router.delete('/user/:id', Auth.verifyToken, userController.deleteUser);
 
 // password reset route
 router.post('/user/sendmail', pw.mailer);
 
 // password reset route
-router.post('/user/passwordreset', isAuth.verifyToken, pw.resetPassword);
+router.post('/user/passwordreset', Auth.verifyToken, pw.resetPassword);
 
 module.exports = router;

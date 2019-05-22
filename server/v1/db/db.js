@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const pool = new Pool({
-  connectionString: process.env.TEST,
+  connectionString: process.env.DATABASE_URL,
 });
 
 pool.on('connect', () => {
@@ -54,6 +54,7 @@ const createTables = () => {
     loanRepayment (
           id SERIAL PRIMARY KEY,
           loanId SERIAL NOT NULL,
+          email VARCHAR (355) NOT NULL,
           createdOn TIMESTAMP DEFAULT Now(),
           amount FLOAT(4) NOT NULL,
           monthlyInstallment FLOAT(4) NOT NULL,

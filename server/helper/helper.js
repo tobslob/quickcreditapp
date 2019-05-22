@@ -2,7 +2,7 @@
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
-import db from '../v2/db/index';
+import db from '../v1/db/index';
 
 dotenv.config();
 
@@ -26,30 +26,9 @@ const Helper = {
     return bcrypt.compareSync(password, hashPassword);
   },
 
-  /**
-   * trim input whitespaces
-   * @param {*} req
-   * @param {*} res
-   * @param {*} next
-   */
-  trimmer(req, res, next) {
-    const { body } = req;
-    if (body) {
-      const trimmed = {};
-
-      Object.keys(body).forEach((key) => {
-        const value = body[key];
-        Object.assign(trimmed, { [key]: value.trim() });
-      });
-      req.body = trimmed;
-    }
-
-    next();
-  },
-
 
   /** *
- * send mail
+ * send mail for password reset verification
  * @param {*} req
  * @param {*} res
  */

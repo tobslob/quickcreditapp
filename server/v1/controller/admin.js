@@ -1,7 +1,6 @@
 import db from '../db/index';
 import validate from '../../helper/validation';
 
-
 class Admin {
   /**
      *
@@ -18,13 +17,15 @@ class Admin {
           error: 'Unauthorized!, Admin only route',
         });
     }
-    const { error } = validate.validateVerify(req.body);
+
+    const { error } = validate.userVerification(req.body);
     if (error) {
-      return res.status(422).json({
-        status: 422,
+      return res.status(400).json({
+        status: 400,
         error: error.details[0].message,
       });
     }
+
     const updateQuery = `UPDATE users
       SET status = $1
       WHERE email = $2 returning id, email, firstName, lastName, address, status, isAdmin, createdOn, modifiedOn`;
@@ -106,9 +107,9 @@ class Admin {
           error: 'Unauthorized!, Admin only route',
         });
     }
-    const text = 'SELECT * FROM loan WHERE id = $1';
+    const findLoanQuery = 'SELECT * FROM loan WHERE id = $1';
     try {
-      const { rows } = await db.query(text, [req.params.id]);
+      const { rows } = await db.query(findLoanQuery, [req.params.id]);
       if (!rows[0]) {
         return res.status(404).json({
           status: 404,
@@ -173,6 +174,7 @@ class Admin {
   }
 
   /**
+   * approve or reject or a loan
    *@param {req} object
    *@param {res} object
    */
@@ -186,13 +188,24 @@ class Admin {
           error: 'Unauthorized!, Admin only route',
         });
     }
-    const { error } = validate.loanApproveValidate(req.body);
+    const { error } = validate.loanApprovalInput(req.body);
     if (error) {
-      return res.status(422).json({
-        status: 422,
+      return res.status(400).json({
+        status: 400,
         error: error.details[0].message,
       });
     }
+
+    const text = 'SELECT * FROM loan WHERE id = $1';
+    const myRow = await db.query(text, [req.params.id]);
+
+    if (myRow.rows[0].status === 'rejected') {
+      return res.status(400).json({
+        status: 400,
+        error: 'This loan has already been rejected',
+      });
+    }
+
     const updateQuery = `UPDATE loan
       SET status=$1
       WHERE id=$2 returning *`;
@@ -234,10 +247,10 @@ class Admin {
           error: 'Unauthorized!, Admin only route',
         });
     }
-    const { error } = validate.validateLoanRepayment(req.body);
+    const { error } = validate.loanRepaymentInput(req.body);
     if (error) {
-      return res.status(422).json({
-        status: 422,
+      return res.status(400).json({
+        status: 400,
         error: error.details[0].message,
       });
     }
@@ -247,8 +260,8 @@ class Admin {
       const queryString = 'SELECT * FROM loan WHERE id = $1';
 
       const output = `INSERT INTO 
-    loanRepayment(loanId, createdOn, amount, monthlyInstallment, paidAmount, balance) 
-    VALUES($1, $2, $3, $4, $5, $6) 
+    loanRepayment(loanId, email, createdOn, amount, monthlyInstallment, paidAmount, balance) 
+    VALUES($1, $2, $3, $4, $5, $6, $7) 
     returning *`;
 
       const { rows } = await db.query(queryString, [req.params.id]);
@@ -256,6 +269,12 @@ class Admin {
         return res.status(404).json({
           status: 404,
           error: 'No such loan found',
+        });
+      }
+      if (rows[0].status === 'pending' || rows[0].status === 'rejected') {
+        return res.status(400).json({
+          status: 400,
+          error: 'You can not make payment to pending loan or rejected loan',
         });
       }
       if (paidAmount > rows[0].balance) {
@@ -267,6 +286,7 @@ class Admin {
       const balance = rows[0].balance - paidAmount;
       const paid = [
         req.params.id,
+        rows[0].users,
         new Date(),
         rows[0].amount, // loan amount
         rows[0].paymentinstallment, // what the user is expected to pay
