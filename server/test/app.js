@@ -30,7 +30,7 @@ describe('APP js', () => {
 
 it('should handle internal server error', (done) => {
   request(app)
-    .get('/api/v2/loans/%')
+    .get('/api/v1/loans/%')
     .then((res) => {
       expect(res.status).to.be.equal(500);
       expect(res.body).to.have.property('error');

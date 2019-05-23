@@ -75,6 +75,8 @@ npm test
 
 `- POST /api/v1/loans Create a loan application`
 
+`- GET /api/v1/loans/history View loan loan history`
+
 `- GET /api/v1/loans/<:loan-id>/repayment View loan repayment history`
 
 `- GET /api/v1/loans Get all loan applications`

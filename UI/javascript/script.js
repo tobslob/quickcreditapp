@@ -41,6 +41,28 @@ function adminToggle() {
   }
 }
 
+
+function adminLoanToggle() {
+  const lists = document.querySelector('.pickLi');
+  const panels = document.querySelectorAll('.pick');
+  if (lists) {
+    lists.addEventListener('click', (e) => {
+      if (e.target.tagName === 'OPTION') {
+        const targetPanel = document.querySelector(e.target.dataset.target);
+
+
+        panels.forEach((panel) => {
+          if (panel === targetPanel) {
+            panel.classList.add('active');
+          } else {
+            panel.classList.remove('active');
+          }
+        });
+      }
+    });
+  }
+}
+
 function popVerify() {
   const views = document.querySelectorAll('.trigger_popup');
   const popup = document.querySelector('.hover_popup');
@@ -95,3 +117,4 @@ adminToggle();
 popVerify();
 popLoan();
 popLoanApprove();
+adminLoanToggle();

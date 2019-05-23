@@ -75,7 +75,7 @@ class Auth {
       if (!rows[0]) {
         return res.status(401).json({
           status: 401,
-          error: 'The token you provided is invalid, its me',
+          error: 'The token you provided is invalid',
         });
       }
 
@@ -86,7 +86,7 @@ class Auth {
     } catch (errors) {
       return res.status(400).json({
         status: 400,
-        error: 'something went wrong',
+        error: 'something went wrong, retry or contact admin',
       });
     }
   }
