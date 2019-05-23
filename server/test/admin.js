@@ -219,7 +219,7 @@ describe('Admin Route version one', () => {
   it('should successfully post loan repayment for a client', (done) => {
     request(app)
       .post('/api/v1/loans/1/repayment')
-      .send({ paidAmount: 500 })
+      .send({ paidAmount: 5 })
       .set('token', adminToken)
       .end((err, res) => {
         const { body } = res;
