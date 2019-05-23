@@ -274,7 +274,7 @@ class Admin {
       const result = await db.query(text);
       if (!result.rows[0]) {
         return res.status(400).json({
-          error: 'something went wrong',
+          error: 'something went wrong1',
         });
       }
       // update loan if user has fully paid loan
@@ -285,7 +285,7 @@ class Admin {
         const resRes = await db.query(textQuery);
         if (!resRes.rows[0]) {
           return res.status(400).json({
-            error: 'something went wrong',
+            error: 'something went wrong2',
           });
         }
       }
