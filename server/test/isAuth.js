@@ -22,9 +22,8 @@ describe('Auth middleware', () => {
         const { body } = res;
         mail = body.data.email;
         userid = body.data.id;
-        expect(body.status).to.be.equal(201);
+        expect(res.status).to.be.equal(201);
         expect(body).to.be.an('object');
-        expect(body).to.have.property('status');
         expect(body).to.have.property('data');
         expect(res.status).to.a('number');
         expect(res.status).to.be.equal(201);
@@ -45,9 +44,8 @@ describe('Auth middleware', () => {
         const { body } = res;
         mail = body.data.email;
         userid = body.data.id;
-        expect(body.status).to.be.equal(201);
+        expect(res.status).to.be.equal(201);
         expect(body).to.be.an('object');
-        expect(body).to.have.property('status');
         expect(body).to.have.property('data');
         expect(res.status).to.a('number');
         expect(res.status).to.be.equal(201);

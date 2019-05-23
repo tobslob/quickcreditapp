@@ -13,7 +13,6 @@ class Admin {
       return res
         .status(403)
         .json({
-          status: 403,
           error: 'Unauthorized!, Admin only route',
         });
     }
@@ -21,7 +20,6 @@ class Admin {
     const { error } = validate.userVerification(req.body);
     if (error) {
       return res.status(400).json({
-        status: 400,
         error: error.details[0].message,
       });
     }
@@ -39,12 +37,10 @@ class Admin {
       const { rows } = await db.query(updateQuery, values);
       if (!rows[0]) {
         return res.status(404).json({
-          status: 404,
           error: 'Not Found',
         });
       }
       return res.status(200).json({
-        status: 200,
         data: [{
           message: `users with id:${rows[0].id} has been verified`,
           rows,
@@ -52,7 +48,6 @@ class Admin {
       });
     } catch (err) {
       return res.status(400).json({
-        status: 400,
         error: 'Something went wrong, try again',
       });
     }
@@ -69,7 +64,6 @@ class Admin {
       return res
         .status(403)
         .json({
-          status: 403,
           error: 'Unauthorized!, Admin only route',
         });
     }
@@ -77,7 +71,6 @@ class Admin {
     try {
       const { rows, rowCount } = await db.query(findAllQuery);
       return res.status(200).json({
-        status: 200,
         data: [{
           message: 'loans retrieve successfully',
           rows,
@@ -86,7 +79,6 @@ class Admin {
       });
     } catch (error) {
       return res.status(400).json({
-        status: 400,
         error: 'Something went wrong, try again',
       });
     }
@@ -103,21 +95,19 @@ class Admin {
       return res
         .status(403)
         .json({
-          status: 403,
           error: 'Unauthorized!, Admin only route',
         });
     }
+
     const findLoanQuery = 'SELECT * FROM loan WHERE id = $1';
     try {
       const { rows } = await db.query(findLoanQuery, [req.params.id]);
       if (!rows[0]) {
         return res.status(404).json({
-          status: 404,
           error: 'Not Found',
         });
       }
       return res.status(200).json({
-        status: 200,
         data: [{
           message: `loan with id:${rows[0].id} retrieve successfully`,
           rows,
@@ -125,7 +115,6 @@ class Admin {
       });
     } catch (error) {
       return res.status(400).json({
-        status: 400,
         error: 'Something went wrong, try again',
       });
     }
@@ -142,7 +131,6 @@ class Admin {
       return res
         .status(403)
         .json({
-          status: 403,
           error: 'Unauthorized!, Admin only route',
         });
     }
@@ -154,18 +142,15 @@ class Admin {
         const { rows, rowCount } = await db.query(text);
         if (!rows) {
           return res.status(404).json({
-            status: 404,
             error: 'Not Found',
           });
         }
         return res.status(200).json({
-          status: 200,
           rows,
           rowCount,
         });
       } catch (error) {
         return res.status(400).json({
-          status: 400,
           error: 'Something went wrong, try again',
         });
       }
@@ -184,24 +169,21 @@ class Admin {
       return res
         .status(403)
         .json({
-          status: 403,
           error: 'Unauthorized!, Admin only route',
         });
     }
     const { error } = validate.loanApprovalInput(req.body);
     if (error) {
       return res.status(400).json({
-        status: 400,
         error: error.details[0].message,
       });
     }
 
-    const text = 'SELECT * FROM loan WHERE id = $1';
-    const myRow = await db.query(text, [req.params.id]);
+    const approvalQuery = 'SELECT * FROM loan WHERE id = $1';
+    const myRow = await db.query(approvalQuery, [req.params.id]);
 
     if (myRow.rows[0].status === 'rejected') {
       return res.status(400).json({
-        status: 400,
         error: 'This loan has already been rejected',
       });
     }
@@ -218,7 +200,6 @@ class Admin {
     try {
       const { rows } = await db.query(updateQuery, values);
       return res.status(200).json({
-        status: 200,
         data: [{
           message: `loan with id:${rows[0].id} has been ${rows[0].status}`,
           rows,
@@ -226,7 +207,6 @@ class Admin {
       });
     } catch (err) {
       return res.status(400).json({
-        status: 400,
         error: 'Something went wrong, try again',
       });
     }
@@ -243,14 +223,12 @@ class Admin {
       return res
         .status(403)
         .json({
-          status: 403,
           error: 'Unauthorized!, Admin only route',
         });
     }
     const { error } = validate.loanRepaymentInput(req.body);
     if (error) {
       return res.status(400).json({
-        status: 400,
         error: error.details[0].message,
       });
     }
@@ -267,19 +245,16 @@ class Admin {
       const { rows } = await db.query(queryString, [req.params.id]);
       if (!rows[0]) {
         return res.status(404).json({
-          status: 404,
           error: 'No such loan found',
         });
       }
       if (rows[0].status === 'pending' || rows[0].status === 'rejected') {
         return res.status(400).json({
-          status: 400,
           error: 'You can not make payment to pending loan or rejected loan',
         });
       }
       if (paidAmount > rows[0].balance) {
         return res.status(400).json({
-          status: 400,
           error: 'You can not pay more than your debt!',
         });
       }
@@ -299,7 +274,6 @@ class Admin {
       const result = await db.query(text);
       if (!result.rows[0]) {
         return res.status(400).json({
-          status: 400,
           error: 'something went wrong',
         });
       }
@@ -311,7 +285,6 @@ class Admin {
         const resRes = await db.query(textQuery);
         if (!resRes.rows[0]) {
           return res.status(400).json({
-            status: 400,
             error: 'something went wrong',
           });
         }
@@ -319,12 +292,10 @@ class Admin {
 
       const myRes = await db.query(output, paid);
       return res.status(201).send({
-        status: 201,
         data: myRes.rows[0],
       });
     } catch (err) {
       return res.status(400).json({
-        status: 400,
         error: 'Something went wrong, try again',
       });
     }

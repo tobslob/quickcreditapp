@@ -41,13 +41,12 @@ function adminToggle() {
   }
 }
 
-
 function adminLoanToggle() {
-  const lists = document.querySelector('.pickLi');
-  const panels = document.querySelectorAll('.pick');
+  const lists = document.querySelector('.current-repaid');
+  const panels = document.querySelectorAll('.panel');
   if (lists) {
     lists.addEventListener('click', (e) => {
-      if (e.target.tagName === 'OPTION') {
+      if (e.target.tagName === 'LI') {
         const targetPanel = document.querySelector(e.target.dataset.target);
 
 

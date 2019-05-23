@@ -56,7 +56,7 @@ describe('Admin Route version one', () => {
       .send({ status: 'verified' })
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(200);
+        expect(res.status).to.be.equal(200);
         expect(body).to.have.property('data');
         expect(body.data[0]).to.haveOwnProperty('message');
         expect(body.data[0].message).to.be.equal(`users with id:${userid} has been verified`);
@@ -70,7 +70,7 @@ describe('Admin Route version one', () => {
       .send({ status: 'verified' })
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(404);
+        expect(res.status).to.be.equal(404);
         expect(body).to.have.property('error');
         expect(body.error).to.be.equal('Not Found');
         done();
@@ -82,7 +82,7 @@ describe('Admin Route version one', () => {
       .send({ status: 'verified' })
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(403);
+        expect(res.status).to.be.equal(403);
         expect(body).to.have.property('error');
         expect(body.error).to.be.equal('Unauthorized!, you have to login');
         done();
@@ -95,7 +95,7 @@ describe('Admin Route version one', () => {
       .send({ status: 'verified' })
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(403);
+        expect(res.status).to.be.equal(403);
         expect(body).to.have.property('error');
         expect(body.error).to.be.equal('Unauthorized!, Admin only route');
         done();
@@ -108,7 +108,7 @@ describe('Admin Route version one', () => {
       .send({ status: 'verify' })
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(400);
+        expect(res.status).to.be.equal(400);
         expect(body).to.have.property('error');
         done();
       });
@@ -119,8 +119,7 @@ describe('Admin Route version one', () => {
       .set('token', Token)
       .send({ amount: 2000.567, tenor: 2 })
       .end((err, res) => {
-        const { body } = res;
-        expect(body.status).to.be.a('number');
+        expect(res.status).to.be.a('number');
         done();
       });
   });
@@ -130,7 +129,7 @@ describe('Admin Route version one', () => {
       .set('token', adminToken)
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(200);
+        expect(res.status).to.be.equal(200);
         expect(body).to.have.property('data');
         expect(body.data[0]).to.haveOwnProperty('message');
         expect(body.data[0].message).to.be.equal('loans retrieve successfully');
@@ -143,7 +142,7 @@ describe('Admin Route version one', () => {
       .set('token', adminToken)
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(200);
+        expect(res.status).to.be.equal(200);
         expect(body).to.have.property('data');
         expect(body.data[0]).to.haveOwnProperty('message');
         done();
@@ -155,7 +154,7 @@ describe('Admin Route version one', () => {
       .set('token', adminToken)
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(404);
+        expect(res.status).to.be.equal(404);
         expect(body).to.have.property('error');
         done();
       });
@@ -165,10 +164,8 @@ describe('Admin Route version one', () => {
       .get('/api/v1/loans?status=approved&repaid=false')
       .set('token', adminToken)
       .end((err, res) => {
-        const { body } = res;
         expect(res.status).to.be.equal(200);
-        expect(body.status).to.be.equal(200);
-        expect(body.status).to.be.a('number');
+        expect(res.status).to.be.a('number');
         done();
       });
   });
@@ -177,10 +174,8 @@ describe('Admin Route version one', () => {
       .get('/api/v1/loans?status=approved&repaid=true')
       .set('token', adminToken)
       .end((err, res) => {
-        const { body } = res;
         expect(res.status).to.be.equal(200);
-        expect(body.status).to.be.equal(200);
-        expect(body.status).to.be.a('number');
+        expect(res.status).to.be.a('number');
         done();
       });
   });
@@ -191,7 +186,19 @@ describe('Admin Route version one', () => {
       .send({ status: 'approve' })
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(400);
+        expect(res.status).to.be.equal(400);
+        expect(body).to.have.property('error');
+        done();
+      });
+  });
+  it('should not approve a loan  successfully', (done) => {
+    request(app)
+      .patch('/api/v1/loans/4')
+      .set('token', adminToken)
+      .send({ status: 'approved' })
+      .end((err, res) => {
+        const { body } = res;
+        expect(res.status).to.be.equal(400);
         expect(body).to.have.property('error');
         done();
       });
@@ -203,7 +210,7 @@ describe('Admin Route version one', () => {
       .send({ status: 'approved' })
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(200);
+        expect(res.status).to.be.equal(200);
         expect(body).to.have.property('data');
         expect(body.data[0]).to.haveOwnProperty('message');
         done();
@@ -216,7 +223,7 @@ describe('Admin Route version one', () => {
       .set('token', adminToken)
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(201);
+        expect(res.status).to.be.equal(201);
         expect(body).to.have.property('data');
         done();
       });
@@ -228,7 +235,7 @@ describe('Admin Route version one', () => {
       .set('token', adminToken)
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(400);
+        expect(res.status).to.be.equal(400);
         expect(body).to.have.property('error');
         expect(body.error).to.be.equal('You can not pay more than your debt!');
         done();
@@ -241,7 +248,7 @@ describe('Admin Route version one', () => {
       .set('token', adminToken)
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(400);
+        expect(res.status).to.be.equal(400);
         expect(body).to.have.property('error');
         done();
       });
@@ -253,7 +260,7 @@ describe('Admin Route version one', () => {
       .set('token', adminToken)
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(404);
+        expect(res.status).to.be.equal(404);
         expect(body).to.have.property('error');
         expect(body.error).to.be.equal('No such loan found');
         done();
@@ -264,8 +271,7 @@ describe('Admin Route version one', () => {
       .delete(`/api/v1/auth/user/${userid}`)
       .set('token', adminToken)
       .end((err, res) => {
-        const { body } = res;
-        expect(body.status).to.be.equal(200);
+        expect(res.status).to.be.equal(200);
         done();
       });
   });

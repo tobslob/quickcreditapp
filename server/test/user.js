@@ -9,7 +9,7 @@ let adminToken;
 let mail;
 let userid;
 
-describe('User Route version two (v1)', () => {
+describe('User Route version one (v1)', () => {
   it('should successfully signup a user with valid details', (done) => {
     request(app)
       .post('/api/v1/auth/signup')
@@ -24,9 +24,8 @@ describe('User Route version two (v1)', () => {
         const { body } = res;
         mail = body.data.email;
         userid = body.data.id;
-        expect(body.status).to.be.equal(201);
+        expect(res.status).to.be.equal(201);
         expect(body).to.be.an('object');
-        expect(body).to.have.property('status');
         expect(body).to.have.property('data');
         expect(body).to.have.property('token');
         expect(res.status).to.a('number');
@@ -46,9 +45,8 @@ describe('User Route version two (v1)', () => {
       })
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(400);
+        expect(res.status).to.be.equal(400);
         expect(body).to.be.an('object');
-        expect(body).to.have.property('status');
         expect(body).to.haveOwnProperty('error');
         done();
       });
@@ -67,8 +65,7 @@ describe('User Route version two (v1)', () => {
         const { body } = res;
         expect(res.status).to.be.equal(409);
         expect(body).to.be.an('object');
-        expect(body.status).to.be.equal(409);
-        expect(body).to.have.property('status');
+        expect(res.status).to.be.equal(409);
         expect(body).to.haveOwnProperty('error');
         expect(body.error).to.be.a('string');
         expect(body.error).to.equals('User already exist');
@@ -84,8 +81,8 @@ describe('User Route version two (v1)', () => {
         adminToken = body.data[0].token;
         expect(res.status).to.be.equal(200);
         expect(body).to.be.an('object');
-        expect(body.status).to.be.a('number');
-        expect(body.status).to.be.equals(200);
+        expect(res.status).to.be.a('number');
+        expect(res.status).to.be.equals(200);
         expect(body.data[0]).to.haveOwnProperty('token');
         expect(body.data[0].token).to.be.a('string');
         done();
@@ -98,8 +95,8 @@ describe('User Route version two (v1)', () => {
       .end((err, res) => {
         const { body } = res;
         expect(body).to.be.an('object');
-        expect(body.status).to.be.a('number');
-        expect(body.status).to.be.equals(200);
+        expect(res.status).to.be.a('number');
+        expect(res.status).to.be.equals(200);
         expect(body.data[0]).to.haveOwnProperty('token');
         expect(body.data[0].token).to.be.a('string');
         done();
@@ -112,8 +109,8 @@ describe('User Route version two (v1)', () => {
       .end((err, res) => {
         const { body } = res;
         expect(body).to.be.an('object');
-        expect(body.status).to.be.a('number');
-        expect(body.status).to.be.equals(404);
+        expect(res.status).to.be.a('number');
+        expect(res.status).to.be.equals(404);
         expect(body).to.haveOwnProperty('error');
         expect(body.error).to.be.equal('User not Found');
         done();
@@ -126,8 +123,8 @@ describe('User Route version two (v1)', () => {
       .end((err, res) => {
         const { body } = res;
         expect(body).to.be.an('object');
-        expect(body.status).to.be.a('number');
-        expect(body.status).to.be.equals(400);
+        expect(res.status).to.be.a('number');
+        expect(res.status).to.be.equals(400);
         expect(body).to.haveOwnProperty('error');
         done();
       });
@@ -142,8 +139,8 @@ describe('User Route version two (v1)', () => {
       .end((err, res) => {
         const { body } = res;
         expect(body).to.be.an('object');
-        expect(body.status).to.be.a('number');
-        expect(body.status).to.be.equals(401);
+        expect(res.status).to.be.a('number');
+        expect(res.status).to.be.equals(401);
         expect(body).to.haveOwnProperty('error');
         expect(body.error).to.be.equal('Email/Password incorrect');
         done();
@@ -156,8 +153,8 @@ describe('User Route version two (v1)', () => {
       .end((err, res) => {
         const { body } = res;
         expect(body).to.be.an('object');
-        expect(body.status).to.be.a('number');
-        expect(body.status).to.be.equals(200);
+        expect(res.status).to.be.a('number');
+        expect(res.status).to.be.equals(200);
         expect(body.data[0]).to.haveOwnProperty('message');
         expect(body).to.haveOwnProperty('data');
         done();
@@ -170,8 +167,8 @@ describe('User Route version two (v1)', () => {
       .end((err, res) => {
         const { body } = res;
         expect(body).to.be.an('object');
-        expect(body.status).to.be.a('number');
-        expect(body.status).to.be.equals(200);
+        expect(res.status).to.be.a('number');
+        expect(res.status).to.be.equals(200);
         expect(body.data[0]).to.haveOwnProperty('message');
         expect(body).to.haveOwnProperty('data');
         done();
@@ -184,8 +181,8 @@ describe('User Route version two (v1)', () => {
       .end((err, res) => {
         const { body } = res;
         expect(body).to.be.an('object');
-        expect(body.status).to.be.a('number');
-        expect(body.status).to.be.equals(404);
+        expect(res.status).to.be.a('number');
+        expect(res.status).to.be.equals(404);
         expect(body).to.haveOwnProperty('error');
         expect(body.error).to.be.equal('Not Found');
         done();
@@ -203,7 +200,7 @@ describe('User Route version two (v1)', () => {
       .end((err, res) => {
         const { body } = res;
         expect(res.status).to.be.equal(202);
-        expect(body.status).to.be.equal(202);
+        expect(res.status).to.be.equal(202);
         expect(body).to.have.property('data');
         expect(body.data[0]).to.have.property('message');
         done();
@@ -221,8 +218,8 @@ describe('User Route version two (v1)', () => {
       .end((err, res) => {
         const { body } = res;
         expect(body).to.be.an('object');
-        expect(body.status).to.be.a('number');
-        expect(body.status).to.be.equals(400);
+        expect(res.status).to.be.a('number');
+        expect(res.status).to.be.equals(400);
         expect(body).to.haveOwnProperty('error');
         done();
       });
@@ -233,7 +230,7 @@ describe('User Route version two (v1)', () => {
       .set('token', adminToken)
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(200);
+        expect(res.status).to.be.equal(200);
         expect(body).to.have.property('data');
         expect(body.data[0]).to.have.property('message');
         expect(body.data[0].message).to.be.equal(`users with id:${userid} has been deleted`);
@@ -246,7 +243,7 @@ describe('User Route version two (v1)', () => {
       .set('token', adminToken)
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(404);
+        expect(res.status).to.be.equal(404);
         expect(body).to.have.property('error');
         expect(body.error).to.be.equal('Not Found');
         done();

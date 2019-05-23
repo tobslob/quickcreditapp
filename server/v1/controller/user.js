@@ -13,7 +13,6 @@ class User {
     const { error } = validate.userInput(req.body);
     if (error) {
       return res.status(400).json({
-        status: 400,
         error: error.details[0].message,
       });
     }
@@ -43,19 +42,16 @@ class User {
       );
 
       return res.status(201).json({
-        status: 201,
         token,
         data: rows[0],
       });
     } catch (errors) {
       if (errors.routine === '_bt_check_unique') {
         return res.status(409).json({
-          status: 409,
           error: 'User already exist',
         });
       }
       return res.status(400).json({
-        status: 400,
         error: 'Something went wrong, try again',
       });
     }
@@ -71,7 +67,6 @@ class User {
     const { error } = validate.loginInput(req.body);
     if (error) {
       return res.status(400).json({
-        status: 400,
         error: error.details[0].message,
       });
     }
@@ -84,7 +79,6 @@ class User {
       // check if user exist in database
       if (!rows[0]) {
         return res.status(404).json({
-          status: 404,
           error: 'User not Found',
         });
       }
@@ -94,7 +88,6 @@ class User {
         return res
           .status(401)
           .json({
-            status: 401,
             error: 'Email/Password incorrect',
           });
       }
@@ -108,7 +101,6 @@ class User {
 
       // return success message
       return res.status(200).json({
-        status: 200,
         data: [{
           message: 'Logged in successfully',
           token,
@@ -116,7 +108,6 @@ class User {
       });
     } catch (errors) {
       return res.status(400).json({
-        status: 400,
         error: 'Something went wrong, try again',
       });
     }
@@ -134,7 +125,6 @@ class User {
       return res
         .status(403)
         .json({
-          status: 403,
           error: 'Unauthorized!, Admin only route',
         });
     }
@@ -143,7 +133,6 @@ class User {
     try {
       const { rows, rowCount } = await db.query(findAllQuery);
       return res.status(200).json({
-        status: 200,
         data: [{
           message: 'users retrieve successfully',
           rows,
@@ -152,7 +141,6 @@ class User {
       });
     } catch (error) {
       return res.status(400).json({
-        status: 400,
         error: 'Something went wrong, try again',
       });
     }
@@ -171,13 +159,11 @@ class User {
       const { rows } = await db.query(findAQuery, [req.params.id]);
       if (!rows[0]) {
         return res.status(404).json({
-          status: 404,
           error: 'Not Found',
         });
       }
       if (req.user.id === rows[0].id || req.user.isAdmin === true) {
         return res.status(200).json({
-          status: 200,
           data: [{
             message: `users with id:${rows[0].id} retrieve successfully`,
             rows,
@@ -185,12 +171,10 @@ class User {
         });
       }
       return res.status(400).json({
-        status: 400,
         error: 'Hmmm...you do not have access',
       });
     } catch (error) {
       return res.status(400).json({
-        status: 400,
         error: 'Something went wrong, try again',
       });
     }
@@ -206,7 +190,6 @@ class User {
     const { error } = validate.patchInput(req.body);
     if (error) {
       return res.status(400).json({
-        status: 400,
         error: error.details[0].message,
       });
     }
@@ -224,7 +207,6 @@ class User {
 
       const { rows } = await db.query(updateQuery, values);
       return res.status(202).json({
-        status: 202,
         data: [
           {
             message: `user with id:${rows[0].id} has been updated`,
@@ -234,7 +216,6 @@ class User {
       });
     } catch (err) {
       return res.status(400).json({
-        status: 400,
         error: 'Something went wrong, try again',
       });
     }
@@ -252,7 +233,6 @@ class User {
       return res
         .status(403)
         .json({
-          status: 403,
           error: 'Unauthorized!, Admin only route',
         });
     }
@@ -261,12 +241,10 @@ class User {
       const { rows } = await db.query(deleteQuery, [req.params.id]);
       if (!rows[0]) {
         return res.status(404).json({
-          status: 404,
           error: 'Not Found',
         });
       }
       return res.status(200).json({
-        status: 200,
         data: [{
           message: `users with id:${rows[0].id} has been deleted`,
           rows,
@@ -274,7 +252,6 @@ class User {
       });
     } catch (error) {
       return res.status(400).json({
-        status: 400,
         error: 'Something went wrong, try again',
       });
     }

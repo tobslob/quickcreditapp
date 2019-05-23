@@ -48,7 +48,7 @@ app.use((err, req, res, next) => {
 });
 
 // Handle non exist route with with proper message
-app.all('*', (req, res) => {
+app.use((req, res) => {
   res.status(404).json({
     status: 404,
     error: 'Wrong request. Route does not exist',

@@ -39,10 +39,19 @@ const Helper = {
       const { rows } = await db.query(queryString, [requestId]);
       if (!rows[0]) {
         return res.status(404).json({
-          status: 404,
-          error: 'No account with that email address exists!',
+          error: 'No loan with that email address exists!',
         });
       }
+
+      const findQuery = 'SELECT * FROM users WHERE email = $1';
+      const myRows = await db.query(findQuery, [rows[0].users]);
+
+      if (myRows.rows[0].status === 'pending') {
+        return res.status(400).json({
+          error: 'loan can not be approved, wait for user verification',
+        });
+      }
+
       const transporter = nodemailer.createTransport({
         service: 'gmail',
         secure: false,
@@ -63,22 +72,19 @@ const Helper = {
         html: `We are pleased to inform you that your loan has just been ${req.body.status}. <a href = "https://quickcreditapp.herokuapp.com/sign-in.html">Login</a>\n\nThank you!`,
       };
 
-      transporter.sendMail(HelperOptions, (error, info) => {
+      transporter.sendMail(HelperOptions, (error, { accepted }) => {
         if (error) {
           return res.status(400).json({
-            status: 400,
             error,
           });
         }
         return res.status(200).json({
-          status: 200,
-          info,
+          accepted,
         });
       });
       return next();
     } catch (err) {
       return res.status(400).json({
-        status: 400,
         error: 'something went wrong',
       });
     }

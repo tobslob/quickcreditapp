@@ -70,7 +70,7 @@ describe('Loan Route version one (v1)', () => {
       .send({ amount: 2000.567, tenor: 13 })
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(400);
+        expect(res.status).to.be.equal(400);
         expect(body).to.have.property('error');
         done();
       });
@@ -82,7 +82,7 @@ describe('Loan Route version one (v1)', () => {
       .send({ amount: 2000.567, tenor: 3 })
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(402);
+        expect(res.status).to.be.equal(402);
         expect(body).to.have.property('error');
         expect(body.error).to.be.equal('you have an outstanding loan');
         done();
@@ -94,7 +94,7 @@ describe('Loan Route version one (v1)', () => {
       .set('token', token3)
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(200);
+        expect(res.status).to.be.equal(200);
         expect(body).to.have.property('data');
         expect(body.data[0]).to.have.property('message');
         done();
@@ -106,7 +106,7 @@ describe('Loan Route version one (v1)', () => {
       .set('token', token2)
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(400);
+        expect(res.status).to.be.equal(400);
         expect(body).to.have.property('error');
         expect(body.error).to.be.equal('Hmmm...you do not have access');
         done();
@@ -118,7 +118,7 @@ describe('Loan Route version one (v1)', () => {
       .set('token', token1)
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(404);
+        expect(res.status).to.be.equal(404);
         expect(body).to.have.property('error');
         expect(body.error).to.be.equal('Not Found');
         done();
@@ -130,7 +130,7 @@ describe('Loan Route version one (v1)', () => {
       .set('token', token1)
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(200);
+        expect(res.status).to.be.equal(200);
         expect(body).to.have.property('data');
         expect(body.data[0]).to.haveOwnProperty('message');
         expect(body.data[0].message).to.be.equal('loan history retrieval was success');
@@ -143,7 +143,7 @@ describe('Loan Route version one (v1)', () => {
       .set('token', token2)
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(404);
+        expect(res.status).to.be.equal(404);
         expect(body).to.have.property('error');
         expect(body.error).to.be.equal('Not Found');
         done();
@@ -155,7 +155,7 @@ describe('Loan Route version one (v1)', () => {
       .set('token', token2)
       .end((err, res) => {
         const { body } = res;
-        expect(body.status).to.be.equal(404);
+        expect(res.status).to.be.equal(404);
         expect(body).to.have.property('error');
         expect(body.error).to.be.equal('Not Found');
         done();
