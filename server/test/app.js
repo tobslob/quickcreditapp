@@ -39,6 +39,16 @@ it('should handle internal server error', (done) => {
     })
     .catch(error => done(error));
 });
+it('should handle internal server error', (done) => {
+  request(app)
+    .get('/api/v1/loans%/')
+    .then((res) => {
+      expect(res.status).to.be.equal(404);
+      expect(res.body).to.have.property('error');
+      done();
+    })
+    .catch(error => done(error));
+});
 
 describe('HTTP Server', () => {
   it('should return 200', (done) => {

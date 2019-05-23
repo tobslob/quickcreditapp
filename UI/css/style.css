@@ -29,6 +29,9 @@ body {
   margin-bottom: 0;
   position: absolute;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
 }
 
 .btn {
@@ -54,7 +57,7 @@ img {
 
 .wrapper {
   display: grid;
-  grid-gap: 20px;
+  grid-gap: 80px;
 }
 
 .wrapper-admin {
@@ -83,7 +86,7 @@ nav ul li a:hover {
 
 .nav-logo,
 .logo {
-  font-size: 35px;
+  font-size: 30px;
   background: #e6af2e;
   color: #191716;
   font-style: italic;
@@ -393,7 +396,8 @@ nav ul li a:hover {
 
 /* Footer */
 footer {
-  margin-top: 2rem;
+  margin: auto auto 0 auto;
+  width: 100%;
   background: var(--dark);
   color: var(--light);
   text-align: center;
@@ -439,6 +443,7 @@ footer {
   .form-container {
       margin-top: 120px;
       margin-bottom: 120px;
+      width: 100%;
   }
 }
 
@@ -508,7 +513,7 @@ footer {
   display: inline-flex;
   border: 2px solid #191716;
   padding-bottom: 5px;
-  align-content: center; 
+  align-content: center;
 }
 
 .one-third {
@@ -783,6 +788,10 @@ footer {
   border-bottom: 1px solid white;
   list-style-type: none;
   color: #e6af2e;
+}
+
+.sidebar ul li:active {
+  background-color: #e6af2e;
 }
 
 .sidebar ul li:hover {
@@ -1104,7 +1113,7 @@ span .cell {
 }
 
 .loan-input, .loan{
-  margin-top: -10px;
+  margin-top: 10px;
   margin-bottom: 20px;
 }
 

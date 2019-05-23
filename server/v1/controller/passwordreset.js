@@ -15,7 +15,6 @@ class PasswordReset {
     const { error } = validate.mailer(req.body);
     if (error) {
       return res.status(400).json({
-        status: 400,
         error: error.details[0].message,
       });
     }
@@ -25,7 +24,6 @@ class PasswordReset {
       const { rows } = await db.query(queryString, [req.body.email]);
       if (!rows[0]) {
         return res.status(404).json({
-          status: 404,
           error: 'No account with that email address exists!',
         });
       }
@@ -57,18 +55,15 @@ class PasswordReset {
       transporter.sendMail(HelperOptions, (err, { accepted }) => {
         if (err) {
           return res.status(400).json({
-            status: 400,
             err,
           });
         }
         return res.status(200).json({
-          status: 200,
           accepted,
         });
       });
     } catch (err) {
       return res.status(400).json({
-        status: 400,
         error: 'hmmm...something went wrong, please try again',
       });
     }
@@ -85,7 +80,6 @@ class PasswordReset {
     const { error } = validate.password(req.body);
     if (error) {
       return res.status(400).json({
-        status: 400,
         error: error.details[0].message,
       });
     }
@@ -107,7 +101,6 @@ class PasswordReset {
         const { rows } = await db.query(updateQuery, values);
 
         return res.status(202).json({
-          status: 202,
           data: [
             {
               message: 'password reset successfully',
@@ -117,12 +110,10 @@ class PasswordReset {
         });
       }
       return res.status(400).json({
-        status: 400,
         error: 'Passwords must match',
       });
     } catch (err) {
       return res.status(400).json({
-        status: 400,
         error: 'Hmmm...something went wrong, please try again',
       });
     }

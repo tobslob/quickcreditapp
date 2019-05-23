@@ -10,7 +10,6 @@ class Loan {
     const { error } = validate.loanInput(req.body);
     if (error) {
       return res.status(400).json({
-        status: 400,
         error: error.details[0].message,
       });
     }
@@ -41,7 +40,6 @@ class Loan {
 
       const { rows } = await db.query(loanQuery, values);
       return res.status(201).json({
-        status: 201,
         data: [
           {
             message: 'your loan request has been received, wait for approval',
@@ -52,7 +50,6 @@ class Loan {
       });
     } catch (err) {
       return res.status(400).json({
-        status: 400,
         error: 'Something went wrong, try again',
       });
     }
@@ -69,14 +66,12 @@ class Loan {
       const { rows } = await db.query(queryString);
       if (!rows[0]) {
         return res.status(404).json({
-          status: 404,
           error: 'Not Found',
         });
       }
 
       if (req.user.email === rows[0].users || req.user.isAdmin === true) {
         return res.status(200).json({
-          status: 200,
           data: [{
             message: 'loan history retrieval was success',
             rows,
@@ -84,12 +79,10 @@ class Loan {
         });
       }
       return res.status(400).json({
-        status: 400,
         error: 'Hmmm...you do not have access',
       });
     } catch (error) {
       return res.status(400).json({
-        status: 400,
         error: 'Something went wrong, try again',
       });
     }
@@ -107,14 +100,12 @@ class Loan {
       const { rows } = await db.query(queryString, [req.params.id]);
       if (!rows[0]) {
         return res.status(404).json({
-          status: 404,
           error: 'Not Found',
         });
       }
 
       if (req.user.email === rows[0].email || req.user.isAdmin === true) {
         return res.status(200).json({
-          status: 200,
           data: [{
             message: 'loan repayments retrieval successful',
             rows,
@@ -122,12 +113,10 @@ class Loan {
         });
       }
       return res.status(400).json({
-        status: 400,
         error: 'Hmmm...you do not have access',
       });
     } catch (error) {
       return res.status(400).json({
-        status: 400,
         error: 'Something went wrong, try again',
       });
     }
