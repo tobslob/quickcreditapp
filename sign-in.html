@@ -2,9 +2,10 @@
 <html lang="en">
 
 <head>
-    <title>Sign Up</title>
+    <title>Sign In</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="../img/loan.png" sizes="16x16" type="image/png">
     <link href="css/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
@@ -17,7 +18,7 @@
         <nav>
             <ul>
                 <div class="nav-logo">
-                    <li><a href="index.html" class="logo">QUICK CREDIT</a></li>
+                    <li><a href="index.html" class="logo">QuickCredit</a></li>
                 </div>
                 <div class="nav-menu">
                     <li><a href="sign-up.html">Sign Up</a></li>
@@ -36,19 +37,11 @@
     </div>
     </ul>
     </nav>
-    <div class="form-container">
+    <div class="form-container signin">
         <form>
-            <h2>Registration Form</h2>
+            <h2>Sign In Form</h2>
             <hr>
             <br>
-            <div class="input-container">
-                <i class="fa fa-user icon"></i>
-                <input type="text" class="input-field" placeholder="First Name">
-            </div>
-            <div class="input-container">
-                <i class="fa fa-user icon"></i>
-                <input type="text" class="input-field" placeholder="Last Name">
-            </div>
             <div class="input-container">
                 <i class="fa fa-envelope icon"></i>
                 <input type="email" class="input-field" placeholder="Email">
@@ -57,15 +50,13 @@
                 <i class="fa fa-key icon"></i>
                 <input type="password" class="input-field" placeholder="password">
             </div>
-            <div class="input-container">
-                <i class="fa fa-map icon"></i>
-                <input type="text" class="input-field" placeholder="Address">
-            </div>
-            <button type="submit" class="btn-form">Register Now</button>
+            <p class="button" onclick="window.location.href = 'redirect.html';">Sign In</p>
         </form>
+        <div class="loginlink"><a href = 'sign-up.html'>sign up</a><a href ='authresetpassword.html'>reset password</a></div>
     </div>
     <footer>
         <p>Tobslob &copy; 2019</p>
+        <script src="javascript/script.js"></script>
     </footer>
     </div>
 

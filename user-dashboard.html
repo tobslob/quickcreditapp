@@ -5,6 +5,7 @@
     <title>User Dashboard</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="../img/loan.png" sizes="16x16" type="image/png">
     <link href="css/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
@@ -17,16 +18,16 @@
         <nav>
             <ul>
                 <div class="nav-logo">
-                    <li><a href="/" class="logo">QUICK CREDIT</a></li>
+                    <li><a href="index.html" class="logo">QuickCredit</a></li>
                 </div>
                 <div class="nav-menu">
-                    <li><a href="/">Log Out</a></li>
+                    <li><a href="index.html">Log Out</a></li>
                 </div>
             </ul>
             <ul class="toggle">
                 <div class="nav-toggle">
                     <ul>
-                        <li><a href="/">Log Out</a></li>
+                        <li><a href="index.html">Log Out</a></li>
                     </ul>
                 </div>
             </ul>
@@ -87,7 +88,29 @@
                                 </div>
                             </div>
                             <div id="repay" class="paneluser">
-                                <div class="repay">A SPACE FOR REPAYMENT HISTORY</div>
+                                <div class="repay">
+                                    <div id="table">
+                                        <div class="header-row row">
+                                            <span class="cell primary">id</span>
+                                            <span class="cell">Status</span>
+                                            <span class="cell">Repaid</span>
+                                            <span class="cell">Created on</span>
+                                            <span class="cell primary">Amount</span>
+                                            <span class="cell primary">Balance</span>
+                                            <span class="cell"></span>
+                                        </div>
+                                        <div class="row">
+                                            <input type="radio" name="expand">
+                                            <span class="cell primary" data-label="id">1.</span>
+                                            <span class="cell" data-label="Status">approved</span>
+                                            <span class="cell" data-label="repaid">true</span>
+                                            <span class="cell" data-label="Created On">2019-05-05T20:32:01.206Z</span>
+                                            <span class="cell" data-label="amount">4000</span>
+                                            <span class="cell" data-label="balance">4200</span>
+                                            <span class="cell" data-label="Trans"><a class="trigger_popup" href="#">view</a></span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
