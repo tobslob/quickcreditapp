@@ -9,12 +9,14 @@ class Validation {
     const schema = Joi.object().keys({
       email: Joi.string().email().trim().required(),
       firstName: Joi.string().trim().strict().regex(/^[a-zA-Z]+$/)
-        .required(),
+        .required()
+        .error(() => 'first name is required with only alphabet'),
       lastName: Joi.string().trim().strict().regex(/^[a-zA-Z]+$/)
-        .required(),
+        .required()
+        .error(() => 'last name is required with only alphabet'),
       password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().strict()
         .required()
-        .error(() => 'you must provide password'),
+        .error(() => 'you must provide a correct password'),
       address: Joi.string().trim().strict().required(),
     });
     return Joi.validate(user, schema);
@@ -29,7 +31,8 @@ class Validation {
       email: Joi.string().email().trim()
         .required(),
       password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).trim().strict()
-        .required(),
+        .required()
+        .error(() => 'you must provide a correct password'),
     });
     return Joi.validate(details, schema);
   }
@@ -41,9 +44,11 @@ class Validation {
   static patchInput(user) {
     const schema = Joi.object().keys({
       firstName: Joi.string().trim().strict().regex(/^[a-zA-Z]+$/)
-        .required(),
+        .required()
+        .error(() => 'first name is required with only alphabet'),
       lastName: Joi.string().trim().strict().regex(/^[a-zA-Z]+$/)
-        .required(),
+        .required()
+        .error(() => 'last name is required with only alphabet'),
       address: Joi.string().trim().strict().required(),
     });
     return Joi.validate(user, schema);
