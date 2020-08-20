@@ -41,7 +41,7 @@
   },
   "homepage": "https://github.com/tobslob/QUICK_CREDIT_APP_#readme",
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
